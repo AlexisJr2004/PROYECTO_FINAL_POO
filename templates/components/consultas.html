@@ -1,0 +1,291 @@
+{% extends 'components/base.html' %}
+{% load static %}
+<title>{% block title %} {{ title1 }} {% endblock title %}</title>
+{% block content %}
+{% load i18n %} <!-- Escencial para poder traducir la paguina -->
+<!-- SECCION DE MENU Y MODULOS -->
+<section class="dark:bg-principal py-20">
+    <div class="container mx-auto p-4" data-aos="fade-up" data-aos-delay="300">
+        <div class="flex flex-col items-center justify-center">
+            <span class="bg-navbar rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
+                {{ title1 }}
+            </span>
+        </div>
+        <h1 class="dark:text-white text-4xl text-center mt-8 font-Pacifico">
+            {{ title2 }}
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300 text-xl text-center pt-2 mx-40">
+            {% trans 'Bienvenido,' %} <span class="dark:text-indigo-500 text-center font-black">{{ user.username }}</span>.
+            Conoce una breve descripción de los módulos y la cantidad de elementos que se encuentran activos en cada uno de ellos.
+        </p>
+        <div class="grid sm:grid-grd-cols-1 md:grid-cols-3 lg:grid-cols-5 items-center justify-center space-x-2 space-y-2">
+            
+            <!-- Empresas Activos -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Empresas</h2>
+                <button id="dropdownCompanyButton" data-dropdown-toggle="dropdownCompany" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-building-user text-3xl"></i>
+                </button>
+                <div id="dropdownCompany" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownCompanyButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Empresas: <span class="dark:text-white font-Quicksand">{{ total_companies }}</span></li>
+                        {% for company in companies %}
+                        <li class="text-center flex flex-col items-center justify-center">
+                            <span class="dark:text-gray-300">{{ company.name }} - {{ company.representative }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Marcas Activas -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Marcas</h2>
+                <button id="dropdownBrandsButton" data-dropdown-toggle="dropdownBrands" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-tag text-3xl"></i>
+                </button>
+                <div id="dropdownBrands" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownBrandsButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Marcas: <span class="dark:text-white font-Quicksand">{{ total_brands }}</span></li>
+                        {% for brand in brands %}
+                        <li class="text-center flex items-center justify-center">
+                            <span class="dark:text-gray-300"> {{ brand.description }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Lineas Activas -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Lineas</h2>
+                <button id="dropdownLinesButton" data-dropdown-toggle="dropdownLines" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-grip-lines-vertical text-3xl"></i>
+                </button>
+                <div id="dropdownLines" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownLinesButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Lineas: <span class="dark:text-white font-Quicksand">{{ total_lines }}</span></li>
+                        {% for line in lines %}
+                        <li class="text-center flex items-center justify-center">
+                            <span class="dark:text-gray-300"> {{ line.description }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Provedores Activos -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Proveedores</h2>
+                <button id="dropdownSuppliersButton" data-dropdown-toggle="dropdownSuppliers" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-people-carry-box text-3xl"></i>
+                </button>
+                <div id="dropdownSuppliers" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownSuppliersButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Proveedores: <span class="dark:text-white font-Quicksand">{{ total_suppliers }}</span></li>
+                        {% for supplier in suppliers %}
+                        <li class="text-center flex items-center justify-center">
+                            <img class="w-[10%] me-2 rounded-full" src="{% if supplier.image %}{{ supplier.image.url }}{% else %}{% static 'img/usuario_anonimo_2.png' %}{% endif %}"
+                                alt="Image">
+                            <span class="dark:text-gray-300">{{ supplier.name }} - {{ supplier.ruc }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Categorias Activas -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Categorias</h2>
+                <button id="dropdownCategoriesButton" data-dropdown-toggle="dropdownCategories" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-boxes-stacked text-3xl"></i>
+                </button>
+                <div id="dropdownCategories" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownCategoriesButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Categorias: <span class="dark:text-white font-Quicksand">{{ total_categories }}</span></li>
+                        {% for category in categories %}
+                        <li class="text-center flex items-center justify-center">
+                            <span class="dark:text-gray-300"> {{ category.description }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Productos Activos -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Productos</h2>
+                <button id="dropdownProductosButton" data-dropdown-toggle="dropdownProductos" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-box text-3xl"></i>
+                </button>
+                <div id="dropdownProductos" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownProductosButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Productos: <span class="dark:text-white font-Quicksand">{{ total_products }}</span></li>
+                        {% for product in products %}
+                        <li class="text-center flex flex-col items-center justify-center">
+                            <img class="w-[10%] me-2 rounded-2xl" src="{% if product.image %}{{ product.image.url }}{% else %}{% static 'img/models/default_product.jpg' %}{% endif %}"
+                                alt="Image">
+                            <span class="dark:text-gray-300">{{ product.description }} - {{ product.price }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Metodos de Pago -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Metodos de Pago</h2>
+                <button id="dropdownPaymentMethodsButton" data-dropdown-toggle="dropdownPaymentMethods" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-credit-card text-3xl"></i>
+                </button>
+                <div id="dropdownPaymentMethods" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownPaymentMethodsButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Metodos de Pago: <span class="dark:text-white font-Quicksand">{{ total_payment_methods }}</span></li>
+                        {% for payment_method in payment_methods %}
+                        <li class="text-center flex items-center justify-center">
+                            <span class="dark:text-gray-300"> {{ payment_method.description }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Clientes Activos -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Clientes</h2>
+                <button id="dropdownUsersButton" data-dropdown-toggle="dropdownUsers" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-users-line text-3xl"></i>
+                </button>
+                <div id="dropdownUsers" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownUsersButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Clientes: <span class="dark:text-white font-Quicksand">{{ total_customers }}</span></li>
+                        {% for customer in customers %}
+                        <li class="text-center flex items-center justify-center">
+                            <img class="w-[10%] me-2 rounded-full" src="{% if customer.image %}{{ customer.image.url }}{% else %}{% static 'img/usuario_anonimo_2.png' %}{% endif %}"
+                                alt="Image">
+                            <span class="dark:text-gray-300">@{{ customer.user }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <!-- Administradores Activos -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
+                <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Administradores</h2>
+                <button id="dropdownAdminButton" data-dropdown-toggle="dropdownAdmin" data-dropdown-placement="bottom"
+                class="text-white bg-indigo-700 hover:bg-indigo-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                type="button"><i class="fa-solid fa-user-tie text-3xl"></i>
+                </button>
+                <div id="dropdownAdmin" class="w-[30%] z-10 hidden bg-gray-100 rounded-lg shadow dark:bg-[#0d1427]">
+                    <ul class="h-48 py-2 overflow-y-auto text-gray-700 dark:text-gray-200 p-2"
+                        aria-labelledby="dropdownAdminButton">
+                        <li class="text-center dark:text-blue-300 font-Pacifico">Total de Administradores: <span class="dark:text-white font-Quicksand">{{ total_users_admin }}</span></li>
+                        {% for admin in users_admin %}
+                        <li class="text-center flex items-center justify-center">
+                            <img class="w-[10%] me-2 rounded-full" src="{% static 'img/usuario_anonimo.png' %}"
+                                alt="Image">
+                            <span class="dark:text-gray-300">{{ admin.get_full_name }} - {{ admin.email }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <h1 class="dark:text-white text-3xl text-center mt-8 font-Pacifico py-4" data-aos="fade-up">
+            {{ title3 }}
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up"="">Descubre estadísticas sobre nuestro <span class="dark:text-indigo-500 text-center font-black">Inventario</span>.</p>
+        <div class="space-y-2" data-aos="fade-up">
+            <div class="grid lg:grid-cols-2 gap-4 justify-center items-center">
+                <div id="productChart" class=""></div>
+                <div id="brandChart" class=""></div>
+            </div>
+            <div class="grid lg:grid-cols-3 justify-center items-center">
+                <div id="lineChart" class=""></div>
+                <div id="c_" class=""></div>
+                <div id="g_" class=""></div>
+            </div>
+            <div class="grid lg:grid-cols-2 justify-center items-center">
+                <div id="stock_" class=""></div>
+                <div id="iva_" class=""></div>
+            </div>
+        </div>
+
+        <p class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up">Descubre estadísticas sobre <span class="dark:text-indigo-500 text-center font-black">Ventas</span>.</p>
+        <div class="space-y-2" data-aos="fade-up">
+            <div id="sales_" class=""></div>
+            <div class="grid lg:grid-cols-2 justify-center items-center">
+                <div id="topProducts_" class=""></div>
+                <div id="paymentMethods_" class=""></div>
+            </div>
+            <div class="grid lg:grid-cols-2 justify-center items-center">
+                <div id="invoiceStatus_" class=""></div>
+                <div id="topCustomers_" class="">
+            </div>
+        </div>
+        <p class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up">Descubre estadísticas sobre <span class="dark:text-indigo-500 text-center font-black">Compras</span>.</p>
+        <div class="space-y-2" data-aos="fade-up">
+            <div id="topPurchasesSales_" class="grid items-center justify-center"></div>
+            <div id="purchases_" class=""></div>
+            <div id="pareto_" class=""></div>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+    var graphs = {{ graphJSON | safe }};
+    Plotly.plot('productChart', graphs, {})
+
+    var brandGraphs = {{ brandGraphJSON | safe }};
+    Plotly.plot('brandChart', brandGraphs, {})
+
+    var linesProducts = {{ lineGraphJSON | safe }};
+    Plotly.plot('lineChart', linesProducts, {});
+   
+    var cChart = {{ cJSON | safe }};
+    Plotly.plot('c_', cChart, {});
+    
+    var genderChart = {{ genderGraphJSON | safe }};
+    Plotly.plot('g_', genderChart, {})
+
+    var stockChart = {{ stockGraphJSON | safe }};
+    Plotly.plot('stock_', stockChart, {})
+    
+    var ivaChart = {{ IvaGraphJSON | safe }};
+    Plotly.plot('iva_', ivaChart, {});
+
+    var salesChart = {{ salesGraphJSON | safe }};
+    Plotly.plot('sales_', salesChart, {});
+
+    var topProductsGraphJSON = {{ topProductsGraphJSON | safe }};
+    Plotly.plot('topProducts_', topProductsGraphJSON, {});
+
+    var paymentMethodsGraphJSON = {{ paymentMethodsGraphJSON | safe }};
+    Plotly.plot('paymentMethods_', paymentMethodsGraphJSON, {});
+
+    var invoiceStatusGraphJSON = {{ invoiceStatusGraphJSON | safe }};
+    Plotly.plot('invoiceStatus_', invoiceStatusGraphJSON, {});
+
+    var topCustomersGraphJSON = {{ topCustomersGraphJSON | safe }};
+    Plotly.plot('topCustomers_', topCustomersGraphJSON, {});
+
+    var topPurchasesSalesGraphJSON = {{ topPurchasesSalesGraphJSON | safe }};
+    Plotly.plot('topPurchasesSales_', topPurchasesSalesGraphJSON, {});
+
+    var purchasesGraphJSON = {{ purchasesGraphJSON | safe }};
+    Plotly.plot('purchases_', purchasesGraphJSON, {});
+
+    var paretoGraphJSON = {{ paretoGraphJSON | safe }};
+    Plotly.plot('pareto_', paretoGraphJSON, {});
+</script>
+<!-- CIERRE DE SECCION DE MENU Y MODULOS -->
+{% endblock content %}

@@ -1,0 +1,222 @@
+{% extends 'components/base.html' %}
+{% block content %}
+{% load static %}
+<title>{% block title %} {{ title }} {% endblock title %}</title>
+<section class="dark:bg-principal mt-20">
+    <div class="text-center" data-aos="fade" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-4">
+            <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+                {{ grabar }}
+            </h1>
+            <p class="dark:text-gray-300 text-lg text-center mt-2">Complete el formulario para guardar un nuevo registro.</p>
+        </div>
+        <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-4 lg:mx-20" data-aos="fade">
+                <!-- Columna de la izquierda (Mapa) -->
+                <div class="bg-gray-50 dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8" data-aos="fade-right" data-aos-delay="200">
+                    <div id="map" class="w-full h-64 lg:h-full"></div>
+                </div>
+                <!-- Columna del centro -->
+                <div class="bg-gray-50 dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8" data-aos="fade-right" data-aos-delay="200">
+                    <div class="w-[35%] text-center flex flex-col justify-center items-center">
+                        <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
+                        <div id="imagenPreview" class="w-full">
+                            {% if form.image.value %}
+                                <img id="imagenSeleccionada" src="{{ form.image.value.url }}" class="mx-auto d-block rounded-lg" alt="Imagen">
+                            {% else %}
+                                <img id="imagenSeleccionada" src="{% static 'img/models/default_supplier.png' %}" class="mx-auto d-block rounded-lg" alt="Imagen por defecto">
+                            {% endif %}
+                        </div>
+                        <div class="flex items-center justify-center w-full mt-4">
+                            <label for="dropzone-file" class="mb-4 flex flex-col items-center justify-center w-full h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-secundario hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-[#060b16]">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                    </svg>
+                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Seleccione</span> archivo a subir</p>
+                                </div>
+                                {{ form.image }}
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Columna de la derecha (Campos) -->
+                <div class="p-4 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center" data-aos="fade-right" data-aos-delay="200">
+                    {% csrf_token %}
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Agregar aquí los campos del formulario -->
+                        {% for field in form %}
+                            {% if field.name != 'image' %}
+                                <div class="mb-8">
+                                    <label for="{{ field.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center">
+                <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 md:mr-2 mb-2 md:mb-0 flex items-center">
+                    <i class="fa-solid fa-save mr-2"></i>Guardar
+                </button>
+                <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center" href="{% url 'security:user_list' %}">
+                    <i class="fa-solid fa-xmark mr-2"></i>Cancelar
+                </a>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var ecuadorLat = -1.8312;
+        var ecuadorLon = -78.1834;
+    
+        var map = L.map('map').setView([ecuadorLat, ecuadorLon], 7);
+    
+        var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap contributors'
+        });
+    
+        var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+        });
+    
+        var baseMaps = {
+            "OpenStreetMap": osmLayer,
+            "Satellite": satelliteLayer
+        };
+    
+        osmLayer.addTo(map);
+    
+        L.control.layers(baseMaps).addTo(map);
+        L.control.scale().addTo(map);
+    
+        var currentMarker = null;
+        var userMarkers = L.layerGroup().addTo(map);
+    
+        function loadUsers() {
+            fetch('{% url "core:get_users" %}')
+                .then(response => response.json())
+                .then(users => {
+                    users.forEach(user => {
+                        if (user.latitude && user.longitude) {
+                            var marker = L.marker([user.latitude, user.longitude]).addTo(userMarkers);
+                            marker.bindPopup(user.username);
+                        }
+                    });
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    
+        loadUsers();
+    
+        function updateMarkerAndFields(lat, lng) {
+            if (currentMarker) {
+                map.removeLayer(currentMarker);
+            }
+            currentMarker = L.marker([lat, lng]).addTo(map);
+            map.setView([lat, lng], 13);
+        
+            var latitudeField = document.getElementById('id_latitude');
+            var longitudeField = document.getElementById('id_longitude');
+            
+            if (latitudeField && longitudeField) {
+                latitudeField.value = lat.toFixed(6);
+                longitudeField.value = lng.toFixed(6);
+            }
+            updateUserCoordinates({{ user.id }}, lat, lng);
+        }
+    
+        function onMapClick(e) {
+            updateMarkerAndFields(e.latlng.lat, e.latlng.lng);
+        }
+    
+        map.on('click', onMapClick);
+    
+        function updateMapFromFields() {
+            var latitudeField = document.getElementById('id_latitude');
+            var longitudeField = document.getElementById('id_longitude');
+            
+            if (latitudeField && longitudeField) {
+                var lat = parseFloat(latitudeField.value);
+                var lng = parseFloat(longitudeField.value);
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    updateMarkerAndFields(lat, lng);
+                }
+            }
+        }
+        
+        var latitudeField = document.getElementById('id_latitude');
+        var longitudeField = document.getElementById('id_longitude');
+        
+        if (latitudeField && longitudeField) {
+            latitudeField.addEventListener('input', updateMapFromFields);
+            longitudeField.addEventListener('input', updateMapFromFields);
+        }
+    
+        var dropzoneFile = document.getElementById('{{ form.image.id_for_label }}');
+        dropzoneFile.addEventListener('change', function(event) {
+            var input = event.target;
+            var reader = new FileReader();
+            reader.onload = function(){
+                var dataURL = reader.result;
+                var imagenSeleccionada = document.getElementById('imagenSeleccionada');
+                imagenSeleccionada.src = dataURL;
+            };
+            reader.readAsDataURL(input.files[0]);
+        });
+    
+        // Añadir buscador de direcciones
+        var geocoder = L.Control.geocoder({
+            defaultMarkGeocode: false
+        }).on('markgeocode', function(e) {
+            var bbox = e.geocode.bbox;
+            var poly = L.polygon([
+                bbox.getSouthEast(),
+                bbox.getNorthEast(),
+                bbox.getNorthWest(),
+                bbox.getSouthWest()
+            ]);
+            map.fitBounds(poly.getBounds());
+            updateMarkerAndFields(e.geocode.center.lat, e.geocode.center.lng);
+        }).addTo(map);
+    
+        // Añadir botón para centrar en la ubicación del usuario
+        L.control.locate({
+            position: 'topright',
+            strings: {
+                title: "Mostrar mi ubicación"
+            }
+        }).addTo(map);
+    
+        // Añadir control para dibujar en el mapa
+        var drawnItems = new L.FeatureGroup();
+        map.addLayer(drawnItems);
+    
+        var drawControl = new L.Control.Draw({
+            edit: {
+                featureGroup: drawnItems
+            },
+            draw: {
+                polygon: true,
+                polyline: true,
+                rectangle: true,
+                circle: true,
+                marker: false
+            }
+        });
+        map.addControl(drawControl);
+    
+        map.on(L.Draw.Event.CREATED, function (e) {
+            var type = e.layerType,
+                layer = e.layer;
+    
+            drawnItems.addLayer(layer);
+        });
+    
+        updateMapFromFields();
+    });
+    </script>
+{% endblock content %}

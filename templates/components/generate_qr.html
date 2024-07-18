@@ -1,0 +1,75 @@
+{% extends 'components/base.html' %}
+{% load i18n %}
+{% block content %}
+<br>
+<br>
+<br>
+<div class="container mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+    <h1 class="text-lg sm:text-xl md:text-2xl font-bold mb-5 text-gray-900 dark:text-gray-100 text-center">
+        {% trans "Generar QR de inicio de sesión para" %} {{ user.username }}
+    </h1>
+    <div id="qrcode" class="mb-5 flex justify-center"></div>
+    <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+        <a id="downloadQR" href="#" download="qr_code.png" class="hidden bg-green-500 hover:bg-green-600 active:bg-green-700 focus:outline-none focus:ring focus:ring-green-300 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            {% trans "Descargar QR" %}
+        </a>
+        <button id="generateQR" class="bg-blue-500 hover:bg-blue-600 active:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300 text-white font-bold py-2 px-6 rounded-lg shadow-lg transition duration-300 ease-in-out transform hover:scale-105">
+            {% trans "Generar QR" %}
+        </button>
+    </div>
+</div>
+
+<!-- Incluyendo la biblioteca QRCode -->
+<script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('generateQR').addEventListener('click', function() {
+            console.log('Generate QR button clicked');
+            fetch('{% url "core:generate_login_qr" user.id %}')
+                .then(response => {
+                    console.log('Response status:', response.status);
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('QR Data received:', data);
+                    if (data.qr_data) {
+                        const qrData = JSON.stringify(data.qr_data);
+                        console.log('QR data to be encoded:', qrData);
+                        const qrcodeDiv = document.getElementById('qrcode');
+                        qrcodeDiv.innerHTML = '';
+                        QRCode.toDataURL(qrData, {
+                            errorCorrectionLevel: 'H',
+                            margin: 1,
+                            width: 256,
+                            height: 256
+                        }, function (error, url) {
+                            if (error) {
+                                console.error('Error generating QR code:', error);
+                            } else {
+                                console.log('QR code successfully created.');
+                                const img = document.createElement('img');
+                                img.src = url;
+                                qrcodeDiv.appendChild(img);
+                                
+                                const downloadLink = document.getElementById('downloadQR');
+                                downloadLink.href = url;
+                                downloadLink.classList.remove('hidden');
+                                console.log('QR Code generated and download link set.');
+                            }
+                        });
+                    } else {
+                        console.error('QR data is missing:', data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('{% trans "Hubo un error al generar el código QR. Por favor, intente de nuevo." %}');
+                });
+        });
+    });
+</script>
+
+{% endblock %}

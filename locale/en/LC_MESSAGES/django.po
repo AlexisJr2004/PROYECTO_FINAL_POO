@@ -1,0 +1,735 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-07-06 00:59-0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+
+# TRADUCCIOÓN DE base.html -------------------------------------------------------------------------------
+
+
+#: templates/my_template.html:5
+msgid "Perfil"
+msgstr "Profile"
+
+#: templates/my_template.html:10
+msgid "Temas"
+msgstr "Themes"
+
+#: templates/my_template.html:15
+msgid "Autenticación Biométrica"
+msgstr "Biometric Authentication"
+
+#: templates/my_template.html:20
+msgid "Cerrar Sesión"
+msgstr "Logout"
+
+#: templates/my_template.html:5
+msgid "Módulos"
+msgstr "Modules"
+
+#: templates/my_template.html:10
+msgid "Acerca de Nosotros"
+msgstr "About Us"
+
+#: templates/my_template.html:7
+msgid "Sobre Nosotros..."
+msgstr "About Us..."
+
+#: templates/my_template.html:7
+msgid "Sección de Temas"
+msgstr "Theme Section"
+
+#: templates/my_template.html:11
+msgid "Seleccione el tema que desea aplicar en la aplicación para trabajar cómodamente."
+msgstr "Select the theme you want to apply in the application to work comfortably."
+
+#: templates/my_template.html:45
+msgid "Claro"
+msgstr "Light"
+
+#: templates/my_template.html:60
+msgid "Oscuro"
+msgstr "Dark"
+
+#: templates/my_template.html:75
+msgid "Naranja"
+msgstr "Orange"
+
+#: templates/my_template.html:90
+msgid "Azul"
+msgstr "Blue"
+
+msgid "Activa el desbloqueo Biométrico en tu aplicación, para iniciar sesión con mayor facilidad."
+msgstr "Enable Biometric Unlock in your application for easier login."
+
+msgid "Desbloqueo Facial"
+msgstr "Facial Unlock"
+
+msgid "Desbloqueo Código QR"
+msgstr "QR Code Unlock"
+
+msgid "Servicio al cliente"
+msgstr "Customer Service"
+
+msgid "¿Necesidad de ayuda? Chatea con nosotros en Whatsapp"
+msgstr "Need help? Chat with us on Whatsapp"
+
+msgid "Escribir pregunta!"
+msgstr "Write question!"
+
+msgid "Profile Picture"
+msgstr "Profile Picture"
+
+msgid "Default Profile Picture"
+msgstr "Default Profile Picture"
+
+msgid "Anonymous Profile Picture"
+msgstr "Anonymous Profile Picture"
+
+msgid "Flowbite Logo"
+msgstr "Logo de Flowbite"
+
+msgid "Iguanas Corp."
+msgstr "Iguanas Corp."
+
+msgid "Términos de Servicio"
+msgstr "Terms of Service"
+
+msgid "Iguanas Corporation™"
+msgstr "Iguanas Corporation™"
+
+msgid "Todos los derechos reservados."
+msgstr "All rights reserved."
+
+msgid "Diseñado por"
+msgstr "Designed by"
+
+msgid "Close modal"
+msgstr "Cerrar modal"
+
+msgid "Faltando menos de un mes para que la Unión Europea promulgue nuevas leyes de privacidad del consumidor para sus ciudadanos, empresas de todo el mundo están actualizando sus acuerdos de términos de servicio para cumplir."
+msgstr "Less than a month before the European Union promulgates new consumer privacy laws for its citizens, companies worldwide are updating their terms of service agreements to comply."
+
+msgid "El Reglamento General de Protección de Datos de la Unión Europea (G.D.P.R.) entra en vigor el 25 de mayo y tiene como objetivo garantizar un conjunto común de derechos de datos en la Unión Europea. Requiere que las organizaciones notifiquen a los usuarios lo antes posible sobre violaciones de datos de alto riesgo que podrían afectarlos personalmente."
+msgstr "The General Data Protection Regulation of the European Union (G.D.P.R.) comes into force on May 25 and aims to ensure a common set of data rights across the European Union. It requires organizations to notify users as soon as possible about high-risk data breaches that could personally affect them."
+
+msgid "Aceptar"
+msgstr "Accept"
+
+msgid "Denegar"
+msgstr "Deny"
+
+
+# TRADUCCIOÓN DE home.html -------------------------------------------------------------------------------
+
+
+
+msgid "PERFILES"
+msgstr "PROFILES"
+
+msgid "Selecciona tu perfil para iniciar sesión:"
+msgstr "Select your profile to log in:"
+
+msgid "Iguanas Corporation"
+msgstr "Iguanas Corporation"
+
+msgid "Accede a funcionalidades específicas."
+msgstr "Access specific functionalities."
+
+msgid "Cliente"
+msgstr "Client"
+
+msgid "Da gestión de seguimiento a tus compras y ventas."
+msgstr "Manage tracking of your purchases and sales."
+
+msgid "Administrador"
+msgstr "Administrator"
+
+msgid "Gestiona las categorías, marcas y proveedores de tus productos."
+msgstr "Manage categories, brands, and suppliers of your products."
+
+msgid "Invitado"
+msgstr "Guest"
+
+msgid "Revisa las diversas funciones de nuestro sistema."
+msgstr "Review the various functions of our system."
+
+msgid "Ingresar"
+msgstr "Log in"
+
+msgid "Una solución para tu negocio."
+msgstr "A solution for your business."
+
+msgid "Bienvenido,"
+msgstr "Welcome,"
+
+msgid "Bienvenido, usuario anónimo."
+msgstr "Welcome, anonymous user."
+
+msgid "¡Explora nuestro increíble sistema!"
+msgstr "Explore our amazing system!"
+
+msgid "Te invitamos a descubrir un mundo de múltiples posibilidades y beneficios, con el objetivo de optimizar tu emprendimiento al siguiente nivel."
+msgstr "We invite you to discover a world of multiple possibilities and benefits, aiming to optimize your business to the next level."
+
+msgid "Explorar"
+msgstr "Explore"
+
+msgid "Contáctanos"
+msgstr "Contact us"
+
+msgid "¿No encontró el componente que estaba buscando?"
+msgstr "Did not find the component you were looking for?"
+
+msgid "Tu palabra clave aquí"
+msgstr "Your keyword here"
+
+msgid "Buscar"
+msgstr "Search"
+
+msgid "Módulos Disponibles"
+msgstr "Available Modules"
+
+msgid "Como administrador, puedes gestionar los módulos de tu sistema."
+msgstr "As an administrator, you can manage the modules of your system."
+
+msgid "Ventas"
+msgstr "Sales"
+
+msgid "Empezar"
+msgstr "Start"
+
+msgid "Seguridad"
+msgstr "Security"
+
+msgid "Menú"
+msgstr "Menu"
+
+msgid "Grupo Módulos Permisos"
+msgstr "Group Module Permissions"
+
+msgid "Usuarios"
+msgstr "Users"
+
+msgid "Mantenimiento"
+msgstr "Maintenance"
+
+msgid "Empresas"
+msgstr "Companies"
+
+msgid "Marcas"
+msgstr "Brands"
+
+msgid "Proveedores"
+msgstr "Suppliers"
+
+msgid "Líneas"
+msgstr "Lines"
+
+msgid "Categorías"
+msgstr "Categories"
+
+msgid "IVA"
+msgstr "VAT"
+
+msgid "Productos"
+msgstr "Products"
+
+msgid "Precio de Productos"
+msgstr "Product Prices"
+
+msgid "Detalle de Precio de Productos"
+msgstr "Product Price Details"
+
+msgid "Método de Pago"
+msgstr "Payment Method"
+
+msgid "HERRAMIENTAS"
+msgstr "TOOLS"
+
+msgid "Impulsa tu Negocio"
+msgstr "Boost Your Business"
+
+msgid "Nuestro sistema ofrece las herramientas necesarias para maximizar el potencial de tu negocio."
+msgstr "Our system provides the necessary tools to maximize your business potential."
+
+msgid "Optimizar tus operaciones"
+msgstr "Optimize your operations"
+
+msgid "Aumenta la eficiencia de tu equipo con herramientas automatizadas y análisis detallados."
+msgstr "Increase your team's efficiency with automated tools and detailed analysis."
+
+msgid "Aumentar tus ventas"
+msgstr "Increase your sales"
+
+msgid "Realiza ventas identificando nuevas oportunidades de negocio y cerrando más acuerdos."
+msgstr "Make sales by identifying new business opportunities and closing more deals."
+
+msgid "Gestionar tus finanzas"
+msgstr "Manage your finances"
+
+msgid "Administra tus finanzas de manera eficiente y toma decisiones informadas con análisis financieros detallados sobre los productos."
+msgstr "Manage your finances efficiently and make informed decisions with detailed financial analysis of your products."
+
+msgid "Satisfacción al cliente"
+msgstr "Customer satisfaction"
+
+msgid "El cliente recibe un servicio personalizado y una atención excepcional."
+msgstr "Customers receive personalized service and exceptional attention."
+
+msgid "Mantenimiento y reparaciones"
+msgstr "Maintenance and repairs"
+
+msgid "Ofrecemos servicios de mantenimiento y reparación del Software."
+msgstr "We offer software maintenance and repair services."
+
+msgid "Capacitación de personal"
+msgstr "Staff training"
+
+msgid "Brindamos programas de capacitación personalizados para mejorar las habilidades y el rendimiento del personal."
+msgstr "We offer personalized training programs to improve staff skills and performance."
+
+msgid "Características"
+msgstr "Features"
+
+msgid "Características del Software"
+msgstr "Software Features"
+
+msgid "Te ofrecemos múltiples beneficios."
+msgstr "We offer multiple benefits."
+
+msgid "Dar seguimiento de proveedores"
+msgstr "Track suppliers"
+
+msgid "Interfaz Minimalista"
+msgstr "Minimalist Interface"
+
+msgid "Disponibilidad 24/7"
+msgstr "24/7 Availability"
+
+msgid "Gestiona tus Ventas y Compras"
+msgstr "Manage your Sales and Purchases"
+
+msgid "Servicios Garantizados"
+msgstr "Guaranteed Services"
+
+msgid "Aplicación Segura"
+msgstr "Secure Application"
+
+msgid "Contacto con los administradores"
+msgstr "Contact with administrators"
+
+msgid "Implementación del modo oscuro"
+msgstr "Dark mode implementation"
+
+msgid "PRECIOS"
+msgstr "PRICES"
+
+msgid "Paga una vez, úsalo para siempre"
+msgstr "Pay once, use forever"
+
+msgid "Conoce nuestros planes."
+msgstr "Know our plans."
+
+msgid "Standard"
+msgstr "Standard"
+
+msgid "1 license for only 1 activation"
+msgstr "1 license for only 1 activation"
+
+msgid "Buy now"
+msgstr "Buy now"
+
+msgid "Lifetime access"
+msgstr "Lifetime access"
+
+msgid "All AI features"
+msgstr "All AI features"
+
+msgid "Use your own OpenAI key"
+msgstr "Use your own OpenAI key"
+
+msgid "Extended"
+msgstr "Extended"
+
+msgid "Most popular"
+msgstr "Most popular"
+
+msgid "1 license for up to 3 activations"
+msgstr "1 license for up to 3 activations"
+
+msgid "EQUIPO"
+msgstr "TEAM"
+
+msgid "Equipo de trabajo"
+msgstr "Development Team"
+
+msgid "Conozca nuestro equipo de desarrollo."
+msgstr "Meet our development team."
+
+msgid "Steven Alexander Nieto Duran"
+msgstr "Steven Alexander Nieto Duran"
+
+msgid "Jefe de Proyecto - Programador"
+msgstr "Project Leader - Programmer"
+
+msgid "Javier Omar Haro Soledispa"
+msgstr "Javier Omar Haro Soledispa"
+
+msgid "Tecnologías"
+msgstr "Technologies"
+
+msgid "Tecnologías Usadas"
+msgstr "Technologies Used"
+
+msgid "Se utilizaron las siguientes tecnologías para el desarrollo de nuestro sistema:"
+msgstr "The following technologies were used for the development of our system:"
+
+msgid "¡Gracias!"
+msgstr "Thank you!"
+
+msgid "CONTACTOS"
+msgstr "CONTACTS"
+
+msgid "Contácta a nuestro equipo"
+msgstr "Contact our team"
+
+msgid "Envíanos tus sugerencias."
+msgstr "Send us your suggestions."
+
+msgid "Un mensaje de quienes conformamos..."
+msgstr "A message from those who make up..."
+
+msgid "\"En nuestro corazón late el deseo ferviente de ser parte de tu éxito. Queremos ser el impulso que eleva tus sueños, la chispa que enciende tu visión. Confía en nosotros para ser tus aliados en esta travesía hacia el triunfo. Juntos, llevaremos tu negocio más allá de lo imaginable. Tu éxito es nuestro mayor logro.\""
+msgstr "\"In our hearts beats the fervent desire to be part of your success. We want to be the boost that elevates your dreams, the spark that ignites your vision. Trust us to be your allies on this journey to triumph. Together, we will take your business beyond imagination. Your success is our greatest achievement.\""
+
+msgid "¡Te estaremos esperando!"
+msgstr "We'll be waiting for you!"
+
+msgid "Dirección"
+msgstr "Address"
+
+msgid "Universidad Estatal de Milagro (UNEMI)"
+msgstr "State University of Milagro (UNEMI)"
+
+msgid "Ecuador, Guayas, Milagro"
+msgstr "Ecuador, Guayas, Milagro"
+
+msgid "Av. 17 de Septiembre"
+msgstr "17th of September Ave."
+
+msgid "Contacto"
+msgstr "Contact"
+
+msgid "Envianos un mensaje"
+msgstr "Send us a message"
+
+msgid "Nombre"
+msgstr "Name"
+
+msgid "Correo"
+msgstr "Email"
+
+msgid "Asunto"
+msgstr "Subject"
+
+msgid "Mensaje"
+msgstr "Message"
+
+msgid "Ingresa tu nombre aquí"
+msgstr "Enter your name here"
+
+msgid "Ingresa tu correo aquí"
+msgstr "Enter your email here"
+
+msgid "Ingresa el asunto aquí"
+msgstr "Enter the subject here"
+
+msgid "Ingresa el mensaje aquí"
+msgstr "Enter the message here"
+
+msgid "Su mensaje ha sido enviado."
+msgstr "Your message has been sent."
+
+msgid "Enviar Mensaje"
+msgstr "Send Message"
+
+
+# TRADUCCIOÓN DE generate_qr.html -------------------------------------------------------------------------------
+
+
+msgid "Generar QR de inicio de sesión para"
+msgstr "Generate login QR for"
+
+msgid "Descargar QR"
+msgstr "Download QR"
+
+msgid "Generar QR"
+msgstr "Generate QR"
+
+msgid "Hubo un error al generar el código QR. Por favor, intente de nuevo."
+msgstr "There was an error generating the QR code. Please try again."
+
+
+# TRADUCCIOÓN DE modulos.html -------------------------------------------------------------------------------
+
+
+msgid "Modulos Disponibles"
+msgstr "Available Modules"
+
+
+# TRADUCCIOÓN DE password_reset.html -------------------------------------------------------------------------------
+
+
+msgid "Recuperar Contraseña"
+msgstr "Password Recovery Session"
+
+msgid "Ingrese su correo para validarlo"
+msgstr "Enter your email to validate it"
+
+msgid "Usuario Anónimo"
+msgstr "Anonymous User"
+
+msgid "Correo electrónico:"
+msgstr "Email:"
+
+msgid "Validar Correo"
+msgstr "Validate Email"
+
+msgid "¿Ya tienes una cuenta?"
+msgstr "Already have an account?"
+
+msgid "Inicia Sesión"
+msgstr "Log In"
+
+
+# TRADUCCIOÓN DE profile.html -------------------------------------------------------------------------------
+
+
+msgid "Visualice su información."
+msgstr "View your information."
+
+msgid "Imagen de Perfil"
+msgstr "Profile Image"
+
+msgid "Actualizar Datos"
+msgstr "Update Data"
+
+msgid "Usuario:"
+msgstr "Username:"
+
+msgid "Nombres:"
+msgstr "Names:"
+
+msgid "Cédula:"
+msgstr "ID Card:"
+
+msgid "Celular:"
+msgstr "Phone:"
+
+msgid "Correo:"
+msgstr "Email:"
+
+msgid "Dirección:"
+msgstr "Address:"
+
+msgid "Género:"
+msgstr "Gender:"
+
+msgid "Fecha de Nacimiento:"
+msgstr "Date of Birth:"
+
+msgid "Ubicación:"
+msgstr "Location:"
+
+msgid "No Registrado"
+msgstr "Not Registered"
+
+
+# TRADUCCIOÓN DE update_profile.html -------------------------------------------------------------------------------
+
+
+#: templates/core/profile.html:9
+msgid "Actualizar Perfil"
+msgstr "Update profile"
+
+#: templates/core/profile.html:14
+msgid "Complete el formulario para actualizar su información."
+msgstr "Complete the form to update your information."
+
+#: templates/core/profile.html:98
+msgid "Seleccione un género"
+msgstr "Select a genre"
+
+#: templates/core/profile.html:109
+msgid "Masculino"
+msgstr "Male"
+
+#: templates/core/profile.html:110
+msgid "Femenino"
+msgstr "Female"
+
+#: templates/core/profile.html:111
+msgid "Otro"
+msgstr "Other"
+
+#: templates/core/profile.html:78
+msgid "Imagen Actual"
+msgstr "Current image"
+
+#: templates/core/profile.html:152
+msgid "Fecha de Nacimiento"
+msgstr "Birthdate"
+
+#: templates/core/profile.html:175
+msgid "Latitud"
+msgstr "Latitude"
+
+#: templates/core/profile.html:189
+msgid "Longitud"
+msgstr "Longitude"
+
+#: templates/core/profile.html:203
+msgid "Contraseña Actual"
+msgstr "Current password"
+
+#: templates/core/profile.html:216
+msgid "Nueva Contraseña"
+msgstr "New Password"
+
+#: templates/core/profile.html:229
+msgid "Confirmar Nueva Contraseña"
+msgstr "Confirm New Password"
+
+#: templates/core/profile.html:252
+msgid "Guardar"
+msgstr "Save"
+
+#: templates/core/profile.html:262
+msgid "Cancelar"
+msgstr "Cancel"
+
+#: templates/core/profile.html:280
+msgid "Sección de Cambio de Contraseña"
+msgstr "Password Change Section"
+
+
+# TRADUCCIOÓN DE sales/invoice/form.html -------------------------------------------------------------------------------
+
+
+msgid "Nuevo registro de venta:"
+msgstr "New sales record:"
+
+msgid "Detalle de factura:"
+msgstr "Invoice details:"
+
+msgid "PRODUCTO"
+msgstr "PRODUCT"
+
+msgid "PRECIO"
+msgstr "PRICE"
+
+msgid "CANTIDAD"
+msgstr "QUANTITY"
+
+msgid "SUBTOTAL"
+msgstr "SUBTOTAL"
+
+msgid "ACCIONES"
+msgstr "ACTIONS"
+
+
+# TRADUCCIOÓN DE core/brands/form.html -------------------------------------------------------------------------------
+
+msgid "Imagen de Marca"
+msgstr "Brand image" 
+
+
+# TRADUCCIOÓN DE templates/security/auth/signup.html -------------------------------------------------------------------------------
+
+
+msgid "¡Únete a nuestra comunidad!"
+msgstr "Join our community!"
+
+msgid "Nombre de usuario"
+msgstr "Username"
+
+msgid "DNI"
+msgstr "ID number"
+
+msgid "Apellido"
+msgstr "Last name"
+
+msgid "Teléfono"
+msgstr "Phone"
+
+msgid "Correo electrónico"
+msgstr "Email"
+
+msgid "Contraseña"
+msgstr "Password"
+
+msgid "Confirmar contraseña"
+msgstr "Confirm password"
+
+msgid "Registrarse"
+msgstr "Sign up"
+
+
+# TRADUCCIOÓN DE templates/security/auth/signin.html -------------------------------------------------------------------------------
+
+
+msgid "¡Bienvenido de vuelta!"
+msgstr "Welcome back!"
+
+msgid "Completa el formulario para ingresar a nuestro sistema"
+msgstr "Complete the form to log in to our system"
+
+msgid "Más formas de Iniciar Sesión"
+msgstr "More ways to Log In"
+
+msgid "Escanear QR Laboral"
+msgstr "Scan Work QR"
+
+msgid "Reconocimiento Facial"
+msgstr "Facial Recognition"
+
+msgid "Iniciar Sesión"
+msgstr "Log in"
+
+msgid "Capturar"
+msgstr "Capture"
+
+msgid "¿No tienes una cuenta?"
+msgstr "Don't have an account?"
+
+msgid "Regístrate"
+msgstr "Sign up"
+
+msgid "¿Has olvidado tu contraseña?"
+msgstr "Forgot your password?"
+
+msgid "Recupérala"
+msgstr "Recover it"
+
+
+
+
+
+
+

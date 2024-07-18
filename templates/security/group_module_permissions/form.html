@@ -1,0 +1,221 @@
+{% extends 'components/base.html' %}
+{% block content %}
+{% load static %}
+<title>{% block title %} {{ title }} {% endblock title %}</title>
+<section class="dark:bg-principal mt-20">
+    <div class="text-center" data-aos="fade" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-4">
+            <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+                {{ title }}
+            </h1>
+        </div>
+        <div class="flex flex-wrap items-center justify-center my-6 x-4">
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:menu_create' %}">
+                <i class="fa-solid fa-bars mr-2"></i>Crear Menú
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:module_create' %}">
+                <i class="fa-solid fa-puzzle-piece mr-2"></i>Crear Módulo
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:group_module_permission_create' %}">
+                <i class="fa-solid fa-person-digging mr-2"></i>Crear GMP
+            </a>
+        </div>
+        <form id="group-module-permission-form" method="post" enctype="multipart/form-data" class="space-y-6 py-4">
+            <div id="form-container">
+                <div class="form-group">
+                    <div class="grid gap-8 mx-4 lg:mx-20" data-aos="fade">
+                        <div class="p-4 rounded-3xl dark:bg-secundario bg-white flex flex-col justify-center items-center"
+                            data-aos="fade-right" data-aos-delay="200">
+                            {% csrf_token %}
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="mb-8">
+                                    <label for="{{ form.group.id_for_label }}"
+                                        class="dark:text-blue-300 font-black uppercase text-lg">{{ form.group.label }}</label>
+                                    {{ form.group }}
+                                </div>
+                                <div class="mb-8">
+                                    <label for="{{ form.module.id_for_label }}"
+                                        class="dark:text-blue-300 font-black uppercase text-lg">Seleccione Módulo</label>
+                                    {{ form.module }}
+                                </div>
+                            </div>
+                            <div id="permissions-list"
+                                class="checkbox-container shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                <p class="text-center text-gray-500">Los permisos aparecerán aquí <i class="fa-solid fa-user-gear"></i> </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center space-x-2">
+                <button type="submit"
+                    class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 mb-2 md:mb-0 flex items-center">
+                    <i class="fa-solid fa-save mr-2"></i>{{ grabar }}
+                </button>
+                <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center"
+                    href="{{ back_url }}">
+                    <i class="fa-solid fa-xmark mr-2"></i>Cancelar
+                </a>
+                {% if not is_update %}
+                <button type="button" id="add-form-btn" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 mb-2 md:mb-0 flex items-center">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+                {% endif %}
+            </div>
+        </form>
+        <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
+        <div class="flex flex-wrap items-center justify-center my-6 x-4">
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:menu_list' %}">
+                <i class="fa-solid fa-bars mr-2"></i>Lista de Menús
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:module_list' %}">
+                <i class="fa-solid fa-puzzle-piece mr-2"></i>Lista de Módulos
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:group_module_permission_list' %}">
+                <i class="fa-solid fa-person-digging mr-2"></i>Lista de GMP
+            </a>
+        </div>
+        <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+    const permissionsByModule = {{ permissions_by_module|safe }};
+    const selectedPermissions = {{ selected_permissions|safe }};
+    const isUpdate = {{ is_update|yesno:"true,false" }};
+
+    const addFormBtn = document.getElementById('add-form-btn');
+    const formContainer = document.getElementById('form-container');
+    let formCount = 1;
+
+    function createPermissionsList(formGroup) {
+        const permissionsList = formGroup.querySelector('.checkbox-container');
+        permissionsList.id = `permissions-list-${formCount}`;
+        return permissionsList;
+    }
+
+    function renderPermissions(permissions, permissionsList, selectedPerms) {
+        permissionsList.innerHTML = '';
+        if (!permissions.length) {
+            permissionsList.innerHTML = '<p class="text-center text-gray-500">No hay permisos disponibles <i class="fa-solid fa-user-injured"></i> </p>';
+            return;
+        } else {
+            permissions.forEach(permission => {
+                const permissionItem = document.createElement('div');
+                permissionItem.classList.add('py-1');
+                const isChecked = selectedPerms.includes(permission.id);
+                permissionItem.innerHTML = `
+                    <label class="block">
+                        <input type="checkbox" name="permissions_${formCount}" value="${permission.id}"
+                            class="checkbox-container shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                            ${isChecked ? 'checked' : ''}>
+                        ${permission.content_type__app_label} | ${permission.codename} - ${permission.name}
+                    </label>
+                `;
+                permissionsList.appendChild(permissionItem);
+            });
+        }
+    }
+
+    function updatePermissionsList(moduleId, permissionsList, selectedPerms) {
+        const permissions = permissionsByModule[moduleId] || [];
+        renderPermissions(permissions, permissionsList, selectedPerms);
+    }
+
+    function addModuleChangeListener(formGroup) {
+        const moduleSelect = formGroup.querySelector('select[name^="module"]');
+        const permissionsList = createPermissionsList(formGroup);
+        
+        moduleSelect.addEventListener('change', function () {
+            const moduleId = this.value;
+            updatePermissionsList(moduleId, permissionsList, []);
+        });
+
+        if (isUpdate) {
+            const initialModuleId = moduleSelect.value;
+            if (initialModuleId) {
+                updatePermissionsList(initialModuleId, permissionsList, selectedPermissions);
+            }
+        }
+    }
+
+    // Inicializar el primer formulario
+    addModuleChangeListener(document.querySelector('.form-group'));
+
+    if (addFormBtn) {
+        addFormBtn.addEventListener('click', function () {
+            formCount++;
+            const formGroup = document.querySelector('.form-group').cloneNode(true);
+            formGroup.querySelectorAll('input, select').forEach(input => {
+                input.name = input.name.replace(/\d+$/, '') + formCount;
+                input.id = input.id.replace(/\d+$/, '') + formCount;
+                input.value = '';
+            });
+            formContainer.appendChild(formGroup);
+            addModuleChangeListener(formGroup);
+        });
+    }
+
+    document.getElementById('group-module-permission-form').addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        const forms = document.querySelectorAll('.form-group');
+        
+        forms.forEach((form, index) => {
+            const groupSelect = form.querySelector('select[name^="group"]');
+            const moduleSelect = form.querySelector('select[name^="module"]');
+            const allPermissions = form.querySelectorAll('input[type="checkbox"]');
+            
+            formData.append(`group_${index + 1}`, groupSelect.value);
+            formData.append(`module_${index + 1}`, moduleSelect.value);
+            allPermissions.forEach(perm => {
+                formData.append(`permissions_${index + 1}[]`, `${perm.value}:${perm.checked}`);
+            });
+        });
+        
+        formData.append('form_count', forms.length);
+        formData.append('csrfmiddlewaretoken', document.querySelector('[name=csrfmiddlewaretoken]').value);
+
+        if (isUpdate) {
+            const updateIdInput = document.querySelector('[name=update_id]');
+            if (updateIdInput) {
+                formData.append('update_id', updateIdInput.value);
+            }
+        }
+
+        fetch(this.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+            }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                window.location.href = '{{ back_url }}';
+            } else {
+                alert('Error al guardar los formularios: ' + JSON.stringify(data.errors));
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error al enviar los formularios. Por favor, intente de nuevo.');
+        });
+    });
+});
+</script>
+{% endblock content %}

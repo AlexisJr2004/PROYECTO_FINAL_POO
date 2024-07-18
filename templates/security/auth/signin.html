@@ -1,0 +1,379 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<title>{% block title %} {{ title1 }} {% endblock title %}</title>
+<div class="bg-slate-100 dark:bg-principal p-2 relative overflow-hidden">
+    <div class="absolute inset-0 bg-center blur-[106px]"></div>
+    <div class="relative">
+        <a href="/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse text-center justify-center" data-aos="fade-up">
+            <img src="{% static 'img/iguana_corporation.png' %}" class="w-12 h-12" alt="Flowbite Logo" />
+            <span class="self-center whitespace-nowrap dark:text-blue-300 font-extrabold"></span>
+        </a> 
+        <section class="p-8 my-4 mx-auto max-w-4xl rounded-3xl bg-white dark:bg-secundario" data-aos="fade-up" data-aos-delay="200">
+            <div class="gap-2 mb-8">
+                <div class="flex flex-col items-center justify-center">
+                    <span class="bg-navbar rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
+                        {% trans 'INICIAR SESIÓN' %}
+                    </span>
+                </div>
+                <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+                    {{ title2 }}
+                </h1>
+                <p class="dark:text-gray-400 text-center mt-6 text-lg font-light">
+                    {% trans '¡Bienvenido de vuelta! Completa el formulario para ingresar a nuestro sistema' %}
+                </p>
+            </div>  
+            <div class="grid lg:grid-cols-2 grid-cols-1 gap-x-24">
+                <div class="flex items-center lg:mb-0 mb-10">
+                    <div class="w-full max-w-md mx-auto">
+                        <form method="POST" enctype="multipart/form-data" class="space-y-8">
+                            {% csrf_token %}
+                            <div>
+                                <label for="{{ form.username.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.username.label }}</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <i class="text-blue-400 fa-solid fa-user"></i>
+                                    </span>
+                                    <input type="text" id="id_username" name="username"
+                                        class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                </div>
+                            </div>
+                            <div>
+                                <label for="{{ form.password.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.password.label }}</label>
+                                <div class="relative">
+                                    <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                        <i class="text-blue-400 fa-solid fa-lock"></i>
+                                    </span>
+                                    <input type="password" id="id_password" name="password"
+                                        class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    <button class="absolute inset-y-0 right-0 flex items-center pr-3" type="button" id="togglePassword">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" class="bg-navbar py-3 px-5 text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                    {% trans 'Iniciar Sesión' %}
+                                </button>
+                            </div>
+                        </form>
+                        <div class="mt-6">
+                            <p class="dark:text-gray-400 text-center">{% trans '¿No tienes una cuenta?' %} <a href="{% url 'security:auth_signup' %}" class="text-blue-600 hover:underline dark:text-blue-300 font-Tiny5 uppercase">{% trans 'Regístrate' %}</a></p>
+                            <p class="dark:text-gray-400 text-center mt-3">
+                                {% trans '¿Has olvidado tu contraseña?' %}
+                                <a href="{% url 'core:password_reset' %}" class="text-blue-600 hover:underline dark:text-blue-300 font-Tiny5 uppercase">
+                                    {% trans 'Recupérala' %}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:max-w-xl w-full h-[600px] flex items-center justify-center bg-cover bg-no-repeat bg-[url('https://pagedone.io/asset/uploads/1696245837.png')]">
+                    <div class="rounded-lg lg:w-96 w-auto h-auto bg-white shadow-xl lg:p-6 p-4 backdrop-filter backdrop-blur-md bg-opacity-70">
+                        <h2 class="text-2xl font-bold mb-4 text-center">{% trans 'Métodos alternativos' %}</h2>
+                        <div class="space-y-4">
+                            <button id="scanQrButton" class="w-full bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-qrcode mr-2"></i> {% trans 'Escanear QR Laboral' %}
+                            </button>
+                            <button id="facialRecognitionButton" class="w-full bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full flex items-center justify-center">
+                                <i class="fa-solid fa-camera mr-2"></i> {% trans 'Reconocimiento Facial' %}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<!-- Modal for QR Scanner -->
+<div id="qrScannerModal" class="hidden fixed z-50 inset-0 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white dark:bg-secundario rounded-lg shadow-lg w-full max-w-3xl">
+            <div class="flex justify-end p-2">
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+            </div>
+            <div id="qrScannerContainer" class="w-full aspect-video"></div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal para reconocimiento facial -->
+<div id="facialRecognitionModal" class="hidden fixed z-50 inset-0 overflow-y-auto">
+    <div class="flex items-center justify-center min-h-screen p-4">
+        <div class="bg-white dark:bg-secundario rounded-lg shadow-lg w-full max-w-3xl">
+            <div class="flex justify-end p-2">
+                <button id="closeFacialModal" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+            </div>
+            <video id="facialVideo" class="w-full aspect-video"></video>
+            <button id="captureFacial" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full m-2">
+                {% trans 'Capturar' %}
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("togglePassword").addEventListener("click", function () {
+        var passwordInput = document.getElementById("id_password");
+        var icon = this.querySelector("i");
+        if (passwordInput.type === "password") {
+            passwordInput.type = "text";
+            icon.classList.remove("fa-eye");
+            icon.classList.add("fa-eye-slash");
+        } else {
+            passwordInput.type = "password";
+            icon.classList.remove("fa-eye-slash");
+            icon.classList.add("fa-eye");
+        }
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!---SCRIPT PARA LA CAPTURA DEL QR-->
+<script src="https://cdn.jsdelivr.net/npm/jsqr/dist/jsQR.js"></script>
+<script>
+    document.getElementById("scanQrButton").addEventListener("click", function() {
+        navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } })
+            .then(function(stream) {
+                document.getElementById("qrScannerModal").classList.remove("hidden");
+                var video = document.createElement("video");
+                video.srcObject = stream;
+                video.setAttribute("playsinline", true);
+                video.classList.add("w-full", "h-full", "object-cover");
+                video.play();
+    
+                var canvas = document.createElement("canvas");
+                var ctx = canvas.getContext("2d");
+                var scanning = true;
+    
+                var qrScannerContainer = document.getElementById("qrScannerContainer");
+                qrScannerContainer.innerHTML = '';
+                qrScannerContainer.appendChild(video);
+    
+                function scan() {
+                    if (video.readyState === video.HAVE_ENOUGH_DATA) {
+                        canvas.height = video.videoHeight;
+                        canvas.width = video.videoWidth;
+                        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+                        var imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        var code = jsQR(imageData.data, imageData.width, imageData.height, {
+                            inversionAttempts: "dontInvert",
+                        });
+                        if (code) {
+                            scanning = false;
+                            try {
+                                const qrData = JSON.parse(code.data);
+                                fetch("{% url 'core:qr_scanner_view' %}", {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                        "X-CSRFToken": getCookie("csrftoken")
+                                    },
+                                    body: JSON.stringify({qr_data: qrData})
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        window.location.href = data.redirect;
+                                    } else {
+                                        alert("Error processing QR code: " + data.message);
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error('Error:', error);
+                                    alert("Error processing QR code");
+                                });
+                
+                                document.getElementById("qrScannerModal").classList.add("hidden");
+                                stream.getTracks().forEach(track => track.stop());
+                            } catch (error) {
+                                console.error("Error parsing QR data:", error);
+                                alert("Invalid QR code");
+                            }
+                        }
+                    }
+                    if (scanning) {
+                        requestAnimationFrame(scan);
+                    }
+                }
+    
+                requestAnimationFrame(scan);
+            })
+            .catch(function(error) {
+                console.error("Error accessing the camera", error);
+                alert("Could not access the camera. Please grant permission and try again.");
+            });
+    });
+    
+    document.getElementById("closeModal").addEventListener("click", function() {
+        document.getElementById("qrScannerModal").classList.add("hidden");
+        var video = document.querySelector("#qrScannerContainer video");
+        if (video && video.srcObject) {
+            video.srcObject.getTracks().forEach(track => track.stop());
+        }
+    });
+
+    function scanQR(qrData) {
+        fetch("{% url 'core:qr_scanner_view' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({qr_data: qrData})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = data.redirect;
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: data.message
+                });
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    // Función para obtener el token CSRF
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+</script>
+
+
+
+<!--SCRIPT PARA LA DETECCIÓN FACIAL-->
+<script>
+    document.getElementById("facialRecognitionButton").addEventListener("click", function() {
+        document.getElementById("facialRecognitionModal").classList.remove("hidden");
+        startVideo();
+    });
+    
+    document.getElementById("closeFacialModal").addEventListener("click", function() {
+        document.getElementById("facialRecognitionModal").classList.add("hidden");
+        stopVideo();
+    });
+    
+    let stream;
+    function startVideo() {
+        const video = document.getElementById('facialVideo');
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(function(s) {
+                stream = s;
+                video.srcObject = stream;
+                video.play();
+            })
+            .catch(function(err) {
+                console.log("An error occurred: " + err);
+            });
+    }
+    
+    function stopVideo() {
+        if (stream) {
+            stream.getTracks().forEach(function(track) {
+                track.stop();
+            });
+        }
+    }
+    
+    function attemptFacialRecognition(retries = 3) {
+        const video = document.getElementById('facialVideo');
+        const canvas = document.createElement('canvas');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        const imageDataUrl = canvas.toDataURL('image/jpeg');
+    
+        fetch("{% url 'core:facial_recognition' %}", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({image: imageDataUrl})
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Establecer la cookie de sesión
+                document.cookie = `sessionid=${data.sessionid}; path=/; samesite=Lax`;
+                
+                // Cerrar el modal de reconocimiento facial
+                document.getElementById("facialRecognitionModal").classList.add("hidden");
+                stopVideo();
+    
+                // Redirigir a la página de inicio
+                window.location.href = data.redirect;
+            } else {
+                throw new Error(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            if (retries > 0) {
+                console.log(`Reintentando... Intentos restantes: ${retries - 1}`);
+                setTimeout(() => attemptFacialRecognition(retries - 1), 1000);
+            } else {
+                alert('Error en el proceso de reconocimiento facial: ' + error.message);
+            }
+        });
+    }
+    
+    document.getElementById("captureFacial").addEventListener("click", function() {
+        attemptFacialRecognition();
+    });
+
+    // Función para obtener el token CSRF
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    // Agregar este script a la página donde está el botón de Reconocimiento Facial
+    window.onload = function() {
+        const facialRecognitionButton = document.getElementById('facialRecognitionButton');
+        const facialRecognitionEnabled = localStorage.getItem('facialRecognitionEnabled') === 'true';
+        
+        if (facialRecognitionEnabled) {
+            facialRecognitionButton.style.display = 'inline-flex';
+        } else {
+            facialRecognitionButton.style.display = 'none';
+        }
+    };
+</script>
+
+
+
+
+
+{% endblock content %}
+
+{% block navbar %}
+{% endblock navbar %}

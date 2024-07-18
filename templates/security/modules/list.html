@@ -1,0 +1,145 @@
+{% extends 'components/base.html' %}
+{% block content %}
+{% load static %}
+<title>{% block title %} {{ title1 }} {% endblock title %}</title>
+<section class="dark:bg-principal mt-20">
+    <div class="text-center" data-aos="fade-up" data-aos-delay="200">
+        <div class="sm:pt-28 lg:pt-24">
+            <div class="flex flex-col items-center justify-center">
+                <span class="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
+                    {{ title1}}
+                </span>
+            </div>
+            <h1 class="dark:text-white text-4xl  text-center mt-6 font-Pacifico">
+                {{ title2 }}
+            </h1>
+        </div>
+        <!-- Barra de búsqueda -->
+        <div class="p-4 flex justify-center">
+            <label for="table-search" class="sr-only">Search</label>
+            <div class="relative mt-1">
+                <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
+                    <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                    </svg>
+                </div>
+                <form method="GET" action="{% url 'security:module_list' %}">
+                    <input type="text" name="q" id="table-search"
+                        class="text-center pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        placeholder="Búsqueda" value="{{ request.GET.q }}">
+                </form>
+            </div>
+        </div>
+        <div class="m-4 lg:m-8 sm:mx-40 sm:my-2 lg:grid lg:grid-cols-4 gap-8 lg:mx-20 lg:p-4 rounded-3xl" data-aos="fade-up" data-aos-delay="200">
+            {% for item in modules %}
+            <div class="mb-4 flex justify-center custom-transform">
+                <div class="dark:bg-secundario relative w-full overflow-hidden rounded-lg border border-gray-100 bg-white shadow-md dark:border-none"> 
+                    <div class="dark:bg-secundario text-center card card-custom"> 
+                        <div class="dark:bg-contenedores p-4 card-body flex flex-col justify-center items-center">
+                            <i class="{{ item.icon }} dark:text-blue-400 text-4xl text-center mt-6 font-black uppercase font-Tiny5">
+                            </i>
+                            <h2 class="dark:text-blue-400 text-2xl text-center mt-6 font-black uppercase font-Tiny5">
+                                {{ item.name }}
+                            </h2>
+                            <div class="dark:bg-contenedores p-4 card-body flex flex-col justify-center items-center">
+                                <!-- <p class=" dark:text-blue-300 font-Pacifico">Url: <span class="font-light font-Quicksand dark:text-gray-400">{{ item.url }}</span></p> -->
+                                <p class=" dark:text-blue-300 font-Pacifico">Menú:<br><span class="font-light font-Quicksand dark:text-gray-400">{{ item.menu }}</span></p>
+                                <p class=" dark:text-blue-300 font-Pacifico">Descripción:<br><span class="font-light font-Quicksand dark:text-gray-400">{{ item.description }}</span></p>
+                                <!-- <p class=" dark:text-blue-300 font-Pacifico">Permisos:<br><span class="font-light font-Quicksand dark:text-gray-400">{{ item.permissions }}</span></p> -->
+                                <p class=" dark:text-blue-300 font-Pacifico">Estado: <span class="font-light font-Quicksand dark:text-gray-400">
+                                    {% if item.is_active %}
+                                        <i class="fa-solid fa-check text-green-500"></i>
+                                        {% else %}
+                                        <i class="fa-solid fas fa-eye-slash text-red-500"></i>
+                                    {% endif %}
+                                </span></p>
+                            </div> 
+                        </div> 
+                        <div class="dark:bg-contenedores card-footer flex flex-col md:flex-row justify-center items-center">
+                            <a href="{% url 'security:module_update' item.id %}" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 md:mr-2 mb-2 md:mb-0 flex items-center">
+                                <i class="fa-solid fa-gear mr-2"></i> Editar
+                            </a>
+                            <button class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center" onclick="openDeleteModal('{{ item.id }}', '{{ item.name }}')">
+                                <i class="fa-solid fa-trash mr-2"></i> Eliminar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Paginación -->
+        <div class="flex justify-center mt-4">
+            <nav aria-label="Page navigation example">
+                <ul class="inline-flex -space-x-px">
+                    {% if page_obj.has_previous %}
+                    <li>
+                        <a href="?page=1"
+                            class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Anterior</a>
+                    </li>
+                    {% endif %}
+                    {% for num in page_obj.paginator.page_range %}
+                    <li>
+                        <a href="?page={{ num }}"
+                            class="flex items-center justify-center px-3 h-8 leading-tight {% if num == page_obj.number %}text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:bg-secundario dark:border-principal dark:text-blue-300{% else %}text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white{% endif %}">
+                            {{ num }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% if page_obj.has_next %}
+                    <li>
+                        <a href="?page={{ page_obj.next_page_number }}"
+                            class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Siguiente</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+
+        <!-- Enlaces adicionales -->
+        <div class="flex flex-col md:flex-row justify-center form-group text-center p-4 space-x-2">
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 mb-2 md:mb-0 flex items-center justify-center" href="{% url 'security:module_create' %}">
+                <i class="fa-solid fa-plus mr-2"></i> Nuevo Módulo
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full flex items-center justify-center" href="{% url 'modulos' %}">
+                <i class="fa-solid fa-briefcase"></i>
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full flex items-center justify-center" href="{% url 'home' %}">
+                <i class="fa-solid fa-house"></i>
+            </a>
+        </div>
+        <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
+        <div class="flex flex-wrap items-center justify-center my-6 x-4">
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:menu_list' %}">
+                <i class="fa-solid fa-bars mr-2"></i>Lista de Menús
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:module_list' %}">
+                <i class="fa-solid fa-puzzle-piece mr-2"></i>Lista de Módulos
+            </a>
+            <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
+                href="{% url 'security:group_module_permission_list' %}">
+                <i class="fa-solid fa-person-digging mr-2"></i>Lista de GMP
+            </a>
+        </div>
+        <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
+    </div>
+</section>
+
+{% include 'core/delete.html' %}
+<script>
+    function openDeleteModal(id, name) {
+        const deleteForm = document.getElementById('deleteForm');
+        deleteForm.action = `{% url 'security:module_delete' 0 %}`.replace('0', id);
+        document.getElementById('Description').textContent = `ID: ${id} - ${name}`;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    }
+    function closeModal() {
+        document.getElementById('deleteModal').classList.add('hidden');
+    }
+</script>
+{% endblock %}

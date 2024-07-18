@@ -1,0 +1,179 @@
+{% load static %}
+{% load i18n %}
+{% block content %}
+<title>{% block title %} {{ title1 }} {% endblock title %}</title>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Larainfo Invoice</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .pdf-mode {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 0;
+            background: white;
+        }
+        .pdf-mode .print\:hidden {
+            display: none !important;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem;
+        }
+        table th {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div id="invoice" class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="border-b-2 border-blue-500 p-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="{% static 'img/iguana_corporation.png' %}" class="w-16 h-16 mr-4" alt="logo" />
+                    <div>
+                        <h1 class="text-3xl font-bold text-blue-600">Iguanas Corp.</h1>
+                        <p class="text-sm text-gray-600 mt-1">Si la cuenta no se paga dentro de los 7 días, los detalles de los créditos se proporcionan como confirmación.</p>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-blue-600"><i class="fas fa-globe mr-2"></i>www.iguanascorp.com</p>
+                    <p class="text-sm text-blue-600">www.iguanascorpshopp.com</p>
+                    <p class="text-sm text-gray-600 mt-2"><i class="fas fa-map-marker-alt mr-2"></i>Universidad Estatal de Milagro (UNEMI) Ecuador, Guayas, Milagro Av. 17 de Septiembre</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <div class="flex justify-between mb-6 text-sm">
+                <div class="text-first">
+                    <p><strong>Fecha de Orden:</strong> <span id="fechaOrden">{{ invoice.issue_date|date:"d/m/Y" }}</span></p>
+                    <p><strong>Fecha máxima de anulación:</strong> <span id="fechaAnulacion"></span></p>
+                    <p><strong>ID de Orden:</strong> {{ invoice.id }}</p>
+                    <p><strong>Método de pago:</strong> {{ invoice.payment_method }}</p>
+                </div>
+                <div class="text-first">
+                    <p><strong>Cliente:</strong> {{ invoice.customer.get_full_name }}</p>
+                    <p><strong>Cédula:</strong> {{ invoice.customer.dni }}</p>
+                    <p><strong>Dirección:</strong> {{ invoice.customer.address }}</p>
+                    <p><strong>Celular:</strong> {{ invoice.customer.phone }}</p>
+                </div>
+            </div>
+            
+            <table class="w-full mb-6 text-sm">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 text-left">#</th>
+                        <th class="py-2 px-4 text-left">Nombre del Producto</th>
+                        <th class="py-2 px-4 text-right">Cantidad</th>
+                        <th class="py-2 px-4 text-right">Precio</th>
+                        <th class="py-2 px-4 text-right">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in invoice.detail.all %}
+                    <tr>
+                        <td class="py-2 px-4">{{ forloop.counter }}</td>
+                        <td class="py-2 px-4">{{ item.product.description }}</td>
+                        <td class="py-2 px-4 text-right">{{ item.quantity }}</td>
+                        <td class="py-2 px-4 text-right">${{ item.price|floatformat:2 }}</td>
+                        <td class="py-2 px-4 text-right">${{ item.subtotal|floatformat:2 }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="py-2 px-4 text-center">No hay productos en esta factura.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="flex justify-end">
+                <div class="w-1/3">
+                    <p class="flex justify-between py-1 border-b"><span>Sub Total</span> <span>${{ invoice.subtotal|floatformat:2 }}</span></p>
+                    <p class="flex justify-between py-1 border-b"><span>IVA ({{ invoice.iva_percentage }}%)</span> <span>${{ invoice.iva|floatformat:2 }}</span></p>
+                    <p class="flex justify-between py-1 border-b"><span>Descuento</span> <span>${{ invoice.discount|floatformat:2 }}</span></p>
+                    <p class="flex justify-between py-1 bg-blue-600 text-white font-bold"><span>Total</span> <span>${{ invoice.total|floatformat:2 }}</span></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-6 bg-gray-100 text-sm">
+            <h2 class="font-bold mb-2">Términos y Condiciones :</h2>
+            <ul class="list-disc list-inside">
+                <li>La compra podrá anularse hasta 3 días despues de realizarla.</li>
+                <li>Todas las cuentas deben pagarse dentro de los 7 días posteriores a la recepción de la factura.</li>
+                <li>A pagar con cheque o tarjeta de crédito o pago directo en línea.</li>
+                <li>Si la cuenta no se paga dentro de los 7 días, se proporcionarán los detalles de los créditos.</li>
+            </ul>
+            
+            <div class="mt-4 text-right">
+                <p>Calificación</p>
+                <p class="text-3xl font-bold text-blue-600">AAA</p>
+            </div>
+        </div>
+
+        <div class="p-6 text-center border-t print:hidden">
+            <p class="mb-4">Muchas gracias por hacer negocios con nosotros.</p>
+            <div class="flex justify-end space-x-2">
+                <button id="printButton" class="bg-green-100 text-green-800 px-4 py-2 rounded">Imprimir</button>
+                <button id="saveButton" class="bg-blue-100 text-blue-800 px-4 py-2 rounded">Guardar</button>
+                <a href="{% url 'sale:sales_list' %}"><button class="bg-red-100 text-red-800 px-4 py-2 rounded">Cancelar</button></a>
+            </div>
+        </div>
+    </div>
+ 
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fechaOrden = document.getElementById('fechaOrden').innerText.split('/');
+        const fechaAnulacion = new Date(`${fechaOrden[2]}-${fechaOrden[1]}-${fechaOrden[0]}`);
+        fechaAnulacion.setDate(fechaAnulacion.getDate() + 3);
+
+        const day = ("0" + fechaAnulacion.getDate()).slice(-2);
+        const month = ("0" + (fechaAnulacion.getMonth() + 1)).slice(-2);
+        const year = fechaAnulacion.getFullYear();
+
+        document.getElementById('fechaAnulacion').innerText = `${day}/${month}/${year}`;
+    });
+
+    document.getElementById('printButton').addEventListener('click', function() {
+        window.print();
+    });
+
+    document.getElementById('saveButton').addEventListener('click', function() {
+        var element = document.getElementById('invoice');
+        var opt = {
+            margin:       10,
+            filename:     'factura_iguanas_corp.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, logging: true, dpi: 192, letterRendering: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        element.classList.add('pdf-mode');
+
+        html2pdf().set(opt).from(element).save().then(function() {
+            element.classList.remove('pdf-mode');
+        });
+    });
+    </script>
+</body>
+
+</html>
+{% endblock content %}

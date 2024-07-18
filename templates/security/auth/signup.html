@@ -1,0 +1,156 @@
+{% extends 'components/base.html' %}
+{% load static %}
+{% load i18n %}
+{% block content %}
+<title>{% block title %} {{ title1 }} {% endblock title %}</title>
+<div class="bg-slate-100 dark:bg-principal p-2 relative overflow-hidden min-h-screen flex items-center justify-center">
+    <div class="absolute inset-0 bg-center blur-[106px]"></div>
+    <div class="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <a href="/" class="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse text-center justify-center" data-aos="fade-up">
+            <img src="{% static 'img/iguana_corporation.png' %}" class="w-12 h-12" alt="Flowbite Logo" />
+            <span class="self-center whitespace-nowrap dark:text-blue-300 font-extrabold"></span>
+        </a> 
+        <section class="p-8 my-4 rounded-3xl bg-white dark:bg-secundario shadow-lg" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="gap-2 mb-8">
+                <div class="flex flex-col items-center justify-center">
+                    <span class="bg-navbar rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
+                        {% trans 'REGISTRARSE' %}
+                    </span>
+                </div>
+                <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
+                    {{ title2 }}
+                </h1>
+                <p class="dark:text-gray-400 text-center mt-6 text-lg font-light">
+                    {% trans '¡Únete a nuestra comunidad!' %}
+                </p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 grid-cols-1 gap-x-24">
+                <div class="flex items-center lg:mb-0 mb-10">
+                    <div class="w-full max-w-md mx-auto">
+                        <form method="POST" enctype="multipart/form-data" class="space-y-8">
+                            {% csrf_token %}
+                            <!-- Datos de Usuario -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="{{ form.username.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.username.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-user"></i>
+                                        </span>
+                                        <input type="text" id="id_username" name="username"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="{{ form.first_name.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.first_name.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-user"></i>
+                                        </span>
+                                        <input type="text" id="id_first_name" name="first_name"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="{{ form.last_name.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.last_name.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-user"></i>
+                                        </span>
+                                        <input type="text" id="id_last_name" name="last_name"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="{{ form.dni.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.dni.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-id-card"></i>
+                                        </span>
+                                        <input type="text" id="id_dni" name="dni"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="{{ form.email.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.email.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-envelope"></i>
+                                        </span>
+                                        <input type="email" id="id_email" name="email"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="{{ form.phone.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.phone.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-phone"></i>
+                                        </span>
+                                        <input type="text" id="id_phone" name="phone"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label for="{{ form.password1.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.password1.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-lock"></i>
+                                        </span>
+                                        <input type="password" id="id_password1" name="password1"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label for="{{ form.password2.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.password2.label }}</label>
+                                    <div class="relative">
+                                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <i class="text-blue-400 fa-solid fa-lock"></i>
+                                        </span>
+                                        <input type="password" id="id_password2" name="password2"
+                                            class="pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <button type="submit" class="bg-navbar py-3 px-5 text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300">
+                                    {% trans 'Registrarse' %}
+                                </button>
+                            </div>
+                        </form>
+                        <div class="mt-6">
+                            <p class="dark:text-gray-400 text-center">{% trans '¿Ya tienes una cuenta?' %} <a href="{% url 'security:auth_login' %}" class="text-blue-600 hover:underline dark:text-blue-300 font-Tiny5 uppercase">{% trans 'Inicia Sesión' %}</a></p>
+                            <p class="dark:text-gray-400 text-center mt-3">
+                                {% trans '¿Has olvidado tu contraseña?' %}
+                                <a href="{% url 'core:password_reset' %}" class="text-blue-600 hover:underline dark:text-blue-300 font-Tiny5 uppercase">
+                                    {% trans 'Recupérala' %}
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:max-w-xl w-full h-[600px] flex items-center justify-center bg-cover bg-no-repeat bg-[url('https://pagedone.io/asset/uploads/1696245837.png')]">
+                    <div class="rounded-lg lg:w-96 w-auto h-auto bg-white shadow-xl lg:p-6 p-4 backdrop-filter backdrop-blur-md bg-opacity-70">
+                        <div class="space-y-4">
+                            <p class="dark:text-gray-400 text-center mt-6 text-lg font-light">
+                                {% trans 'Bienvenidos a la sección de registro para nuevos usuarios, porfavor rrellena los campos a continuación para poder crear su cuenta e iniciar sesión en nuestro sistema.' %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+{% endblock content %}
+
+{% block navbar %}
+{% endblock navbar %}

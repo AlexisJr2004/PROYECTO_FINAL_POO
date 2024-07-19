@@ -1,3 +1,4 @@
+import os
 from django.core.mail import send_mail
 from django.utils.html import format_html
 from django.urls import reverse
@@ -7,9 +8,9 @@ from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from django.core.mail import send_mail
 from django.templatetags.static import static
 from django.views import View
+from app.core.models import Notification
 
 User = get_user_model()
 
@@ -78,10 +79,14 @@ class PasswordResetView(View):
             # Enviar el correo
             send_mail(subject, '', from_email, recipient_list, fail_silently=False, html_message=message)
             
-            messages.success(request, f'Se ha enviado un enlace para restablecer tu contraseña a {email}.')
+            success_message = f'Se ha enviado un enlace para restablecer tu contraseña a {email}.'
+            messages.success(request, success_message)
+            Notification.objects.create(message=success_message)
             return redirect(reverse('security:auth_login'))
         except User.DoesNotExist:
-            messages.error(request, 'El correo no se encuentra registrado.')
+            error_message = 'El correo no se encuentra registrado.'
+            messages.error(request, error_message)
+            Notification.objects.create(message=error_message)
         
         return render(request, 'components/password_reset.html', {'title1': 'Recuperar Contraseña'})
 
@@ -94,5 +99,7 @@ class CustomPasswordResetConfirmView(PasswordResetConfirmView):
     success_url = reverse_lazy('security:auth_login')
 
     def form_valid(self, form):
-        messages.success(self.request, 'Tu contraseña ha sido cambiada exitosamente.')
+        success_message = 'Tu contraseña ha sido cambiada exitosamente.'
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return super().form_valid(form)

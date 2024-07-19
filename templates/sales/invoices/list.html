@@ -80,17 +80,17 @@
                                         class="text-blue-600 dark:text-blue-500">
                                         <i class="fa-solid fa-gear"></i>
                                     </a>
-                                  {% endif%}  
-                                  {% if permissions.delete_invoice %}
-                                    <a href="#"
-                                        class="text-red-600 dark:text-red-500"
-                                        onclick="openDeleteModal('{{ item.id }}', '{{ item.customer.get_full_name }}')">
-                                        <i class="fa-solid fa-trash"></i>
+                                    {% endif%}  
+                                    {% if permissions.delete_invoice %}
+                                        <a href="#"
+                                            class="text-red-600 dark:text-red-500"
+                                            onclick="openDeleteModal('{{ item.id }}', '{{ item.customer.get_full_name }}')">
+                                            <i class="fa-solid fa-trash"></i>
+                                        </a>
+                                    {% endif %} 
+                                    <a href="{% url 'core:invoice_format' item.id %}" class="text-green-600 dark:text-green-500 mr-2">
+                                        <i class="fa-solid fa-eye"></i>
                                     </a>
-                                  {% endif %} 
-                                  <a href="{% url 'core:invoice_format' item.id %}" class="text-green-600 dark:text-green-500 mr-2">
-                                    <i class="fa-solid fa-eye"></i>
-                                </a>
                                 </td>
                             </tr>
                             {% endfor %}

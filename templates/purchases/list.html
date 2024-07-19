@@ -83,6 +83,9 @@
                                             <i class="fa-solid fa-trash"></i>
                                         </button>
                                     {% endif %}
+                                    <a href="{% url 'core:purchase_format' item.id %}" class="text-green-600 dark:text-green-500 mr-2">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
                                 </td>
                             </tr>
                             {% endfor %}

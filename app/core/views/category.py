@@ -7,14 +7,16 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
 
-class CategoryListView(PermissionMixin,ListViewMixin, ListView):
+from app.core.models import Notification
+
+class CategoryListView(PermissionMixin, ListViewMixin, ListView):
     template_name = 'core/categories/list.html'
     model = Category
     context_object_name = 'categories'
     permission_required = 'view_category'
     
     def get_queryset(self):
-        q1 = self.request.GET.get('q') # ver
+        q1 = self.request.GET.get('q')
         if q1 is not None: 
             self.query.add(Q(description__icontains=q1), Q.OR) 
         return self.model.objects.filter(self.query).order_by('id')
@@ -24,7 +26,7 @@ class CategoryListView(PermissionMixin,ListViewMixin, ListView):
         context['create_url'] = reverse_lazy('core:category_create')
         return context
 
-class CategoryCreateView(PermissionMixin,CreateViewMixin, CreateView):
+class CategoryCreateView(PermissionMixin, CreateViewMixin, CreateView):
     model = Category
     template_name = 'core/categories/form.html'
     form_class = CategoryForm
@@ -40,10 +42,12 @@ class CategoryCreateView(PermissionMixin,CreateViewMixin, CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         category = self.object
-        messages.success(self.request, f"Éxito al crear la categoría {category.description}.")
+        success_message = f"Éxito al crear la categoría {category.description}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
     
-class CategoryUpdateView(PermissionMixin,UpdateViewMixin, UpdateView):
+class CategoryUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     model = Category
     template_name = 'core/categories/form.html'
     form_class = CategoryForm
@@ -59,10 +63,12 @@ class CategoryUpdateView(PermissionMixin,UpdateViewMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         category = self.object
-        messages.success(self.request, f"Éxito al actualizar la categoría {category.description}.")
+        success_message = f"Éxito al actualizar la categoría {category.description}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
     
-class CategoryDeleteView(PermissionMixin,DeleteViewMixin, DeleteView):
+class CategoryDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
     model = Category
     template_name = 'core/delete.html'
     success_url = reverse_lazy('core:category_list')
@@ -79,8 +85,8 @@ class CategoryDeleteView(PermissionMixin,DeleteViewMixin, DeleteView):
         self.object = self.get_object()
         success_message = f"Éxito al eliminar lógicamente la categoría {self.object.description}."
         messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         # Cambiar el estado de eliminado lógico
         # self.object.deleted = True
         # self.object.save()
         return super().delete(request, *args, **kwargs)
-    

@@ -6,6 +6,7 @@ from app.core.views.invoice_format import invoice_format
 
 from app.core.views.get_suppliers import get_suppliers
 from app.core.views.get_users import get_users
+from .views.notifications import notification_list, clear_notifications
 
 from app.core.views.profile_view import ProfileView, UpdateProfileView
 from app.core.views.generate_qr import QRCodeGeneratorView, GenerateLoginQRView, QRScannerView
@@ -89,6 +90,9 @@ urlpatterns = [
     path('get-suppliers/', get_suppliers, name='get_suppliers'),
     # URLs Obtener todos los usuarios
     path('get_users/', get_users, name='get_users'),
+    # URLs Obtener las notificaciones
+    path('notifications/', notification_list, name='notification_list'),
+    path('notifications/clear/', clear_notifications, name='clear_notifications'),
 ]
 
 if settings.DEBUG:

@@ -1,0 +1,12 @@
+{% if notifications %}
+    {% for notification in notifications %}
+        <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-400">
+            {{ notification.message }}
+            <div class="text-xs text-gray-500">{{ notification.timestamp|date:"H:i:s" }}</div>
+        </div>
+    {% endfor %}
+{% else %}
+    <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-400">
+        No notifications
+    </div>
+{% endif %}

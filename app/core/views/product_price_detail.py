@@ -13,6 +13,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
 
+from app.core.models import Notification
 
 class ProductPriceDetailListView(PermissionMixin, ListViewMixin, ListView):
     template_name = "core/product_price_details/list.html"
@@ -21,7 +22,7 @@ class ProductPriceDetailListView(PermissionMixin, ListViewMixin, ListView):
     permission_required = "view_product_price_detail"
 
     def get_queryset(self):
-        q1 = self.request.GET.get("q")  # ver
+        q1 = self.request.GET.get("q")
         if q1 is not None:
             self.query.add(Q(product__icontains=q1), Q.OR)
         return self.model.objects.filter(self.query).order_by("id")
@@ -47,7 +48,10 @@ class ProductPriceDetailCreateView(PermissionMixin, CreateViewMixin, CreateView)
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(self.request, f"Éxito al crear el detalle de precio de producto.")
+        product_price_detail = self.object
+        success_message = f"Éxito al crear el detalle de precio de producto {product_price_detail.product}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
 
 
@@ -66,9 +70,10 @@ class ProductPriceDetailUpdateView(PermissionMixin, UpdateViewMixin, UpdateView)
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        messages.success(
-            self.request, f"Éxito al actualizar el detalle de precio de producto."
-        )
+        product_price_detail = self.object
+        success_message = f"Éxito al actualizar el detalle de precio de producto {product_price_detail.product}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
 
 
@@ -87,10 +92,9 @@ class ProductPriceDetailDeleteView(PermissionMixin, DeleteViewMixin, DeleteView)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_message = (
-            f"Éxito al eliminar lógicamente el detalle de precio del producto."
-        )
+        success_message = f"Éxito al eliminar lógicamente el detalle de precio del producto {self.object.product}."
         messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         # Cambiar el estado de eliminado lógico
         # self.object.deleted = True
         # self.object.save()

@@ -13,6 +13,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
 
+from app.core.models import Notification
 
 class BrandListView(PermissionMixin, ListViewMixin, ListView):
     template_name = "core/brands/list.html"
@@ -48,7 +49,9 @@ class BrandCreateView(PermissionMixin, CreateViewMixin, CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         brand = self.object
-        messages.success(self.request, f"Éxito al crear la marca {brand.description}.")
+        success_message = f"Éxito al crear la marca {brand.description}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
 
 
@@ -68,9 +71,9 @@ class BrandUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         brand = self.object
-        messages.success(
-            self.request, f"Éxito al actualizar la marca {brand.description}."
-        )
+        success_message = f"Éxito al actualizar la marca {brand.description}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
 
 
@@ -89,11 +92,10 @@ class BrandDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_message = (
-            f"Éxito al eliminar lógicamente la marca {self.object.description}."
-        )
+        success_message = f"Éxito al eliminar lógicamente la marca {self.object.description}."
         messages.success(self.request, success_message)
-        # Cambiar el estado de eliminado lógico
+        Notification.objects.create(message=success_message)
+        # Lógica de eliminación lógica
         # self.object.deleted = True
         # self.object.save()
         return super().delete(request, *args, **kwargs)

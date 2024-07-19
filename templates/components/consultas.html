@@ -237,6 +237,11 @@
             <div id="purchases_" class=""></div>
             <div id="pareto_" class=""></div>
         </div>
+        <p class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up">Mapas de <span class="dark:text-indigo-500 text-center font-black">Usuarios</span>.</p>
+        <div class="space-y-2" data-aos="fade-up">
+            <div id="supplierMap_" class="grid items-center justify-center"></div>
+            <div id="customerMap_" class="grid items-center justify-center"></div>
+        </div>
     </div>
 </section>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
@@ -285,6 +290,13 @@
 
     var paretoGraphJSON = {{ paretoGraphJSON | safe }};
     Plotly.plot('pareto_', paretoGraphJSON, {});
+
+    var supplierMapJSON = {{ supplierMapJSON | safe }};
+    Plotly.plot('supplierMap_', supplierMapJSON, {});
+
+    var customerMapJSON = {{ customerMapJSON | safe }};
+    Plotly.plot('customerMap_', customerMapJSON, {});
+
 </script>
 <!-- CIERRE DE SECCION DE MENU Y MODULOS -->
 {% endblock content %}

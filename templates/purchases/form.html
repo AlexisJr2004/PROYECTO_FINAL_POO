@@ -1,6 +1,7 @@
 {% extends 'components/base.html' %}
 {% block content %}
 {% load static %}
+{% load widget_tweaks %}
 <title>{% block title %} {{ title }} {% endblock title %}</title>
 <section class="dark:bg-principal">
     <div class="text-center" data-aos="fade-up" data-aos-delay="200">
@@ -20,9 +21,20 @@
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-gray-50 dark:bg-secundario rounded-3xl p-6">
                     <div>
                         <label for="{{ form.num_document.id_for_label }}"
-                            class="dark:text-blue-300 font-black uppercase text-lg">{{ form.num_document.label }}</label>
-                        {{ form.num_document }}
-                    </div>                    
+                            class="dark:text-blue-300 font-black uppercase text-lg">
+                            {{ form.num_document.label }}
+                        </label>
+                        <input type="text" name="{{ form.num_document.name }}" 
+                            id="{{ form.num_document.id_for_label }}"
+                            value="{% if form.instance.pk %}{{ form.instance.num_document }}{% else %}COMP-{{ next_purchase_id }}{% endif %}"
+                            readonly
+                            class="{{ form.num_document.field.widget.attrs.class }}"
+                            {% for attr, value in form.num_document.field.widget.attrs.items %}
+                                {% if attr != 'class' %}
+                                    {{ attr }}="{{ value }}"
+                                {% endif %}
+                            {% endfor %}>
+                    </div>             
                     <div class="grid grid-cols-1 items-center">
                         <label for="{{ form.supplier.id_for_label }}"
                             class="dark:text-blue-300 font-black uppercase text-lg">{{ form.supplier.label }}</label>

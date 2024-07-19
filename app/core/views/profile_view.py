@@ -3,7 +3,7 @@ from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
 from app.security.instance.menu_module import MenuModule
 from app.security.mixins.mixins import PermissionMixin
-from app.core.models import Customer
+from app.core.models import Customer, Notification
 from app.core.forms.forms import UpdateProfileForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -11,13 +11,11 @@ from django.views.generic import UpdateView
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
-
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.core.files.storage import default_storage
 
 User = get_user_model()
-
 
 class ProfileView(LoginRequiredMixin, TemplateView):
     template_name = 'components/profile.html'
@@ -34,7 +32,8 @@ class ProfileView(LoginRequiredMixin, TemplateView):
             "title2": "Información del Perfil del Usuario"
         })
         return context
-    
+
+
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
     model = Customer
     form_class = UpdateProfileForm
@@ -89,13 +88,21 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
                     user.set_password(new_password1)
                     user.save()
                     update_session_auth_hash(self.request, user)  # Mantener la sesión activa
-                    messages.success(self.request, 'Contraseña actualizada con éxito.')
+                    success_message = 'Contraseña actualizada con éxito.'
+                    messages.success(self.request, success_message)
+                    Notification.objects.create(message=success_message)
                 else:
-                    messages.error(self.request, 'Las nuevas contraseñas no coinciden.')
+                    error_message = 'Las nuevas contraseñas no coinciden.'
+                    messages.error(self.request, error_message)
+                    Notification.objects.create(message=error_message)
             else:
-                messages.error(self.request, 'La contraseña actual es incorrecta.')
+                error_message = 'La contraseña actual es incorrecta.'
+                messages.error(self.request, error_message)
+                Notification.objects.create(message=error_message)
 
-        messages.success(self.request, 'Perfil actualizado con éxito.')
+        success_message = 'Perfil actualizado con éxito.'
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return super().form_valid(form)
 
     def get_context_data(self, **kwargs):

@@ -13,6 +13,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
 
+from app.core.models import Notification
 
 class IvaListView(PermissionMixin, ListViewMixin, ListView):
     template_name = "core/ivas/list.html"
@@ -21,7 +22,7 @@ class IvaListView(PermissionMixin, ListViewMixin, ListView):
     permission_required = "view_iva"
 
     def get_queryset(self):
-        q1 = self.request.GET.get("q")  # ver
+        q1 = self.request.GET.get("q")
         if q1 is not None:
             self.query.add(Q(description__icontains=q1), Q.OR)
         return self.model.objects.filter(self.query).order_by("id")
@@ -48,7 +49,9 @@ class IvaCreateView(PermissionMixin, CreateViewMixin, CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         iva = self.object
-        messages.success(self.request, f"Éxito al crear el IVA {iva.description}.")
+        success_message = f"Éxito al crear el IVA {iva.description}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
 
 
@@ -68,9 +71,9 @@ class IvaUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         iva = self.object
-        messages.success(
-            self.request, f"Éxito al actualizar el IVA {iva.description}."
-        )
+        success_message = f"Éxito al actualizar el IVA {iva.description}."
+        messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         return response
 
 
@@ -89,10 +92,9 @@ class IvaDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        success_message = (
-            f"Éxito al eliminar lógicamente IVA {self.object.description}."
-        )
+        success_message = f"Éxito al eliminar lógicamente IVA {self.object.description}."
         messages.success(self.request, success_message)
+        Notification.objects.create(message=success_message)
         # Cambiar el estado de eliminado lógico
         # self.object.deleted = True
         # self.object.save()

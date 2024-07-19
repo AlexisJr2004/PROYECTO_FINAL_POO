@@ -298,6 +298,15 @@ msgstr "Accept"
 msgid "Denegar"
 msgstr "Deny"
 
+msgid "Notificationes"
+msgstr "Notifications"
+
+msgid "No hay notificationes"
+msgstr "No Notifications"
+
+msgid "Borrar todo"
+msgstr "Clean all"
+
 
 # TRADUCCIOÓN DE home.html -------------------------------------------------------------------------------
 

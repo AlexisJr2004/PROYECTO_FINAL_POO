@@ -1,7 +1,4 @@
-// Variable de objetos
 let d = document, c = console.log;
-
-// ------------------- carga inicial de la pagina ------------------------
 d.addEventListener('DOMContentLoaded', function (e) {
     // Declaracion de variables
     let $supplier = d.getElementById("id_supplier");
@@ -34,7 +31,6 @@ d.addEventListener('DOMContentLoaded', function (e) {
         present();
         totals();
     }
-    
     // Declaracion de metodos
     // Calcula el total del producto y lo añade al arreglo detailPurchase[]
     const calculation = (id, description, cost, stock) => {

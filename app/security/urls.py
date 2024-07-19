@@ -18,10 +18,9 @@ urlpatterns = [
     path('module/update/<int:pk>/',module.ModuleUpdateView.as_view(),name='module_update'),
     path('module/delete/<int:pk>/',module.ModuleDeleteView.as_view(),name='module_delete'),
     # group_module_permission
-    path('group_module_permission/list/',group_module_permission.GroupModulePermissionListView.as_view(),name='group_module_permission_list'),
-    path('group_module_permission/create/',group_module_permission.GroupModulePermissionCreateView.as_view(),name='group_module_permission_create'),
-    path('group_module_permission/update/<int:pk>/',group_module_permission.GroupModulePermissionUpdateView.as_view(),name='group_module_permission_update'),
-    path('group_module_permission/delete/<int:pk>/',group_module_permission.GroupModulePermissionDeleteView.as_view(),name='group_module_permission_delete'),
+    path('group_module_permission/list/', group_module_permission.GroupModulePermissionListView.as_view(), name='group_module_permission_list'),
+    path('group_module_permission/create/', group_module_permission.GroupModulePermissionCreateView.as_view(), name='group_module_permission_create'),
+    path('group_module_permission/delete/<int:pk>/', group_module_permission.GroupModulePermissionDeleteView.as_view(), name='group_module_permission_delete'),
     # user 
     path('user/list/',user.UserListView.as_view(),name='user_list'),
     path('user/create/',user.UserCreateView.as_view(),name='user_create'),

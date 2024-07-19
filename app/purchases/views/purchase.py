@@ -59,6 +59,9 @@ class PurchaseCreateView(PermissionMixin, CreateViewMixin, CreateView):
         context['products'] = Product.active_products.values('id', 'description', 'cost' ,'price', 'stock', 'iva__value')
         context['detail_purchases'] = []
         context['save_url'] = reverse_lazy('purchases:purchases_create')
+        last_purchase = Purchase.objects.order_by('-id').first()
+        next_id = last_purchase.id + 1 if last_purchase else 1
+        context['next_purchase_id'] = next_id
         return context
 
     def post(self, request, *args, **kwargs):
@@ -143,7 +146,6 @@ class PurchaseUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
                     product = old_detail.product
                     product.stock -= old_detail.quantify
                     product.save()
-
                 self.object.num_document = data['num_document']
                 self.object.supplier_id = int(data['supplier'])
                 self.object.issue_date = data['issue_date']
@@ -245,11 +247,13 @@ class PurchaseDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
             return HttpResponseRedirect(self.success_url)
         
         # Anular cambios en el inventario
-        purchase_details = self.object.purchase_detail.all()
-        for detail in purchase_details:
-            product = detail.product
-            product.stock -= detail.quantify
-            product.save()
+        # purchase_details = self.object.purchase_detail.all()
+        # for detail in purchase_details:
+        #     product = detail.product
+        #     product.stock -= detail.quantify
+        #     product.save()
+        
+        self.object.annul()
 
         success_message = f"Éxito al eliminar la compra {self.object.num_document}."
         messages.success(self.request, success_message)

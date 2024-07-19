@@ -12,7 +12,6 @@ from django.db.models.functions import TruncMonth, TruncDate
 from django.utils import timezone
 from plotly.subplots import make_subplots
 
-
 from plotly.utils import PlotlyJSONEncoder
 import plotly.graph_objs as go
 import plotly.express as px
@@ -596,5 +595,128 @@ class ConsultasTemplateView(TemplateView):
         paretoGraphJSON = fig.to_json()
         context['paretoGraphJSON'] = paretoGraphJSON
         
-        return context
+        # -------------------- > Mapas de Usuarios 
+        # -------------------- > Mapa de Proveedores
+        suppliers = Supplier.objects.filter(active=True)
+        # Crear listas para almacenar los datos del mapa
+        names = []
+        latitudes = []
+        longitudes = []
+        # Recorrer cada proveedor para obtener los datos
+        for supplier in suppliers:
+            names.append(supplier.name)
+            latitudes.append(float(supplier.latitude))
+            longitudes.append(float(supplier.longitude))
+
+        # Crear el objeto de figura para el mapa
+        fig = go.Figure()
+
+        # Agregar los marcadores de proveedores
+        fig.add_trace(go.Scattergeo(
+            lon=longitudes,
+            lat=latitudes,
+            text=names,
+            mode='markers',
+            marker=dict(
+                size=8,
+                opacity=0.8,
+                symbol='circle',
+                line=dict(
+                    width=1,
+                    color="#17FF00"
+                ),
+                color="#17FF00",
+                colorbar_title="Proveedores"
+            )
+        ))
+
+        # Configuración del diseño del mapa con capas de color adicionales
+        fig.update_layout(
+            title='Mapa Global de Proveedores',
+            geo=dict(
+                scope='world',
+                projection_type='natural earth',
+                showland=True,
+                landcolor="#3A3A3A",  # Color de la tierra
+                subunitcolor="#C6C6C6",  # Color de las subunidades (como estados o provincias)
+                countrycolor="#C6C6C6",  # Color de los bordes de los países
+                countrywidth=1,
+                subunitwidth=0.5,
+                showcountries=True,
+                showcoastlines=True,
+                coastlinecolor="#1F1F1F",  # Color de las costas
+                showocean=True,
+                oceancolor="#CBCBCB",  # Color de los océanos
+            ),
+            height=600,
+            margin={"r": 0, "t": 40, "l": 0, "b": 0}
+        )
+
+        # Convertir la figura a JSON utilizando PlotlyJSONEncoder
+        supplierMapJSON = json.dumps(fig, cls=PlotlyJSONEncoder)
+        # Pasar el JSON del mapa al contexto
+        context['supplierMapJSON'] = supplierMapJSON
         
+        # -------------------- > Mapa de Clientes
+        customers = Customer.objects.all()
+        names = []
+        latitudes = []
+        longitudes = []
+        # Recorrer cada proveedor para obtener los datos
+        for customer in customers:
+            names.append(customer.first_name + ' ' + customer.last_name)
+            if customer.latitude:
+                latitudes.append(float(customer.latitude))
+            if customer.longitude:
+                longitudes.append(float(customer.longitude))
+
+        # Crear el objeto de figura para el mapa
+        fig = go.Figure()
+
+        # Agregar los marcadores de proveedores
+        fig.add_trace(go.Scattergeo(
+            lon=longitudes,
+            lat=latitudes,
+            text=names,
+            mode='markers',
+            marker=dict(
+                size=8,
+                opacity=0.8,
+                symbol='circle',
+                line=dict(
+                    width=1,
+                    color="#17FF00"
+                ),
+                color="#17FF00",
+                colorbar_title="Clientes"
+            )
+        ))
+
+        # Configuración del diseño del mapa con capas de color adicionales
+        fig.update_layout(
+            title='Mapa Global de Clientes',
+            geo=dict(
+                scope='world',
+                projection_type='natural earth',
+                showland=True,
+                landcolor="#3A3A3A",  # Color de la tierra
+                subunitcolor="#C6C6C6",  # Color de las subunidades (como estados o provincias)
+                countrycolor="#C6C6C6",  # Color de los bordes de los países
+                countrywidth=1,
+                subunitwidth=0.5,
+                showcountries=True,
+                showcoastlines=True,
+                coastlinecolor="#1F1F1F",  # Color de las costas
+                showocean=True,
+                oceancolor="#CBCBCB",  # Color de los océanos
+            ),
+            height=600,
+            margin={"r": 0, "t": 40, "l": 0, "b": 0}
+        )
+
+        # Convertir la figura a JSON utilizando PlotlyJSONEncoder
+        customerMapJSON = json.dumps(fig, cls=PlotlyJSONEncoder)
+        # Pasar el JSON del mapa al contexto
+        context['customerMapJSON'] = customerMapJSON
+
+        return context

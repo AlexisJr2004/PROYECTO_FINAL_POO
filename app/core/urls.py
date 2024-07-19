@@ -3,6 +3,7 @@ from django.urls import path
 from app.core import views
 from app.core.views import supplier, company, brand, line, category, iva, product, product_price, product_price_detail, payment_method
 from app.core.views.invoice_format import invoice_format
+from app.core.views.purchase_format import purchase_format
 
 from app.core.views.get_suppliers import get_suppliers
 from app.core.views.get_users import get_users
@@ -85,6 +86,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>/', CustomPasswordResetConfirmView.as_view(), name='password_reset_confirm'),
     # URLs Fcatura
     path('invoice_format/<int:invoice_id>/', invoice_format, name='invoice_format'),
+    path('purchase_format/<int:purchase_id>/', purchase_format, name='purchase_format'),
     # URLs Obtener todos los proveedores
     path('get-suppliers/', get_suppliers, name='get_suppliers'),
     # URLs Obtener todos los usuarios

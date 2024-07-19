@@ -76,35 +76,6 @@ class Brand(models.Model):
     def __str__(self):
         return self.description
 
-class Supplier(models.Model):
-    name = models.CharField(verbose_name='Nombres', max_length=100, unique=True)
-    ruc = models.CharField(verbose_name='Dni', max_length=10, validators=[valida_cedula], unique=True)
-    image = models.ImageField(verbose_name='Imagen', upload_to='suppliers/', blank=True, null=True)
-    phone = models.CharField(verbose_name='Telefono', max_length=10, validators=[phone_regex])
-    address = models.CharField(verbose_name='Direccion', max_length=200)
-    latitude = models.CharField(verbose_name='Latitud',max_length=100)
-    longitude = models.CharField(verbose_name='Longitud',max_length=100)
-    active = models.BooleanField(verbose_name='Activo',default=True)
-    
-    class Meta:
-        verbose_name = 'Proveedor'
-        verbose_name_plural = 'Proveedores'
-        ordering = ['name']
-        indexes = [models.Index(fields=['name'])]
-
-    def delete(self, *args, **kwargs):
-        self.active = False
-        self.save()
-        
-    def __str__(self):
-        return self.name
-    
-    def get_image(self):
-        if self.image:
-            return self.image.url
-        else:
-            return '/static/img/usuario_anonimo.png'
-
 class Line(models.Model):
     description = models.CharField(verbose_name='Linea', max_length=100,unique=True)
     image = models.ImageField(verbose_name='Imagen',upload_to='lines/', blank=True, null=True)
@@ -327,3 +298,31 @@ class PaymentMethod(models.Model):
     def __str__(self):
         return self.description
  
+class Supplier(models.Model):
+    name = models.CharField(verbose_name='Nombres', max_length=100, unique=True)
+    ruc = models.CharField(verbose_name='Dni', max_length=10, validators=[valida_cedula], unique=True)
+    image = models.ImageField(verbose_name='Imagen', upload_to='suppliers/', blank=True, null=True)
+    phone = models.CharField(verbose_name='Telefono', max_length=10, validators=[phone_regex])
+    address = models.CharField(verbose_name='Direccion', max_length=200)
+    latitude = models.CharField(verbose_name='Latitud',max_length=100)
+    longitude = models.CharField(verbose_name='Longitud',max_length=100)
+    active = models.BooleanField(verbose_name='Activo',default=True)
+    
+    class Meta:
+        verbose_name = 'Proveedor'
+        verbose_name_plural = 'Proveedores'
+        ordering = ['name']
+        indexes = [models.Index(fields=['name'])]
+
+    def delete(self, *args, **kwargs):
+        self.active = False
+        self.save()
+        
+    def __str__(self):
+        return self.name
+    
+    def get_image(self):
+        if self.image:
+            return self.image.url
+        else:
+            return '/static/img/usuario_anonimo.png'

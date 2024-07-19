@@ -1,0 +1,158 @@
+{% load static %}
+{% load i18n %}
+{% block content %}
+<title>{% block title %} {{ title1 }} {% endblock title %}</title>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+        }
+        .pdf-mode {
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            margin: 0;
+            background: white;
+        }
+        .pdf-mode .print\:hidden {
+            display: none !important;
+        }
+        table {
+            border-collapse: collapse;
+        }
+        table th, table td {
+            border: 1px solid #e2e8f0;
+            padding: 0.5rem;
+        }
+        table th {
+            background-color: #f8fafc;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div id="purchase" class="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
+        <div class="border-b-2 border-blue-500 p-6">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center">
+                    <img src="{% static 'img/iguana_corporation.png' %}" class="w-16 h-16 mr-4" alt="logo" />
+                    <div>
+                        <h1 class="text-3xl font-bold text-blue-600">Iguanas Corp.</h1>
+                    </div>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm text-gray-600 mt-2"><i class="fas fa-map-marker-alt mr-2"></i>Universidad Estatal de Milagro (UNEMI)<br>Ecuador, Guayas, Milagro Av. 17 de Septiembre</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-6">
+            <div class="flex justify-between mb-6 text-sm">
+                <div class="text-first">
+                    <p><strong>Fecha de Orden:</strong> <span id="fechaOrden">{{ purchase.issue_date|date:"d/m/Y" }}</span></p>
+                    <p><strong>Fecha máxima de anulación:</strong> <span id="fechaAnulacion"></span></p>
+                    <p><strong>ID de Orden:</strong> {{ purchase.id }}</p>
+                </div>
+                <div class="text-first">
+                    <p><strong>Cliente:</strong> {{ purchase.supplier.name }}</p>
+                    <p><strong>Cédula:</strong> {{ purchase.supplier.ruc }}</p>
+                    <p><strong>Dirección:</strong> {{ purchase.supplier.address }}</p>
+                    <p><strong>Celular:</strong> {{ purchase.supplier.phone }}</p>
+                </div>
+            </div>
+            
+            <table class="w-full mb-6 text-sm">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="py-2 px-4 text-left">#</th>
+                        <th class="py-2 px-4 text-left">Nombre del Producto</th>
+                        <th class="py-2 px-4 text-right">Cantidad</th>
+                        <th class="py-2 px-4 text-right">Precio</th>
+                        <th class="py-2 px-4 text-right">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in purchase.purchase_detail.all %}
+                        <tr>
+                            <td class="py-2 px-4">{{ forloop.counter }}</td>
+                            <td class="py-2 px-4">{{ item.product.description }}</td>
+                            <td class="py-2 px-4 text-right">{{ item.quantify|floatformat:0 }}</td>
+                            <td class="py-2 px-4 text-right">${{ item.cost|floatformat:2 }}</td>
+                            <td class="py-2 px-4 text-right">${{ item.subtotal|floatformat:2 }}</td>
+                        </tr>
+                    {% empty %}
+                        <tr>
+                            <td colspan="5" class="py-2 px-4 text-center">No hay productos en esta factura.</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            
+            <div class="flex justify-end">
+                <div class="w-1/3">
+                    <p class="flex justify-between py-1 border-b"><span>Sub Total</span> <span>${{ purchase.subtotal|floatformat:2 }}</span></p>
+                    <p class="flex justify-between py-1 border-b"><span>IVA ({{ purchase.iva }}%)</span> <span>${{ purchase.iva|floatformat:2 }}</span></p>
+                    <p class="flex justify-between py-1 bg-blue-600 text-white font-bold"><span>Total</span> <span>${{ purchase.total|floatformat:2 }}</span></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-6 text-center border-t print:hidden">
+            <p class="mb-4">Muchas gracias por hacer negocios con nosotros.</p>
+            <div class="flex justify-end space-x-2">
+                <button id="printButton" class="bg-green-100 text-green-800 px-4 py-2 rounded">Imprimir</button>
+                <button id="saveButton" class="bg-blue-100 text-blue-800 px-4 py-2 rounded">Guardar</button>
+                <a href="{% url 'purchases:purchases_list' %}"><button class="bg-red-100 text-red-800 px-4 py-2 rounded">Cancelar</button></a>
+            </div>
+        </div>
+    </div>
+ 
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const fechaOrden = document.getElementById('fechaOrden').innerText.split('/');
+        const fechaAnulacion = new Date(`${fechaOrden[2]}-${fechaOrden[1]}-${fechaOrden[0]}`);
+        fechaAnulacion.setDate(fechaAnulacion.getDate() + 3);
+
+        const day = ("0" + fechaAnulacion.getDate()).slice(-2);
+        const month = ("0" + (fechaAnulacion.getMonth() + 1)).slice(-2);
+        const year = fechaAnulacion.getFullYear();
+
+        document.getElementById('fechaAnulacion').innerText = `${day}/${month}/${year}`;
+    });
+
+    document.getElementById('printButton').addEventListener('click', function() {
+        window.print();
+    });
+
+    document.getElementById('saveButton').addEventListener('click', function() {
+        var element = document.getElementById('purchase');
+        var opt = {
+            margin:       10,
+            filename:     'factura_iguanas_corp.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2, logging: true, dpi: 192, letterRendering: true },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        element.classList.add('pdf-mode');
+
+        html2pdf().set(opt).from(element).save().then(function() {
+            element.classList.remove('pdf-mode');
+        });
+    });
+    </script>
+</body>
+
+</html>
+{% endblock content %}

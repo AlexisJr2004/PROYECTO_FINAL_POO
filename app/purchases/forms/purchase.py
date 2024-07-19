@@ -65,3 +65,4 @@ class PurchaseForm(forms.ModelForm):
             "active": "Activo",
         }
         
+        

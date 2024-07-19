@@ -172,4 +172,29 @@ d.addEventListener('DOMContentLoaded', function (e) {
         c(fil)
         if (fil) deleteproduct(parseInt(fil.getAttribute('data-id')))
     });
+
+    const paymentInput = d.getElementById('id_payment');
+    const totalInput = d.getElementById('id_total');
+    const changeInput = d.getElementById('id_change');
+
+    function updateChange() {
+        const payment = parseFloat(paymentInput.value) || 0;
+        const total = parseFloat(totalInput.value) || 0;
+        const change = payment - total;
+        
+        if (!isNaN(change)) {
+            changeInput.value = change.toFixed(2);
+        } else {
+            changeInput.value = '0.00';
+        }
+    }
+
+    if (paymentInput && totalInput && changeInput) {
+        paymentInput.addEventListener('input', updateChange);
+        totalInput.addEventListener('input', updateChange);
+        // Calcular cambio inicial
+        updateChange();
+    } else {
+        c('No se encontraron uno o más campos necesarios');
+    }
 });

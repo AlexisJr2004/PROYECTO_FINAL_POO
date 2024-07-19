@@ -23,6 +23,170 @@ msgstr ""
 
 
 #: templates/my_template.html:5
+msgid "Inicio"
+msgstr "Home"
+
+#: templates/my_template.html:15
+msgid "Consultas"
+msgstr "Queries"
+
+#: templates/my_template.html:5
+msgid "Buscar..."
+msgstr "Search..."
+
+#: templates/my_template.html:5
+msgid "Nuestras estadísticas"
+msgstr "Our statistics"
+
+#: templates/my_template.html:6
+msgid "Te ayudamos a liberar el poder dentro de tu negocio"
+msgstr "We help you unleash the power within your business"
+
+#: templates/my_template.html:7
+msgid "No Registra"
+msgstr "No Record"
+
+#: templates/my_template.html:8
+msgid "Empresas Asociadas"
+msgstr "Associated Companies"
+
+#: templates/my_template.html:9
+msgid "Clientes activos"
+msgstr "Active Customers"
+
+#: templates/my_template.html:10
+msgid "Proveedores Asociados"
+msgstr "Associated Suppliers"
+
+#: templates/my_template.html:11
+msgid "Ventas Realizadas"
+msgstr "Sales Made"
+
+#: templates/my_template.html:5
+msgid "Nuestros Colaboradores"
+msgstr "Our Collaborators"
+
+#: templates/my_template.html:5
+msgid "Ventas y Compras"
+msgstr "Sales and Purchases"
+
+#: templates/my_template.html:5
+msgid "Gestiona tus ventas y transacciones."
+msgstr "Manage your sales and transactions."
+
+#: templates/my_template.html:5
+msgid "Compras"
+msgstr "Purchases"
+
+#: templates/my_template.html:6
+msgid "Administra tus compras y proveedores."
+msgstr "Manage your purchases and suppliers."
+
+#: templates/my_template.html:5
+msgid "Gestiona el menú de tu sistema."
+msgstr "Manage your system menu."
+
+#: templates/my_template.html:5
+msgid "Administra los módulos del sistema."
+msgstr "Manage the system modules."
+
+#: templates/my_template.html:5
+msgid "Gestiona los permisos de los módulos."
+msgstr "Manage module permissions."
+
+#: templates/my_template.html:5
+msgid "Gestiona la información de tu empresa."
+msgstr "Manage your company's information."
+
+#: templates/my_template.html:5
+msgid "Administra las marcas de tus productos."
+msgstr "Manage your product brands."
+
+#: templates/my_template.html:5
+msgid "Gestiona tus proveedores."
+msgstr "Manage your suppliers."
+
+#: templates/my_template.html:5
+msgid "Gestiona tus Líneas."
+msgstr "Manage your Lines."
+
+#: templates/my_template.html:5
+msgid "Administra las categorías de tus productos."
+msgstr "Manage your product categories."
+
+#: templates/my_template.html:5
+msgid "Gestiona los impuestos del IVA."
+msgstr "Manage VAT taxes."
+
+#: templates/my_template.html:5
+msgid "Gestiona tus productos."
+msgstr "Manage your products."
+
+#: templates/my_template.html:5
+msgid "Gestiona los métodos de pago disponibles."
+msgstr "Manage the available payment methods."
+
+#: templates/my_template.html:5
+msgid "Gestiona los usuarios de tu sistema."
+msgstr "Manage your system's users."
+
+#: templates/my_template.html:40
+msgid "Estándar"
+msgstr "Standard"
+
+#: templates/my_template.html:40
+msgid "Extendida"
+msgstr "Extended"
+
+#: templates/my_template.html:41
+msgid "Más popular"
+msgstr "Most popular"
+
+#: templates/my_template.html:37
+msgid "Comprar ahora"
+msgstr "Buy now"
+
+#: templates/my_template.html:33
+msgid "1 licencia para solo 1 activación"
+msgstr "1 license for only 1 activation"
+
+#: templates/my_template.html:41
+msgid "Acceso de por vida"
+msgstr "Lifetime access"
+
+#: templates/my_template.html:44
+msgid "Todas las características de IA"
+msgstr "All AI features"
+
+#: templates/my_template.html:47
+msgid "Usa tu propia clave de OpenAI"
+msgstr "Use your own OpenAI key"
+
+#: templates/my_template.html:53
+msgid "1 licencia para hasta 3 activaciones"
+msgstr "1 license for up to 3 activations"
+
+#: templates/my_template.html:1
+msgid "Configuración de cookies"
+msgstr "Cookie Settings"
+
+#: templates/my_template.html:6
+msgid "Utilizamos cookies para mejorar su experiencia y para marketing. Visita nuestro Política de Cookies para saber más."
+msgstr "We use cookies to enhance your experience and for marketing. Visit our Cookie Policy to learn more."
+
+#: templates/my_template.html:14
+msgid "Permitir todo"
+msgstr "Allow All"
+
+#: templates/my_template.html:20
+msgid "Rechazar todo"
+msgstr "Reject All"
+
+#: templates/my_template.html:27
+msgid "Administrar cookies"
+msgstr "Manage Cookies"
+
+#: templates/my_template.html:5
 msgid "Perfil"
 msgstr "Profile"
 
@@ -726,10 +890,5 @@ msgstr "Forgot your password?"
 
 msgid "Recupérala"
 msgstr "Recover it"
-
-
-
-
-
 
 

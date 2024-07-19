@@ -891,4 +891,30 @@ msgstr "Forgot your password?"
 msgid "Recupérala"
 msgstr "Recover it"
 
+#: templates/my_template.html:11
+msgid "INICIAR SESIÓN"
+msgstr "LOGIN"
 
+#: templates/my_template.html:19
+msgid "¡Bienvenido de vuelta! Completa el formulario para ingresar a nuestro sistema"
+msgstr "Welcome back! Fill out the form to access our system"
+
+#: templates/my_template.html:35
+msgid "Métodos alternativos"
+msgstr "Alternative Methods"
+
+
+# TRADUCCIOÓN DE templates/security/auth/signup.html -------------------------------------------------------------------------------
+
+
+#: templates/my_template.html:11
+msgid "REGISTRARSE"
+msgstr "REGISTER"
+
+#: templates/my_template.html:43
+msgid "Bienvenidos a la sección de registro para nuevos usuarios, porfavor rrellena los campos a continuación para poder crear su cuenta e iniciar sesión en nuestro sistema."
+msgstr "Welcome to the registration section for new users. Please fill out the fields below to create your account and log in to our system."
+
+#: templates/my_template.html:43
+msgid "Asegurese de ingresar un correo válido con el cual creó su cuenta por primera vez."
+msgstr "Make sure to enter a valid email with which you created your account for the first time."

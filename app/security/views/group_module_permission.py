@@ -1,7 +1,7 @@
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.models import Permission
 from app.security.forms.group_module_permission import GroupModulePermissionForm
-from app.security.models import GroupModulePermission, Module
+from app.security.models import GroupModulePermission, Module, Group
 
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
@@ -48,97 +48,67 @@ class GroupModulePermissionCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["grabar"] = "Grabar Módulo"
+        context["grabar"] = "Grabar GMP"
         context["back_url"] = self.success_url
-        modules = Module.objects.all()
-        permissions_by_module = {
-            module.id: list(Permission.objects.filter(module=module).values('id', 'content_type__app_label', 'codename', 'name'))
-            for module in modules
-        }
-        context["modules"] = modules
-        context["permissions_by_module"] = json.dumps(permissions_by_module)
-        context["selected_permissions"] = json.dumps([])
-        context["is_update"] = False  
+        context["is_update"] = False
         return context
     
-    def post(self, request, *args, **kwargs):
-        form_count = int(request.POST.get('form_count', 1))
-        success = True
-        errors = []
-
-        for i in range(1, form_count + 1):
-            form_data = {
-                'group': request.POST.get(f'group_{i}'),
-                'module': request.POST.get(f'module_{i}'),
-                'permissions': [perm.split(':')[0] for perm in request.POST.getlist(f'permissions_{i}[]') if perm.split(':')[1] == 'true']
-            }
-            form = self.form_class(form_data)
-            if form.is_valid():
-                group_module_permission = form.save(commit=False)
-                group_module_permission.save()
-                group_module_permission.permissions.set(form.cleaned_data.get('permissions', []))
-            else:
-                success = False
-                errors.append(form.errors)
-
-        if success:
-            messages.success(request, f"Éxito al crear {form_count} GMP.")
-            return JsonResponse({'success': True})
-        else:
-            return JsonResponse({'success': False, 'errors': errors})
-
-class GroupModulePermissionUpdateView(UpdateView):
-    model = GroupModulePermission
-    template_name = "security/group_module_permissions/form.html"
-    form_class = GroupModulePermissionForm
-    success_url = reverse_lazy("security:group_module_permission_list")
-    permission_required = "change_groupmodulepermission"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["title"] = "Actualizar Permisos de Grupo de Módulo"
-        context["grabar"] = "Actualizar Módulo"
-        context["back_url"] = self.success_url
-        modules = Module.objects.all()
-        permissions_by_module = {
-            module.id: list(Permission.objects.filter(module=module).values('id', 'content_type__app_label', 'codename', 'name'))
-            for module in modules
-        }
-        context["modules"] = modules
-        context["permissions_by_module"] = json.dumps(permissions_by_module)
-        selected_permissions = list(self.object.permissions.values_list('id', flat=True))
-        context["selected_permissions"] = json.dumps(selected_permissions)
-        context["is_update"] = True
-        return context
-
-    def form_valid(self, form):
-        try:
-            group_module_permission = form.save(commit=False)
-            group_module_permission.permissions.clear()
-            selected_permissions = form.cleaned_data.get('permissions', [])
-            group_module_permission.permissions.add(*selected_permissions)
-            group_module_permission.save()
-            messages.success(self.request, f"Éxito al actualizar los permisos del GMP {group_module_permission.group}.")
-            return JsonResponse({'success': True})
-        except Exception as e:
-            return JsonResponse({'success': False, 'errors': str(e)})
-
-    def form_invalid(self, form):
-        return JsonResponse({'success': False, 'errors': form.errors})
+    def get(self, request, *args, **kwargs):
+        group_id = request.GET.get('group_id')
+        if group_id:
+            group = Group.objects.get(id=group_id)
+            modules = Module.objects.all()
+            permissions_data = []
+            for module in modules:
+                module_permissions = Permission.objects.filter(module=module)
+                selected_permissions = GroupModulePermission.objects.filter(
+                    group=group, module=module
+                ).values_list('permissions__id', flat=True)
+                permissions_data.append({
+                    'module_id': module.id,
+                    'module_name': module.name,
+                    'permissions': [
+                        {
+                            'id': perm.id,
+                            'name': perm.name,
+                            'selected': perm.id in selected_permissions
+                        } for perm in module_permissions
+                    ]
+                })
+            return JsonResponse({'permissions_data': permissions_data})
+        return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        form_data = {
-            'group': request.POST.get('group_1'),
-            'module': request.POST.get('module_1'),
-            'permissions': [perm.split(':')[0] for perm in request.POST.getlist('permissions_1[]') if perm.split(':')[1] == 'true']
-        }
-        form = self.form_class(form_data, instance=self.object)
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
+        group_id = request.POST.get('group')
+        permission_ids = request.POST.getlist('permissions[]')
+        
+        group = Group.objects.get(id=group_id)
+        
+        # Eliminar todos los GroupModulePermission existentes para este grupo
+        GroupModulePermission.objects.filter(group=group).delete()
+        
+        # Crear nuevos GroupModulePermission
+        for permission_id in permission_ids:
+            permission = Permission.objects.get(id=permission_id)
+            # Buscar el módulo que contiene este permiso
+            module = Module.objects.filter(permissions=permission).first()
+            if module:
+                gmp, created = GroupModulePermission.objects.get_or_create(
+                    group=group,
+                    module=module
+                )
+                gmp.permissions.add(permission)
+        
+        messages.success(request, "GMP creado con éxito.")
+        
+        # Obtener la URL de éxito
+        success_url = reverse('security:group_module_permission_list')
+        
+        return JsonResponse({
+            'success': True,
+            'redirect_url': success_url
+        })
+        
 class GroupModulePermissionDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
     model = GroupModulePermission
     template_name = "security/delete.html"

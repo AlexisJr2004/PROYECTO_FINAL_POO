@@ -1,7 +1,6 @@
 .venv/
 .env
 node_modules/
-__init__.py
 __pycache__/
 .vscode/
 *.pyc

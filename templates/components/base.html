@@ -43,6 +43,8 @@
     <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/leaflet.locatecontrol/dist/L.Control.Locate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+    <!-- Select2 -->
+	<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <!-- Titulo -->
     <title>{% block title %} SGV {% endblock title %}</title>
 
@@ -108,11 +110,18 @@
 
                     <!-- Botón de usuario -->
                     <button type="button" class="flex text-sm rounded-full md:me-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 dropdown-toggle" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                        <span class="sr-only">Open user menu</span> {% if user.is_authenticated %} {% if user.customer and user.customer.image %}
-                        <img class="w-12 h-12 rounded-full bg-slate-200 dark:bg-blue-300" src="{{ user.customer.image.url }}" alt="Profile Picture"> {% else %}
-                        <img class="w-12 h-12 rounded-full bg-slate-200 dark:bg-blue-300" src="{% static 'img/usuario_anonimo_2.png' %}" alt="Default Profile Picture"> {% endif %} {% else %}
-                        <img class="w-12 h-12 rounded-full" src="{% static 'img/usuario_anonimo_2.png' %}" alt="Anonymous Profile Picture"> {% endif %}
+                        <span class="sr-only">Open user menu</span>
+                        {% if user.is_authenticated %}
+                            {% if user.customer and user.customer.image %}
+                                <img class="w-12 h-12 rounded-full bg-slate-200 dark:bg-blue-300" src="{{ user.customer.image.url }}" alt="Profile Picture">
+                            {% else %}
+                                <img class="w-12 h-12 rounded-full bg-slate-200 dark:bg-blue-300" src="{% static 'img/usuario_anonimo_2.png' %}" alt="Default Profile Picture">
+                            {% endif %}
+                        {% else %}
+                            <img class="w-12 h-12 rounded-full" src="{% static 'img/usuario_anonimo_2.png' %}" alt="Anonymous Profile Picture">
+                        {% endif %}
                     </button>
+
 
                     <!-- Dropdown menu del usuario -->
                     <div class="dark:bg-secundario rounded-2xl bg-white z-50 hidden my-4 list-none divide-y divide-gray-200 shadow" id="user-dropdown">
@@ -1035,6 +1044,10 @@
                 });
         }
     </script>
+
+    <!-- Select2 -->
+	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	<script src="{% static 'js/select2.js' %}"></script>
 </body>
 
 </html>

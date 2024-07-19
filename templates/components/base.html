@@ -98,7 +98,9 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
                             </svg>
                         </div>
-                        <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Buscar...">
+                        {% load i18n %}
+                        <input type="text" id="search-navbar" class="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="{% trans 'Buscar...' %}">
+                        
                         <div id="search-results" class="absolute z-10 w-full mt-1 dark:text-white bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-lg hidden"></div>
                     </div>
                     
@@ -164,16 +166,14 @@
                         {% else %}
                         <ul class="py-2" aria-labelledby="user-menu-button">
                             <li>
-                                <a href="{% url 'security:auth_signup' %}" onclick="closeDropdown()" class="block px-4 py-2 font-bold text-gray-500 truncate dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-500 transition-all">Registrarse</a>
+                                <a href="{% url 'security:auth_signup' %}" onclick="closeDropdown()" class="block px-4 py-2 font-bold text-gray-500 truncate dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-500 transition-all">{% trans "Registrarse" %}</a>
                             </li>
                             <li>
-                                <a href="{% url 'security:auth_login' %}" onclick="closeDropdown()" class="block px-4 py-2 font-bold text-gray-500 truncate dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-500 transition-all">Iniciar
-                                Sesión</a>
+                                <a href="{% url 'security:auth_login' %}" onclick="closeDropdown()" class="block px-4 py-2 font-bold text-gray-500 truncate dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-500 transition-all">{% trans "Iniciar Sesión" %}</a>
                             </li>
                         </ul>
-                        {% endif %}
+                        {% endif %}                        
                     </div>
-                    
 					<!-- Dropdown ocultar el menu del usuario -->
                     <script>
                         function closeDropdown() {
@@ -190,15 +190,16 @@
                 </div>
                 <div class="items-center justify-between hidden w-full md:flex md:w-auto md:order-1" id="navbar-user">
 					<ul class="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 dark:border-gray-700">
-						<li>
-							<a href="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Inicio</a>
-						</li>
-						<li>
-							<a href="{% url 'modulos' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{% trans "Módulos" %}</a>
-						</li>
-						<li>
-							<a href="{% url 'consultas' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Consultas</a>
-						</li>
+                        {% load i18n %}
+                        <li>
+                            <a href="/" class="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">{% trans "Inicio" %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'modulos' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{% trans "Módulos" %}</a>
+                        </li>
+                        <li>
+                            <a href="{% url 'consultas' %}" class="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{% trans "Consultas" %}</a>
+                        </li>                        
 					</ul>					
                 </div>
             </div>
@@ -484,12 +485,9 @@
             			}
         </style>
 
-        {% if user.is_authenticated %}
         <button id="dropdownDefaultButton" class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium text-sm text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
             <span class="fas fa-person text-xl"></span>
         </button>
-        {% endif %}
-
 
         <!-- Dropdown menu -->
         <div id="dropdown" class="z-10 bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">

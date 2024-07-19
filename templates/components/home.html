@@ -118,9 +118,7 @@
                     </div>
                 </div>
             </div>
-
         </div>
-
     </section>
     <!-- CIERRE DE LA SECCIÓN DEL HERO -->
 
@@ -131,10 +129,10 @@
             <div class="rounded-2xl py-10 px-10 xl:py-16 xl:px-20 bg-gray-50 dark:bg-gray-900 flex items-center justify-between flex-col gap-16 lg:flex-row">
                 <div class="w-full lg:w-60">
                     <h2 class="font-manrope text-4xl font-bold text-gray-900 dark:text-white mb-4 text-center lg:text-left">
-                        Nuestras estadísticas
+                        {% trans "Nuestras estadísticas" %}
                     </h2>
                     <p class="text-sm text-gray-500 dark:text-gray-400 leading-6 text-center lg:text-left">
-                        Te ayudamos a liberar el poder dentro de tu negocio
+                        {% trans "Te ayudamos a liberar el poder dentro de tu negocio" %}
                     </p>
                 </div>
                 <div class="w-full lg:w-4/5">
@@ -144,40 +142,40 @@
                                 {% if user.is_authenticated %}
                                     {{ total_companies }}+
                                 {% else %}
-                                    No Registra
+                                    {% trans "No Registra" %}
                                 {% endif %}
                             </div>
-                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">Empresas Asociadas</span>
+                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">{% trans "Empresas Asociadas" %}</span>
                         </div>
                         <div class="block">
                             <div class="font-manrope font-bold text-4xl text-indigo-600 mb-3 text-center lg:text-left">
                                 {% if user.is_authenticated %}
                                     {{ total_customers }}+
                                 {% else %}
-                                    No Registra
+                                    {% trans "No Registra" %}
                                 {% endif %}
                             </div>
-                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">Clientes activos</span>
+                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">{% trans "Clientes activos" %}</span>
                         </div>
                         <div class="block">
                             <div class="font-manrope font-bold text-4xl text-indigo-600 mb-3 text-center lg:text-left">
                                 {% if user.is_authenticated %}
                                     {{ total_suppliers }}+
                                 {% else %}
-                                    No Registra
+                                    {% trans "No Registra" %}
                                 {% endif %}
                             </div>
-                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">Proveedores Asociados</span>
+                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">{% trans "Proveedores Asociados" %}</span>
                         </div>
                         <div class="block">
                             <div class="font-manrope font-bold text-4xl text-indigo-600 mb-3 text-center lg:text-left">
                                 {% if user.is_authenticated %}
                                     {{ total_sales }}+
                                 {% else %}
-                                    No Registra
+                                    {% trans "No Registra" %}
                                 {% endif %}
                             </div>
-                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">Ventas Realizadas</span>
+                            <span class="text-gray-900 dark:text-white text-center block lg:text-left">{% trans "Ventas Realizadas" %}</span>
                         </div>
                     </div>
                 </div>
@@ -190,7 +188,7 @@
     <section class="py-10 ">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8" data-aos="fade-up" data-aos-delay="300">
             <div class="mb-14 text-center">
-              <h4 class="text-xl text-gray-400 text-center font-medium">Nuestros Colaboradores</h4>
+            <h4 class="text-xl text-gray-400 text-center font-medium">{% trans "Nuestros Colaboradores" %}</h4>
           </div>
           <div class="grid grid-cols-2  justify-center  items-center  gap-12 md:grid-cols-3  xl:grid-cols-none xl:flex xl:justify-between">
             <a href="#" class="flex justify-center items-center">
@@ -292,9 +290,8 @@
 
             <div>
                 <h2 class="text-secondary dark:text-white text-3xl text-center mt-2 font-Pacifico">
-                    - Ventas y Compras
-                </h2>
-
+                    - {% trans "Ventas y Compras" %}
+                </h2>                
 
                 <div class="flex justify-center items-center gap-x-5 gap-y-8 lg:gap-y-0 flex-wrap md:flex-wrap lg:flex-nowrap lg:flex-row lg:justify-between lg:gap-x-8 mt-6">
                     <!-- Módulo de Ventas -->
@@ -316,14 +313,14 @@
                         <div class="bg-white dark:bg-gray-700 rounded-full flex justify-center items-center mb-5 w-14 h-14">
                             <i class="fa-solid fa-coins text-2xl text-green-500 dark:text-green-400"></i>
                         </div>
-                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 capitalize transition-all duration-500 group-hover:text-white">{% trans 'Compras' %}</h4>
+                        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-3 capitalize transition-all duration-500 group-hover:text-white">{% trans "Compras" %}</h4>
                         <p class="text-sm font-normal text-gray-500 dark:text-gray-400 transition-all duration-500 leading-5 group-hover:text-white">
-                            {% trans 'Administra tus compras y proveedores.' %}
+                            {% trans "Administra tus compras y proveedores." %}
                         </p>
                         <a href="{% url 'purchases:purchases_list' %}" class="mt-4 inline-flex items-center justify-center px-5 py-2 text-sm font-medium text-white bg-green-500 rounded-lg hover:bg-green-600 focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">
-                            {% trans 'Empezar' %}
+                            {% trans "Empezar" %}
                         </a>
-                    </div>
+                    </div>                    
                 </div>
             </div>
 
@@ -520,8 +517,8 @@
     <!-- CIERRE DE LA SECCIÓN DE MÓDULOS -->
 
 
-    {% if not user.is_superuser %}
     <!-- SECCIÓN DE HERRAMIENTAS -->
+    {% if not user.is_superuser %}
     <section class="dark:bg-principal bg-slate-100">
         <div id="herramientas" class="p-8" data-aos="fade-up" data-aos-delay="300">
             <div class="flex flex-col items-center justify-center">
@@ -601,6 +598,7 @@
     </section>
     <!-- CIERRE DE LA SECCIÓN DE HERRAMIENTAS -->
 
+    {% load i18n %}
     <!-- SECCION DE CARACTERISTICAS -->
     <section class="dark:bg-principal">
         <div class="p-8" data-aos="fade-up" data-aos-delay="300">
@@ -624,44 +622,37 @@
                 <!-- Card 2 -->
                 <div class="characteristics-card bg-white dark:bg-secundario dark:border-none transition duration-500 hover:bg-gradient-to-r hover:from-purple-200 dark:hover:bg-gradient-to-r dark:hover:from-black dark:hover:to-purple-500">
                     <i class="fas fa-tv text-3xl text-purple-500"></i>
-                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Interfaz
-                            Minimalista' %}</a></h3>
+                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Interfaz Minimalista' %}</a></h3>
                 </div>
                 <!-- Card 3 -->
                 <div class="characteristics-card bg-white dark:bg-secundario dark:border-none transition duration-500 hover:bg-gradient-to-r hover:from-yellow-200 dark:hover:bg-gradient-to-r dark:hover:from-black dark:hover:to-yellow-500">
                     <i class="fas fa-clock text-3xl text-yellow-500"></i>
-                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans
-                            'Disponibilidad 24/7' %}</a></h3>
+                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Disponibilidad 24/7' %}</a></h3>
                 </div>
                 <!-- Card 4 -->
                 <div class="characteristics-card bg-white dark:bg-secundario dark:border-none transition duration-500 hover:bg-gradient-to-r hover:from-blue-200 dark:hover:bg-gradient-to-r dark:hover:from-black dark:hover:to-blue-500">
                     <i class="fas fa-shopping-cart text-3xl text-blue-500"></i>
-                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Gestiona
-                            tus Ventas y Compras' %}</a></h3>
+                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Gestiona tus Ventas y Compras' %}</a></h3>
                 </div>
                 <!-- Card 5 -->
                 <div class="characteristics-card bg-white dark:bg-secundario dark:border-none transition duration-500 hover:bg-gradient-to-r hover:from-red-200 dark:hover:bg-gradient-to-r dark:hover:from-black dark:hover:to-red-500">
                     <i class="fas fa-check-circle text-3xl text-red-500"></i>
-                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Servicios
-                            Garantizados' %}</a></h3>
+                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Servicios Garantizados' %}</a></h3>
                 </div>
                 <!-- Card 6 -->
                 <div class="characteristics-card bg-white dark:bg-secundario dark:border-none transition duration-500 hover:bg-gradient-to-r hover:from-teal-200 dark:hover:bg-gradient-to-r dark:hover:from-black dark:hover:to-teal-500">
                     <i class="fas fa-shield-alt text-3xl text-teal-500"></i>
-                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Aplicación
-                            Segura' %}</a></h3>
+                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Aplicación Segura' %}</a></h3>
                 </div>
                 <!-- Card 7 -->
                 <div class="characteristics-card bg-white dark:bg-secundario dark:border-none transition duration-500 hover:bg-gradient-to-r hover:from-pink-200 dark:hover:bg-gradient-to-r dark:hover:from-black dark:hover:to-pink-500">
                     <i class="fas fa-users text-3xl text-pink-500"></i>
-                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Contacto
-                            con los administradores' %}</a></h3>
+                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Contacto con los administradores' %}</a></h3>
                 </div>
                 <!-- Card 8 -->
                 <div class="characteristics-card bg-white dark:bg-secundario dark:border-none transition duration-500 hover:bg-gradient-to-r hover:from-indigo-200 dark:hover:bg-gradient-to-r dark:hover:from-black dark:hover:to-indigo-500">
                     <i class="fas fa-moon text-3xl text-indigo-500"></i>
-                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans
-                            'Implementación del modo oscuro' %}</a></h3>
+                    <h3 class="dark:text-gray-400 font-bold characteristics-card-title"><a href="">{% trans 'Implementación del modo oscuro' %}</a></h3>
                 </div>
             </div>
         </div>
@@ -687,61 +678,64 @@
                 <div class="isolate mx-auto grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
                     <div class="ring-1 ring-gray-200 rounded-3xl p-8 xl:p-10">
                         <div class="flex items-center justify-between gap-x-4">
-                            <h3 id="tier-standard" class="text-gray-500/70  text-2xl font-semibold leading-8">{% trans
-                                'Standard' %}</h3>
+                            <h3 id="tier-standard" class="text-gray-500/70 text-2xl font-semibold leading-8">
+                                {% trans "Estándar" %}
+                            </h3>
                         </div>
-                        <p class="mt-4 leading-6 text-gray-600">{% trans '1 license for only 1 activation' %}</p>
+                        <p class="mt-4 leading-6 text-gray-600">{% trans '1 licencia para solo 1 activación' %}</p>
                         <p class="mt-6 flex items-baseline gap-x-1">
                             <span class="line-through text-2xl text-gray-500/70">$39</span><span class="text-5xl font-bold tracking-tight dark:text-gray-300 text-black">$29</span>
                         </p>
                         <a href="" aria-describedby="tier-standard" class="text-blue-600 ring-1 ring-inset ring-blue-200 hover:ring-blue-300 mt-6 block rounded-md py-2 px-3 text-center font-extrabold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                        target="_blank">{% trans 'Buy now' %}</a>
+                        target="_blank">{% trans 'Comprar ahora' %}</a>
                         <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 xl:mt-10">
                             <li class="flex gap-x-3 text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-blue-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>{% trans 'Lifetime access' %}
+                                </svg>{% trans 'Acceso de por vida' %}
                             </li>
                             <li class="flex gap-x-3 text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-blue-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>{% trans 'All AI features' %}
+                                </svg>{% trans 'Todas las características de IA' %}
                             </li>
                             <li class="flex gap-x-3 text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-blue-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>{% trans 'Use your own OpenAI key' %}
+                                </svg>{% trans 'Usa tu propia clave de OpenAI' %}
                             </li>
                         </ul>
                     </div>
                     <div class="ring-2 ring-blue-600 rounded-3xl p-8 xl:p-10">
                         <div class="flex items-center justify-between gap-x-4">
-                            <h3 id="tier-extended" class="text-blue-600 text-2xl font-semibold leading-8">{% trans
-                                'Extended' %}</h3>
+                            <h3 id="tier-extended" class="text-blue-600 text-2xl font-semibold leading-8">
+                                {% trans 'Extendida' %}
+                            </h3>
                             <p class="rounded-full bg-blue-600/10 px-2.5 py-1 text-xs font-semibold leading-5 text-blue-600">
-                                {% trans 'Most popular' %}</p>
+                                {% trans 'Más popular' %}
+                            </p>
                         </div>
-                        <p class="mt-4 leading-6 text-gray-600">{% trans '1 license for up to 3 activations' %}</p>
+                        <p class="mt-4 leading-6 text-gray-600">{% trans '1 licencia para hasta 3 activaciones' %}</p>
                         <p class="mt-6 flex items-baseline gap-x-1">
                             <span class="line-through text-2xl text-gray-500/70">$59</span><span class="text-5xl font-bold tracking-tight dark:text-gray-300 text-black">$39</span>
                         </p>
                         <a href="" aria-describedby="tier-extended" class="bg-blue-600 text-white shadow-sm hover:bg-blue-500 mt-6 block rounded-md py-2 px-3 text-center font-medium leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
-                        target="_blank">{% trans 'Buy now' %}</a>
+                        target="_blank">{% trans 'Comprar ahora' %}</a>
                         <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 xl:mt-10">
                             <li class="flex gap-x-3 text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-blue-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>{% trans 'Lifetime access' %}
+                                </svg>{% trans 'Acceso de por vida' %}
                             </li>
                             <li class="flex gap-x-3 text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-blue-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>{% trans 'All AI features' %}
+                                </svg>{% trans 'Todas las características de IA' %}
                             </li>
                             <li class="flex gap-x-3 text-base">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true" class="h-6 w-5 flex-none text-blue-600">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                                </svg>{% trans 'Use your own OpenAI key' %}
+                                </svg>{% trans 'Usa tu propia clave de OpenAI' %}
                             </li>
                         </ul>
                     </div>
@@ -1217,10 +1211,10 @@
                             </div>
                             <div class="flex items-center justify-center border-t border-gray-100 pt-6">
                                 <div class="my-2 text-2xl space-x-4">
-                                    <a href="#" class="text-blue-500 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-700 fab fa-twitter"></a>
-                                    <a href="#" class="text-blue-600 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-700 fab fa-facebook"></a>
-                                    <a href="#" class="text-blue-500 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-700 fab fa-instagram"></a>
-                                    <a href="#" class="text-blue-700 hover:text-blue-700 dark:text-blue-300 dark:hover:text-blue-700 fab fa-linkedin"></a>
+                                    <a href="#" class="text-blue-500 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-700 fab fa-twitter"></a>
+                                    <a href="#" class="text-blue-600 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-700 fab fa-facebook"></a>
+                                    <a href="#" class="text-blue-500 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-700 fab fa-instagram"></a>
+                                    <a href="#" class="text-blue-700 hover:text-blue-700 dark:text-blue-500 dark:hover:text-blue-700 fab fa-linkedin"></a>
                                 </div>
                             </div>
                         </div>
@@ -1230,39 +1224,42 @@
     </section>
     <!--- CIERRE DE LA SECCION DE CONTACTOS -->
 
-    <!--- SECCION DE COOKIES -->
+    <!-- SECCION DE COOKIES -->
     <div id="cookies-with-stacked-buttons" class="fixed bottom-0 -right-0 z-[60] sm:max-w-sm w-full sm:w-auto p-6" data-aos="fade-left" data-aos-delay="300">
         <!-- Card -->
         <div class="relative p-4 bg-white/60 dark:bg-principal backdrop-blur-lg dark:backdrop-blur-lg rounded-xl shadow-2xl dark:shadow-black/70">
             <div class="flex justify-between items-center gap-x-5 sm:gap-x-10">
-            <h2 class="font-semibold text-gray-800 dark:text-white">
-              Configuración de cookies
-            </h2>
-            <button type="button" class="inline-flex rounded-full p-2 text-gray-500 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-gray-600 dark:hover:bg-neutral-800 dark:text-neutral-300" onclick="closeCookiePopup()">
-              <span class="sr-only">Dismiss</span>
-              <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>
-            </button>
-          </div>
-          <p class="mt-2 text-sm text-gray-800 dark:text-white">
-            Utilizamos cookies para mejorar su experiencia y para marketing. Visita nuestro <a class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium dark:text-blue-500" href="#">Política de Cookies</a> para saber más.
-          </p>
-          <div class="mt-5 mb-2 w-full flex gap-x-2">
-            <div class="grid w-full">
-              <button type="button" class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" onclick="closeCookiePopup()">
-                Permitir todo
-              </button>
+                <h2 class="font-semibold text-gray-800 dark:text-white">
+                    {% trans 'Configuración de cookies' %}
+                </h2>
+                <button type="button" class="inline-flex rounded-full p-2 text-gray-500 hover:bg-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-gray-600 dark:hover:bg-neutral-800 dark:text-neutral-300" onclick="closeCookiePopup()">
+                    <span class="sr-only">{% trans 'Dismiss' %}</span>
+                    <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 6 6 18"></path>
+                        <path d="m6 6 12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            <p class="mt-2 text-sm text-gray-800 dark:text-white">
+                {% trans 'Utilizamos cookies para mejorar su experiencia y para marketing. Visita nuestro ' %}<a class="inline-flex items-center gap-x-1.5 text-blue-600 decoration-2 hover:underline font-medium dark:text-blue-500" href="#">{% trans 'Política de Cookies' %}</a>{% trans ' para saber más.' %}
+            </p>
+            <div class="mt-5 mb-2 w-full flex gap-x-2">
+                <div class="grid w-full">
+                    <button type="button" class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" onclick="closeCookiePopup()">
+                        {% trans 'Permitir todo' %}
+                    </button>
+                </div>
+                <div class="grid w-full">
+                    <button type="button" class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" onclick="closeCookiePopup()">
+                        {% trans 'Rechazar todo' %}
+                    </button>
+                </div>
             </div>
             <div class="grid w-full">
-              <button type="button" class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" onclick="closeCookiePopup()">
-                Rechazar todo
-              </button>
+                <button type="button" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-principal dark:border-principal dark:text-white dark:hover:bg-gray-700" onclick="closeCookiePopup()">
+                    {% trans 'Administrar cookies' %}
+                </button>
             </div>
-          </div>
-          <div class="grid w-full">
-            <button type="button" class="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-principal dark:border-principal dark:text-white dark:hover:bg-gray-700" onclick="closeCookiePopup()">
-                Administrar cookies
-            </button>
-          </div>
         </div>
         <!-- End Card -->
     

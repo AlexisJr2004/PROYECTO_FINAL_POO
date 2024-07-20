@@ -12,12 +12,14 @@ from app.security.models import User
 def assign_user_group(sender, instance, created, **kwargs):
     if created:
         if instance.is_superuser:
+            print(instance)
             admin_group, created = Group.objects.get_or_create(name='Administradores')
             instance.groups.add(admin_group)
+            Customer.objects.create(user=instance, first_name=instance.first_name, last_name=instance.last_name, dni=instance.dni, email=instance.email, phone=instance.phone)
         else:
             client_group, created = Group.objects.get_or_create(name='Clientes')
             instance.groups.add(client_group)
-        Customer.objects.create(user=instance, email=instance.email)
+            Customer.objects.create(user=instance, first_name=instance.first_name, last_name=instance.last_name, dni=instance.dni, email=instance.email, phone=instance.phone)
 
 
 # @receiver(post_save, sender=User)

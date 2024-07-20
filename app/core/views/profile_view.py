@@ -9,7 +9,6 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import PasswordChangeForm
 from django import forms
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
@@ -67,9 +66,8 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
         new_image = self.request.FILES.get('image')
         if new_image:
             # Si hay una imagen existente, elimínala
-            if customer.image:
-                if os.path.isfile(customer.image.path):
-                    os.remove(customer.image.path)
+            if customer.image and default_storage.exists(customer.image.path):
+                default_storage.delete(customer.image.path)
             
             # Guarda la nueva imagen
             file_name = default_storage.save(f'customers/{new_image.name}', new_image)

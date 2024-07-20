@@ -67,20 +67,24 @@ class UserUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     permission_required = "change_user"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["grabar"] = "Actualizar Usuario"
         context["back_url"] = self.success_url
         return context
 
-
     def form_valid(self, form):
-        customer = form.save(commit=False)
-        user = customer.user
+        user = self.object
+        # Actualiza el usuario con los datos del formulario
         user.first_name = form.cleaned_data['first_name']
         user.last_name = form.cleaned_data['last_name']
         user.email = form.cleaned_data['email']
         user.save()
-        customer.save()
+        
+        # También puedes guardar el cliente (Customer) si es necesario
+        # customer = user.customer
+        # customer.some_field = form.cleaned_data['some_field']
+        # customer.save()
+
         return super().form_valid(form)
 
 

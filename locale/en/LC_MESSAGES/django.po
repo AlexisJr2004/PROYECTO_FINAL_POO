@@ -58,10 +58,6 @@ msgstr "Active Customers"
 msgid "Proveedores Asociados"
 msgstr "Associated Suppliers"
 
-#: templates/my_template.html:11
-msgid "Ventas Realizadas"
-msgstr "Sales Made"
-
 #: templates/my_template.html:5
 msgid "Nuestros Colaboradores"
 msgstr "Our Collaborators"
@@ -298,7 +294,7 @@ msgstr "Accept"
 msgid "Denegar"
 msgstr "Deny"
 
-msgid "Notificationes"
+msgid "Notificaciones"
 msgstr "Notifications"
 
 msgid "No hay notificationes"
@@ -306,6 +302,9 @@ msgstr "No Notifications"
 
 msgid "Borrar todo"
 msgstr "Clean all"
+
+msgid "Ventas Realizadas"
+msgstr "Sales Made"
 
 
 # TRADUCCIOÓN DE home.html -------------------------------------------------------------------------------

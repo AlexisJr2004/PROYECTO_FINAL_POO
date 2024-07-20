@@ -91,7 +91,7 @@
 				
                 <div class="flex items-center md:order-2">
                     <!-- Icono de ventas -->
-                    <div class="relative mr-5">
+                    <div data-tooltip-target="tooltip-ventas" class="relative mr-5">
                         <a href="{% url 'sales:sales_list' %}" class="py-4 px-1 relative border-2 border-transparent text-blue-600 rounded-full hover:text-blue-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out" aria-label="Notifications">
                             <button class="py-4 px-1 relative border-2 border-transparent text-blue-600 rounded-full hover:text-blue-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out" aria-label="Cart">
                                 <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,9 +105,13 @@
                             </button>
                         </a>
                     </div>
-                    
+                    <div id="tooltip-ventas" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        {% trans "Ventas Realizadas" %}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+
                     <!-- Icono de notificaciones -->
-                    <div class="relative mr-5">
+                    <div data-tooltip-target="tooltip-notifications" class="relative mr-5">
                         <button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="py-4 px-1 relative border-2 border-transparent text-blue-600 rounded-full hover:text-blue-400 focus:outline-none focus:text-gray-500 transition duration-150 ease-in-out" aria-label="Cart" type="button">
                             <svg class="h-6 w-6" fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor">
                                 <path d="M12 22c1.104 0 2-.896 2-2H10c0 1.104.896 2 2 2zm6-6V10c0-3.313-2.687-6-6-6S6 6.687 6 10v6H4v2h16v-2h-2z"></path>
@@ -118,6 +122,10 @@
                                 </div>
                             </span>
                         </button>
+                    </div>
+                    <div id="tooltip-notifications" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        {% trans "Notificaciones" %}
+                        <div class="tooltip-arrow" data-popper-arrow></div>
                     </div>
 
                     <!-- Dropdown de las notificaciones -->
@@ -185,9 +193,14 @@
                     </div>
                     
                     <!-- Tema oscuro/claro -->
-					<span id="themeIconContainer" class="dark:bg-gray inline-block p-2 rounded cursor-pointer mr-2 sm:mr-4">
+					<span data-tooltip-target="tooltip-default" id="themeIconContainer" class="dark:bg-gray inline-block p-2 rounded cursor-pointer mr-2 sm:mr-4">
 						<i id="themeIcon" class="fas fa-moon text-gray-300 dark:text-gray-500"></i>
 					</span>
+                    <div id="tooltip-default" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
+                        Dark Mode
+                        <div class="tooltip-arrow" data-popper-arrow></div>
+                    </div>
+                    
 
 
                     <!-- Botón de usuario -->

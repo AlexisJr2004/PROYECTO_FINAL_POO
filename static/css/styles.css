@@ -1323,26 +1323,6 @@ video {
   width: 100%;
 }
 
-.w-\[50px\] {
-  width: 50px;
-}
-
-.w-\[20\%\] {
-  width: 20%;
-}
-
-.w-\[75\%\] {
-  width: 75%;
-}
-
-.w-\[5\%\] {
-  width: 5%;
-}
-
-.w-\[85\%\] {
-  width: 85%;
-}
-
 .min-w-full {
   min-width: 100%;
 }
@@ -5035,16 +5015,8 @@ video {
     margin-left: 4rem;
   }
 
-  .lg\:mt-10 {
-    margin-top: 2.5rem;
-  }
-
   .lg\:mt-16 {
     margin-top: 4rem;
-  }
-
-  .lg\:mt-20 {
-    margin-top: 5rem;
   }
 
   .lg\:mt-8 {

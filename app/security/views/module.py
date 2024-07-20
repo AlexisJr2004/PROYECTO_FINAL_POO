@@ -46,7 +46,7 @@ class ModuleCreateView(PermissionMixin, CreateViewMixin, CreateView):
         context["back_url"] = self.success_url
         context["permissions_json"] = json.dumps(list(Permission.objects.values('id', 'name', 'codename', 'content_type__app_label')))
         context["selected_permissions_json"] = json.dumps([])  # No hay permisos seleccionados al crear
-        return context
+        return context  
 
     def form_valid(self, form):
         response = super().form_valid(form)

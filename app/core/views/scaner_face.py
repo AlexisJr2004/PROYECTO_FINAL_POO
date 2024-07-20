@@ -23,6 +23,7 @@ import logging
 User = get_user_model()
 logger = logging.getLogger(__name__)
 
+
 class FacialRecognitionView(View):
     @csrf_exempt
     def post(self, request, *args, **kwargs):
@@ -32,25 +33,18 @@ class FacialRecognitionView(View):
             image_data = data['image'].split(',')[1]
             image = Image.open(BytesIO(base64.b64decode(image_data)))
             image_array = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-
-            # Define la ruta absoluta al archivo XML
-            cascade_path = os.path.join(settings.BASE_DIR, 'cascades', 'haarcascade_frontalface_default.xml')
-            if not os.path.exists(cascade_path):
-                logger.error(f"No se encontró el archivo haarcascade en {cascade_path}")
-                return JsonResponse({"success": False, "message": "Archivo haarcascade no encontrado"})
-
-            face_cascade = cv2.CascadeClassifier(cascade_path)
-
+            
+            face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
             gray = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-
+            
             logger.info(f"Caras detectadas: {len(faces)}")
             logger.info(f"Usuario autenticado: {request.user.is_authenticated}")
             logger.info(f"Sesión ID: {request.session.session_key}")
-
+            
             if len(faces) != 1:
                 return JsonResponse({"success": False, "message": "Se debe detectar exactamente una cara"})
-
+            
             (x, y, w, h) = faces[0]
             face = gray[y:y+h, x:x+w]
             face = cv2.resize(face, (100, 100))
@@ -87,7 +81,7 @@ class FacialRecognitionView(View):
                         response = JsonResponse(response_data)
                         response.set_cookie('sessionid', request.session.session_key, httponly=True, samesite='Lax')
                         return response
-
+            
             logger.info("No se encontró coincidencia")
             return JsonResponse({"success": False, "message": "No se encontró una coincidencia facial válida"})
         except socket.error as e:
@@ -101,9 +95,12 @@ class FacialRecognitionView(View):
     def compare_faces(self, known_face, unknown_face):
         difference = cv2.absdiff(known_face, unknown_face)
         similarity = 1 - (np.sum(difference) / (100 * 100 * 255))
-
+        
         threshold = 0.7
         return similarity > threshold
+
+
+
 
 class LoginUserView(View):
     @csrf_exempt
@@ -117,6 +114,7 @@ class LoginUserView(View):
         except Exception as e:
             return JsonResponse({"success": False, "message": str(e)})
 
+
 class CheckAuthView(View):
     @require_GET
     def get(self, request, *args, **kwargs):
@@ -124,6 +122,7 @@ class CheckAuthView(View):
             'authenticated': request.user.is_authenticated,
             'username': request.user.username if request.user.is_authenticated else None
         })
+
 
 class RegisterFaceView(LoginRequiredMixin, View):
     @csrf_exempt
@@ -133,29 +132,22 @@ class RegisterFaceView(LoginRequiredMixin, View):
             image_data = data['image'].split(',')[1]
             image = Image.open(BytesIO(base64.b64decode(image_data)))
             image_array = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-
-            # Define la ruta absoluta al archivo XML
-            cascade_path = os.path.join(settings.BASE_DIR, 'cascades', 'haarcascade_frontalface_default.xml')
-            if not os.path.exists(cascade_path):
-                logger.error(f"No se encontró el archivo haarcascade en {cascade_path}")
-                return JsonResponse({"success": False, "message": "Archivo haarcascade no encontrado"})
-
-            face_cascade = cv2.CascadeClassifier(cascade_path)
-
+            
+            face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
             gray = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
             faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-
+            
             if len(faces) != 1:
                 return JsonResponse({"success": False, "message": "Se debe detectar exactamente una cara"})
-
+            
             (x, y, w, h) = faces[0]
             face = gray[y:y+h, x:x+w]
             face = cv2.resize(face, (100, 100))
-
+            
             _, buffer = cv2.imencode('.jpg', face)
             request.user.face_image = buffer.tobytes()
             request.user.save()
-
+            
             return JsonResponse({"success": True, "message": "Imagen facial registrada con éxito"})
         except Exception as e:
             return JsonResponse({"success": False, "message": str(e)})

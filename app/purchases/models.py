@@ -10,6 +10,7 @@ class Purchase(models.Model):
     iva = models.DecimalField(verbose_name='Iva',default=0, max_digits=16, decimal_places=2)
     total = models.DecimalField(verbose_name='Total',default=0, max_digits=16, decimal_places=2)
     active = models.BooleanField(verbose_name='Activo',default=True)
+    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
    
     class Meta:
         verbose_name = 'Compras de Producto '

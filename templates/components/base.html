@@ -267,6 +267,8 @@
                         </ul>
                         {% endif %}                        
                     </div>
+
+
 					<!-- Dropdown ocultar el menu del usuario -->
                     <script>
                         function closeDropdown() {
@@ -297,6 +299,10 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Barra de progreso -->
+        <div id="progress-bar" class="h-1 bg-blue-500 fixed top-0 left-0 z-50 transition-all duration-300 ease-linear" style="width: 0;"></div>
+    
     </header>
     {% endblock navbar %}
 
@@ -1180,6 +1186,23 @@
                     }
                 });
         }
+    </script>
+
+    <!-- Script para la barra de progreso -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            let progressBar = document.getElementById('progress-bar');
+            let totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    
+            window.addEventListener('scroll', function() {
+                let progress = (window.pageYOffset / totalHeight) * 100;
+                progressBar.style.width = progress + '%';
+            });
+    
+            window.addEventListener('resize', function() {
+                totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+            });
+        });
     </script>
 
     <!-- Select2 -->

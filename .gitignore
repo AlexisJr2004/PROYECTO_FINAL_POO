@@ -1,6 +1,7 @@
 .venv/
 .env
 node_modules/
+ent_blog/
 __pycache__/
 .vscode/
 *.pyc

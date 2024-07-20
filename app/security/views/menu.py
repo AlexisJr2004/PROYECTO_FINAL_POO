@@ -12,7 +12,10 @@ from app.security.mixins.mixins import (
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
-
+from django.http import JsonResponse
+import json
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 class MenuListView(PermissionMixin, ListViewMixin, ListView):
     template_name = "security/menus/list.html"
@@ -31,7 +34,7 @@ class MenuListView(PermissionMixin, ListViewMixin, ListView):
         context["create_url"] = reverse_lazy("security:menu_create")
         return context
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 class MenuCreateView(PermissionMixin, CreateViewMixin, CreateView):
     model = Menu
     template_name = "security/menus/form.html"
@@ -45,12 +48,23 @@ class MenuCreateView(PermissionMixin, CreateViewMixin, CreateView):
         context["back_url"] = self.success_url
         return context
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        menu = self.object
-        messages.success(self.request, f"Éxito al crear el Menú {menu.name}.")
-        return response
-
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        menus = data.get('menus', [])
+        
+        created_menus = []
+        for menu_data in menus:
+            menu = Menu.objects.create(
+                name=menu_data['name'],
+                icon=menu_data['icon']
+            )
+            created_menus.append(menu)
+        
+        if created_menus:
+            messages.success(self.request, f"Éxito al crear {len(created_menus)} menú(s).")
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False})
 
 class MenuUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     model = Menu

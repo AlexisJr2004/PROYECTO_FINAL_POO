@@ -6,7 +6,7 @@
     <div class="text-center" data-aos="fade" data-aos-delay="200">
         <div class="sm:pt-28 lg:pt-4">
             <h1 class="dark:text-white text-4xl  text-center mt-6 font-Pacifico">
-                {{ title }}
+                {{ title2 }}
             </h1>
         </div>
         <div class="flex flex-wrap items-center justify-center my-6 x-4">
@@ -23,48 +23,40 @@
                 <i class="fa-solid fa-person-digging mr-2"></i>Crear GMP
             </a>
         </div>
-        <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mx-4 lg:mx-20" data-aos="fade">
-                <!-- Columna de la izquierda -->
-                <div class="bg-white dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8"
-                    data-aos="fade-right" data-aos-delay="200">
-                    <div class="w-[60%] text-center">
-                        <h2 class="dark:text-blue-300 text-2xl text-center mt-6 font-Pacifico">Instrucciones:
-                        </h2><br>
-                        <div>
-                            <p class="dark:text-gray-300 font-Pacifico">Se puede usar iconos de la libreria Font Awesome y Remix.<br>Por ejemplo, solo se debe colocar:<br><span class="text-green-300">fa-solid fa-kiwi-bird</span><br>El resultado será un icono de un pájaro kiwi. <br><i class="fa-solid fa-kiwi-bird text-blue-300"></i></p>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <!-- Columna de la derecha -->
-                <div class="p-4 rounded-3xl dark:bg-secundario bg-white flex flex-col justify-center items-center"
-                    data-aos="fade-right" data-aos-delay="200">
-                    {% csrf_token %}
+        <form method="post" id="menuForm" enctype="multipart/form-data" class="space-y-6 py-4">
+            {% csrf_token %}
+            <div id="menuContainer" class="mx-4 lg:mx-40 space-y-4">
+                <div class="menu-item dark:bg-secundario bg-gray-100 p-4 flex flex-row space-x-4 justify-center rounded-3xl" data-aos="fade-right">
                     <div class="mb-8">
-                        <label for="{{ form.name.id_for_label }}"
-                            class="dark:text-blue-300 font-black uppercase text-lg">{{ form.name.label }}</label>
-                        {{ form.name }}
+                        <label for="name" class="dark:text-blue-300 font-black uppercase text-lg">Nombre</label>
+                        <input type="text" name="name" required 
+                               value="{{ form.instance.name|default:'' }}"
+                               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                     </div>
                     <div class="mb-8">
-                        <label for="{{ form.icon.id_for_label }}"
-                            class="dark:text-blue-300 font-black uppercase text-lg">{{ form.icon.label }}</label>
-                        {{ form.icon }}
+                        <label for="icon" class="dark:text-blue-300 font-black uppercase text-lg">Ícono</label>
+                        <input type="text" name="icon" required 
+                               value="{{ form.instance.icon|default:'' }}"
+                               class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                     </div>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row justify-center">
-                <button type="submit"
-                    class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 md:mr-2 mb-2 md:mb-0 flex items-center">
-                    <i class="fa-solid fa-save mr-2"></i>Guardar
+            {% if not form.instance.pk %}
+            <div class="flex justify-center items">
+                <button type="button" id="addMenuBtn" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center">
+                    Más Menús <i class="ri-add-circle-fill px-2"></i>
                 </button>
-                <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center"
-                    href="{% url 'security:menu_list' %}">
+            </div>
+            {% endif %}
+            <div class="flex flex-col md:flex-row justify-center">
+                <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 md:mr-2 mb-2 md:mb-0 flex items-center">
+                    <i class="fa-solid fa-save mr-2"></i>{{ grabar|default:"Guardar" }}
+                </button>
+                <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center" href="{% url 'security:menu_list' %}">
                     <i class="fa-solid fa-xmark mr-2"></i>Cancelar
                 </a>
             </div>
         </form>
-
         <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
         <div class="flex flex-wrap items-center justify-center my-6 x-4">
             <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
@@ -81,8 +73,114 @@
             </a>
         </div>
         <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
+    </div>
 
+    <!-- SECCION DE COOKIES -->
+    <div id="cookies-with-stacked-buttons" class="fixed bottom-0 -right-0 z-[60] sm:max-w-sm w-full sm:w-auto p-6" data-aos="fade-left" data-aos-delay="300">
+        <!-- Card -->
+        <div class="text-center relative p-4 bg-white/60 dark:bg-principal backdrop-blur-lg dark:backdrop-blur-lg rounded-xl shadow-2xl dark:shadow-black/70">
+            <h2 class=" dark:text-blue-300 text-lg text-center mt-6 font-Pacifico">Instrucciones
+            <p class="dark:text-gray-300 font-Pacifico text-sm font-light">Se puede usar iconos de la libreria Font Awesome y Remix.<br>Por ejemplo, solo se debe colocar:<br><span class="text-green-300">fa-solid fa-kiwi-bird</span><br>El resultado será un icono de un pájaro kiwi. <br><i class="fa-solid fa-kiwi-bird text-blue-300"></i></p>
+            <div class="mt-5 mb-2 w-full flex gap-x-2 justify-center">
+                <button type="button" class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-light rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none" onclick="closeCookiePopup()">
+                    Entendido
+                </button>
+            </div>
+        </div>
+        <!-- Background SVG -->
+        <svg class="absolute bottom-0 right-0 -z-10 w-full h-full" viewBox="0 0 273 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_1727_230)">
+            <path d="M274.983 42.5186C261.682 42.5186 248.926 47.8596 239.521 57.3668C230.116 66.874 224.833 79.7685 224.833 93.2137C224.833 106.659 230.116 119.553 239.521 129.061C248.926 138.568 261.682 143.909 274.983 143.909L274.983 120.374C267.857 120.374 261.023 117.512 255.984 112.419C250.945 107.325 248.114 100.417 248.114 93.2137C248.114 86.0103 250.945 79.1021 255.984 74.0085C261.023 68.915 267.857 66.0535 274.983 66.0535L274.983 42.5186Z" fill="#3B82F6" class="dark:fill-blue-800"/>
+            <path d="M274.982 0C250.405 -2.94804e-07 226.835 9.82069 209.456 27.3016C192.077 44.7826 182.314 68.4918 182.314 93.2136C182.314 117.935 192.077 141.645 209.456 159.126C226.835 176.606 250.405 186.427 274.982 186.427L274.982 143.153C261.815 143.153 249.187 137.892 239.876 128.526C230.566 119.161 225.335 106.458 225.335 93.2136C225.335 79.9688 230.566 67.2664 239.876 57.9009C249.187 48.5354 261.815 43.274 274.982 43.274L274.982 0Z" fill="#1D4ED8" class="dark:fill-blue-900"/>
+            <circle cx="214.475" cy="222.95" r="59.962" transform="rotate(180 214.475 222.95)" stroke="#1E40AF" stroke-width="3.27065" class="dark:stroke-blue-700"/>
+            <circle cx="214.476" cy="222.95" r="49.0598" transform="rotate(180 214.476 222.95)" stroke="#1E40AF" stroke-width="3.27065" class="dark:stroke-blue-700"/>
+            <circle cx="214.475" cy="222.95" r="39.2478" transform="rotate(180 214.475 222.95)" stroke="#1E40AF" stroke-width="3.27065" class="dark:stroke-blue-700"/>
+            <circle cx="214.476" cy="222.949" r="28.3457" transform="rotate(180 214.476 222.949)" stroke="#1E40AF" stroke-width="3.27065" class="dark:stroke-blue-700"/>
+            <circle cx="214.475" cy="222.95" r="17.4435" transform="rotate(180 214.475 222.95)" stroke="#1E40AF" stroke-width="3.27065" class="dark:stroke-blue-700"/>
+            <circle cx="214.476" cy="222.949" r="7.63152" transform="rotate(180 214.476 222.949)" stroke="#3B82F6" stroke-width="3.27065" class="dark:stroke-blue-500"/>
+            <rect x="193.216" y="180.976" width="55.6011" height="40.338" transform="rotate(180 193.216 180.976)" fill="#1E40AF" class="dark:fill-blue-900"/>
+            <path d="M137.615 235.487L137.615 179.886L193.216 179.886L137.615 235.487Z" fill="#1D4ED8" class="dark:fill-blue-800"/>
+            <path d="M53.3108 199.749L108.476 110.517L163.642 199.749H53.3108Z" stroke="#1D4ED8" stroke-width="2.18043" class="dark:stroke-blue-700"/>
+            <path d="M65.9582 91L123.08 182.578H8.83672L65.9582 91Z" fill="#1D4ED8" class="dark:fill-blue-800"/>
+          </g>
+          <defs>
+            <clipPath id="clip0_1727_230">
+              <rect width="273" height="250" fill="white"/>
+            </clipPath>
+          </defs>
+        </svg>
     </div>
 </section>
+<script>
+    function closeCookiePopup() {
+        document.getElementById('cookies-with-stacked-buttons').style.display = 'none';
+    }
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuContainer = document.getElementById('menuContainer');
+        const addMenuBtn = document.getElementById('addMenuBtn');
+        const form = document.getElementById('menuForm');
+    
+        addMenuBtn.addEventListener('click', function() {
+            const newMenuItem = document.createElement('div');
+            newMenuItem.className = 'menu-item';
+            newMenuItem.innerHTML = `
+                <div class="menu-item dark:bg-secundario bg-gray-100 p-4 flex flex-row space-x-4 justify-center rounded-3xl" data-aos="fade-right">
+                    <div class="mb-8">
+                        <label for="name" class="dark:text-blue-300 font-black uppercase text-lg">Nombre</label>
+                        <input type="text" name="name" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </div>
+                    <div class="mb-8">
+                        <label for="icon" class="dark:text-blue-300 font-black uppercase text-lg">Ícono</label>
+                        <input type="text" name="icon" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </div>
+                    <button type="button" class="removeMenuBtn">
+                        <i class="fa-solid fa-trash-alt text-red-500 hover:text-red-600"></i>
+                    </button>
+                </div>
+            `;
+            menuContainer.appendChild(newMenuItem);
+
+            const removeBtn = newMenuItem.querySelector('.removeMenuBtn');
+            removeBtn.addEventListener('click', function() {
+            menuContainer.removeChild(newMenuItem);
+        });
+        });
+    
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const menus = [];
+            const names = formData.getAll('name');
+            const icons = formData.getAll('icon');
+            
+            for (let i = 0; i < names.length; i++) {
+                menus.push({
+                    name: names[i],
+                    icon: icons[i]
+                });
+            }
+    
+            fetch('{% url "security:menu_create" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ menus: menus })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '{% url "security:menu_list" %}';
+                } else {
+                    alert('Error al crear los menús');
+                }
+            });
+        });
+    });
+    </script>
 
 {% endblock content %}

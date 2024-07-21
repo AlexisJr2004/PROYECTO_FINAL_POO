@@ -50,7 +50,6 @@ class GroupModulePermissionCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         context["grabar"] = "Grabar GMP"
         context["back_url"] = self.success_url
-        context["is_update"] = False
         return context
     
     def get(self, request, *args, **kwargs):

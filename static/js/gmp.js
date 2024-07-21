@@ -13,16 +13,20 @@ document.addEventListener('DOMContentLoaded', function() {
                         const moduleDiv = document.createElement('div');
                         moduleDiv.className = 'module-container mb-4';
                         moduleDiv.innerHTML = `
-                            <div class="bg-gray-200 dark:bg-[#0A0E21] p-2 m-2 rounded-3xl">
-                                <h3 class="text-lg dark:text-blue-300 font-semibold mb-2">${module.module_name}</h3>
-                                <button type="button" class="select-all-btn bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mb-2">
-                                    Seleccionar todos
-                                </button>
+                            <div class="bg-gray-200 dark:bg-principal p-2 m-2 rounded-3xl">
+                                <div class="flex flex-wrap items-center justify-center text-center space-x-2">
+                                    <h2 class="text-lg dark:text-blue-300 mb-0 font-Pacifico flex items-center">
+                                        <i class="${module.module_icon} mr-2"></i>${module.module_name}
+                                    </h2>
+                                    <button type="button" class="select-all-btn text-blue-300 hover:text-blue-500 rounded-full p-0">
+                                        <i class="ri-checkbox-blank-fill text-2xl"></i>
+                                    </button>
+                                </div>
                                 <div class="grid items-center permissions-group">
                                     ${module.permissions.map(perm => `
                                         <label class="inline-flex items-center mr-4 mb-2">
                                             <input type="checkbox" name="permissions[]" value="${perm.id}" 
-                                                ${perm.selected ? 'checked' : ''} class="checkbox-container">
+                                                ${perm.selected ? 'checked' : ''} class="checkbox-container shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[10px] p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                                             <span class="ml-2 dark:text-gray-400">${perm.name}</span>
                                         </label>
                                     `).join('')}
@@ -34,11 +38,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
                     // Agregar event listeners para los botones "Seleccionar todos"
                     document.querySelectorAll('.select-all-btn').forEach(button => {
-                        button.addEventListener('click', function() {
-                            const checkboxes = this.nextElementSibling.querySelectorAll('input[type="checkbox"]');
+                        button.addEventListener('click', function () {
+                            const checkboxes = this.parentElement.nextElementSibling.querySelectorAll('input[type="checkbox"]');
                             const allChecked = Array.from(checkboxes).every(cb => cb.checked);
                             checkboxes.forEach(cb => cb.checked = !allChecked);
-                            this.textContent = allChecked ? 'Seleccionar todos' : 'Deseleccionar todos';
+                            this.innerHTML = allChecked ? '<i class="ri-checkbox-blank-fill text-2xl"></i>' : '<i class="ri-checkbox-fill text-2xl"></i>';
                         });
                     });
                 });

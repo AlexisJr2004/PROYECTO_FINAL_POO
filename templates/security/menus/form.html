@@ -119,24 +119,24 @@
         <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
     </div>
 
-    <!-- SECCION DE COOKIES -->
+    <!-- SUGERENCIA -->
     <div id="cookies-with-stacked-buttons" class="fixed bottom-0 -right-0 z-[60] sm:max-w-sm w-full sm:w-auto p-6"
         data-aos="fade-left" data-aos-delay="300">
         <!-- Card -->
         <div
             class="text-center relative p-4 bg-white/60 dark:bg-principal backdrop-blur-lg dark:backdrop-blur-lg rounded-xl shadow-2xl dark:shadow-black/70">
             <h2 class=" dark:text-blue-300 text-lg text-center mt-6 font-Pacifico">Instrucciones
-                <p class="dark:text-gray-300 font-Pacifico text-sm font-light">Se puede usar iconos de la libreria Font
-                    Awesome y Remix.<br>Por ejemplo, solo se debe colocar:<br><span class="text-green-300">fa-solid
-                        fa-kiwi-bird</span><br>El resultado será un icono de un pájaro kiwi. <br><i
-                        class="fa-solid fa-kiwi-bird text-blue-300"></i></p>
-                <div class="mt-5 mb-2 w-full flex gap-x-2 justify-center">
-                    <button type="button"
-                        class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-light rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                        onclick="closeCookiePopup()">
-                        Entendido
-                    </button>
-                </div>
+            <p class="dark:text-gray-300 font-Pacifico text-sm font-light">Se puede usar iconos de la libreria Font
+                Awesome y Remix.<br>Por ejemplo, solo se debe colocar:<br><span class="text-green-300">fa-solid
+                    fa-kiwi-bird</span><br>El resultado será un icono de un pájaro kiwi. <br><i
+                    class="fa-solid fa-kiwi-bird text-blue-300"></i></p>
+            <div class="mt-5 mb-2 w-full flex gap-x-2 justify-center">
+                <button type="button"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-light rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                    onclick="closeCookiePopup()">
+                    Entendido
+                </button>
+            </div>
         </div>
         <!-- Background SVG -->
         <svg class="absolute bottom-0 right-0 -z-10 w-full h-full" viewBox="0 0 273 250" fill="none"
@@ -176,6 +176,7 @@
         </svg>
     </div>
 </section>
+<!-- SCRIPT DE SUGERENCIA -->
 <script>
     function closeCookiePopup() {
         document.getElementById('cookies-with-stacked-buttons').style.display = 'none';
@@ -192,20 +193,20 @@
             const newMenuItem = document.createElement('div');
             newMenuItem.className = 'menu-item';
             newMenuItem.innerHTML = `
-                                    <div class="menu-item dark:bg-secundario bg-gray-100 p-4 flex flex-row space-x-4 justify-center rounded-3xl" data-aos="fade-right">
-                                        <div class="mb-8">
-                                            <label for="name" class="dark:text-blue-300 font-black uppercase text-lg">Nombre</label>
-                                            <input type="text" name="name" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                                        </div>
-                                        <div class="mb-8">
-                                            <label for="icon" class="dark:text-blue-300 font-black uppercase text-lg">Ícono</label>
-                                            <input type="text" name="icon" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                                        </div>
-                                        <button type="button" class="removeMenuBtn">
-                                            <i class="fa-solid fa-trash-alt text-red-500 hover:text-red-600"></i>
-                                        </button>
-                                    </div>
-                                `;
+                <div class="menu-item dark:bg-secundario bg-gray-100 p-4 flex flex-row space-x-4 justify-center rounded-3xl" data-aos="fade-right">
+                    <div class="mb-8">
+                        <label for="name" class="dark:text-blue-300 font-black uppercase text-lg">Nombre</label>
+                        <input type="text" name="name" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </div>
+                    <div class="mb-8">
+                        <label for="icon" class="dark:text-blue-300 font-black uppercase text-lg">Ícono</label>
+                        <input type="text" name="icon" required class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </div>
+                    <button type="button" class="removeMenuBtn">
+                        <i class="fa-solid fa-trash-alt text-red-500 hover:text-red-600"></i>
+                    </button>
+                </div>
+            `;
             menuContainer.appendChild(newMenuItem);
 
             const removeBtn = newMenuItem.querySelector('.removeMenuBtn');
@@ -235,15 +236,14 @@
                     'X-CSRFToken': '{{ csrf_token }}'
                 },
                 body: JSON.stringify({ menus: menus })
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        window.location.href = '{% url "security:menu_list" %}';
-                    } else {
-                        alert('Error al crear los menús');
-                    }
-                });
+            }).then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = '{% url "security:menu_list" %}';
+                } else {
+                    alert('Error al crear los menús');
+                }
+            });
         });
     });
 </script>

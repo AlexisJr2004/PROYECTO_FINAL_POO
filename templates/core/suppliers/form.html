@@ -4,153 +4,222 @@
 <title>{% block title %} {{ title }} {% endblock title %}</title>
 <section class="dark:bg-principal py-20">
     <div class="container mx-auto p-4" data-aos="fade-up" data-aos-delay="300">
-                               <!-- Cinta de navegación -->
-                               <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
-                                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                                <li class="inline-flex items-center">
-                                    <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                                    <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
-                                    </svg>
-                                    Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                    <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                    </svg>
-                                    <a href="http://127.0.0.1:8000/core/supplier_list/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">Consulta de Proveedores</a>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                    <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                    </svg>
-                                    <a href="http://127.0.0.1:8000/core/supplier_create/" class="ms-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ms-2 dark:text-blue-600 dark:hover:text-white">Actualizar Proveedores</a>
-                                    </div>
-                                </li>
-                                </ol>
-                            </nav>
-                            <br>
+        <!-- Cinta de navegación -->
+        <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700"
+            aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                <li class="inline-flex items-center">
+                    <a href="/"
+                        class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor" viewBox="0 0 20 20">
+                            <path
+                                d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 9 4-4-4-4" />
+                        </svg>
+                        <a href="http://127.0.0.1:8000/core/supplier_list/"
+                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">Consulta
+                            de Proveedores</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 9 4-4-4-4" />
+                        </svg>
+                        <a href="http://127.0.0.1:8000/core/supplier_create/"
+                            class="ms-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ms-2 dark:text-blue-600 dark:hover:text-white">Actualizar
+                            Proveedores</a>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+        <br>
         <div class="sm:pt-28 lg:pt-4">
             <h1 class="dark:text-white text-4xl text-center mt-6 font-Pacifico">
                 {{ title2 }}
             </h1>
-            <p class="dark:text-gray-300 text-lg text-center mt-2">Complete el formulario para guardar un nuevo registro.</p>
+            <p class="dark:text-gray-300 text-lg text-center mt-2">Complete el formulario para guardar un nuevo
+                registro.</p>
         </div>
         <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mx-4 lg:mx-20" data-aos="fade">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mx-4" data-aos="fade">
                 <!-- Columna de la izquierda (Mapa) -->
-                <div class="bg-gray-50 dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8" data-aos="fade-right" data-aos-delay="200">
+                <div class="bg-gray-50 dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8"
+                    data-aos="fade-right" data-aos-delay="200">
                     <div id="map" class="w-full h-64 lg:h-full"></div>
                 </div>
-                <!-- Columna del centro -->
-                <div class="bg-gray-50 dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-8" data-aos="fade-right" data-aos-delay="200">
-                    <div class="w-[35%] text-center flex flex-col justify-center items-center">
-                        <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
-                        <div id="imagenPreview" class="w-full">
-                            {% if form.image.value %}
-                                <img id="imagenSeleccionada" src="{{ form.image.value.url }}" class="mx-auto d-block rounded-lg" alt="Imagen">
-                            {% else %}
-                                <img id="imagenSeleccionada" src="{% static 'img/models/default_supplier.png' %}" class="mx-auto d-block rounded-lg" alt="Imagen por defecto">
-                            {% endif %}
-                        </div>
-                        <div class="flex items-center justify-center w-full mt-4">
-                            <label for="dropzone-file" class="mb-4 flex flex-col items-center justify-center w-full h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-secundario hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-[#060b16]">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                    </svg>
-                                    <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Seleccione</span> archivo a subir</p>
-                                </div>
+                <!-- Columna de la derecha -->
+                <div class="p-4 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center"
+                    data-aos="fade-right" data-aos-delay="200">
+                    {% csrf_token %}
+                    <!-- Columna del centro -->
+                    <div class="bg-gray-50 dark:bg-secundario rounded-3xl flex flex-col justify-center items-center p-2" data-aos="fade-right" data-aos-delay="200">
+                        <div class="w-[35%] text-center flex flex-wrap justify-center items-center">
+                            <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
+                            <div id="imagenPreview" class="w-full cursor-pointer">
+                                {% if form.image.value %}
+                                <img id="imagenSeleccionada" src="{{ form.image.value.url }}"
+                                    class="mx-auto d-block rounded-lg" alt="Imagen">
+                                {% else %}
+                                <img id="imagenSeleccionada" src="{% static 'img/models/default_supplier.png' %}"
+                                    class="mx-auto d-block rounded-lg" alt="Imagen por defecto">
+                                {% endif %}
                                 {{ form.image }}
-                            </label>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <!-- Columna de la derecha -->
-                <div class="p-4 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center" data-aos="fade-right" data-aos-delay="200">
-                    {% csrf_token %}
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div>
                             <div class="mb-8">
-                                <label for="{{ form.name.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.name.label }}</label>
+                                <label for="{{ form.name.id_for_label }}"
+                                    class="dark:text-blue-300 font-black uppercase text-lg">{{ form.name.label }}</label>
                                 {{ form.name }}
                             </div>
                             <div class="mb-8">
-                                <label for="{{ form.address.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.address.label }}</label>
+                                <label for="{{ form.address.id_for_label }}"
+                                    class="dark:text-blue-300 font-black uppercase text-lg">{{ form.address.label }}</label>
                                 {{ form.address }}
                             </div>
                         </div>
                         <div>
                             <div class="mb-8">
-                                <label for="{{ form.ruc.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.ruc.label }}</label>
+                                <label for="{{ form.ruc.id_for_label }}"
+                                    class="dark:text-blue-300 font-black uppercase text-lg">{{ form.ruc.label }}</label>
                                 {{ form.ruc }}
                             </div>
                             <div class="mb-8">
-                                <label for="{{ form.phone.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.phone.label }}</label>
+                                <label for="{{ form.phone.id_for_label }}"
+                                    class="dark:text-blue-300 font-black uppercase text-lg">{{ form.phone.label }}</label>
                                 {{ form.phone }}
                             </div>
                         </div>
                         <div>
                             <div class="mb-8">
-                                <label for="{{ form.latitude.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.latitude.label }}</label>
+                                <label for="{{ form.latitude.id_for_label }}"
+                                    class="dark:text-blue-300 font-black uppercase text-lg">{{ form.latitude.label }}</label>
                                 {{ form.latitude }}
                             </div>
                             <div class="mb-8">
-                                <label for="{{ form.longitude.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.longitude.label }}</label>
+                                <label for="{{ form.longitude.id_for_label }}"
+                                    class="dark:text-blue-300 font-black uppercase text-lg">{{ form.longitude.label }}</label>
                                 {{ form.longitude }}
                             </div>
                         </div>
                     </div>
                     <div class="mb-8 flex flex-col justify-center items-center">
-                        <label for="{{ form.active.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.active.label }}</label>
+                        <label for="{{ form.active.id_for_label }}"
+                            class="dark:text-blue-300 font-black uppercase text-lg">{{ form.active.label }}</label>
                         {{ form.active }}
                     </div>
                 </div>
             </div>
             <div class="flex flex-col md:flex-row justify-center">
-                <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 md:mr-2 mb-2 md:mb-0 flex items-center">
+                <button type="submit"
+                    class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 md:mr-2 mb-2 md:mb-0 flex items-center">
                     <i class="fa-solid fa-save mr-2"></i>Guardar
                 </button>
-                <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center" href="{% url 'core:supplier_list' %}">
+                <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center"
+                    href="{% url 'core:supplier_list' %}">
                     <i class="fa-solid fa-xmark mr-2"></i>Cancelar
                 </a>
             </div>
         </form>
     </div>
+    <!-- SUGERENCIA -->
+    <div id="cookies-with-stacked-buttons" class="fixed bottom-0 -right-0 z-[60] sm:max-w-sm w-full sm:w-auto p-6"
+        data-aos="fade-left" data-aos-delay="300">
+        <!-- Card -->
+        <div
+            class="text-center relative p-4 bg-white/60 dark:bg-principal backdrop-blur-lg dark:backdrop-blur-lg rounded-xl shadow-2xl dark:shadow-black/70">
+            <h2 class=" dark:text-blue-300 text-lg text-center mt-6 font-Pacifico">Instrucciones
+            <p class="dark:text-gray-300 font-Pacifico text-sm font-light">Seleccione la imagen actual para actualizarla.
+            <div class="mt-5 mb-2 w-full flex gap-x-2 justify-center">
+                <button type="button"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-light rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                    onclick="closeCookiePopup()">
+                    Entendido
+                </button>
+            </div>
+        </div>
+        <!-- Background SVG -->
+        <svg class="absolute bottom-0 right-0 -z-10 w-full h-full" viewBox="0 0 273 250" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_1727_230)">
+                <path
+                    d="M274.983 42.5186C261.682 42.5186 248.926 47.8596 239.521 57.3668C230.116 66.874 224.833 79.7685 224.833 93.2137C224.833 106.659 230.116 119.553 239.521 129.061C248.926 138.568 261.682 143.909 274.983 143.909L274.983 120.374C267.857 120.374 261.023 117.512 255.984 112.419C250.945 107.325 248.114 100.417 248.114 93.2137C248.114 86.0103 250.945 79.1021 255.984 74.0085C261.023 68.915 267.857 66.0535 274.983 66.0535L274.983 42.5186Z"
+                    fill="#3B82F6" class="dark:fill-blue-800" />
+                <path
+                    d="M274.982 0C250.405 -2.94804e-07 226.835 9.82069 209.456 27.3016C192.077 44.7826 182.314 68.4918 182.314 93.2136C182.314 117.935 192.077 141.645 209.456 159.126C226.835 176.606 250.405 186.427 274.982 186.427L274.982 143.153C261.815 143.153 249.187 137.892 239.876 128.526C230.566 119.161 225.335 106.458 225.335 93.2136C225.335 79.9688 230.566 67.2664 239.876 57.9009C249.187 48.5354 261.815 43.274 274.982 43.274L274.982 0Z"
+                    fill="#1D4ED8" class="dark:fill-blue-900" />
+                <circle cx="214.475" cy="222.95" r="59.962" transform="rotate(180 214.475 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.476" cy="222.95" r="49.0598" transform="rotate(180 214.476 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.475" cy="222.95" r="39.2478" transform="rotate(180 214.475 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.476" cy="222.949" r="28.3457" transform="rotate(180 214.476 222.949)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.475" cy="222.95" r="17.4435" transform="rotate(180 214.475 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.476" cy="222.949" r="7.63152" transform="rotate(180 214.476 222.949)" stroke="#3B82F6"
+                    stroke-width="3.27065" class="dark:stroke-blue-500" />
+                <rect x="193.216" y="180.976" width="55.6011" height="40.338" transform="rotate(180 193.216 180.976)"
+                    fill="#1E40AF" class="dark:fill-blue-900" />
+                <path d="M137.615 235.487L137.615 179.886L193.216 179.886L137.615 235.487Z" fill="#1D4ED8"
+                    class="dark:fill-blue-800" />
+                <path d="M53.3108 199.749L108.476 110.517L163.642 199.749H53.3108Z" stroke="#1D4ED8"
+                    stroke-width="2.18043" class="dark:stroke-blue-700" />
+                <path d="M65.9582 91L123.08 182.578H8.83672L65.9582 91Z" fill="#1D4ED8" class="dark:fill-blue-800" />
+            </g>
+            <defs>
+                <clipPath id="clip0_1727_230">
+                    <rect width="273" height="250" fill="white" />
+                </clipPath>
+            </defs>
+        </svg>
+    </div>
 </section>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         var ecuadorLat = -1.8312;
         var ecuadorLon = -78.1834;
-    
+
         var map = L.map('map').setView([ecuadorLat, ecuadorLon], 7);
-    
+
         var osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '© OpenStreetMap contributors'
         });
-    
+
         var satelliteLayer = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
             attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
         });
-    
+
         var baseMaps = {
             "OpenStreetMap": osmLayer,
             "Satellite": satelliteLayer
         };
-    
+
         osmLayer.addTo(map);
-    
+
         L.control.layers(baseMaps).addTo(map);
         L.control.scale().addTo(map);
-    
+
         var currentMarker = null;
         var supplierMarkers = L.layerGroup().addTo(map);
-    
+
         function loadSuppliers() {
             fetch('{% url "core:get_suppliers" %}')
                 .then(response => response.json())
@@ -164,35 +233,35 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-    
+
         loadSuppliers();
-    
+
         function updateMarkerAndFields(lat, lng) {
             if (currentMarker) {
                 map.removeLayer(currentMarker);
             }
             currentMarker = L.marker([lat, lng]).addTo(map);
             map.setView([lat, lng], 13);
-    
+
             var latitudeField = document.getElementById('id_latitude');
             var longitudeField = document.getElementById('id_longitude');
-            
+
             if (latitudeField && longitudeField) {
                 latitudeField.value = lat.toFixed(6);
                 longitudeField.value = lng.toFixed(6);
             }
         }
-    
+
         function onMapClick(e) {
             updateMarkerAndFields(e.latlng.lat, e.latlng.lng);
         }
-    
+
         map.on('click', onMapClick);
-    
+
         function updateMapFromFields() {
             var latitudeField = document.getElementById('id_latitude');
             var longitudeField = document.getElementById('id_longitude');
-            
+
             if (latitudeField && longitudeField) {
                 var lat = parseFloat(latitudeField.value);
                 var lng = parseFloat(longitudeField.value);
@@ -201,31 +270,31 @@
                 }
             }
         }
-    
+
         var latitudeField = document.getElementById('id_latitude');
         var longitudeField = document.getElementById('id_longitude');
-        
+
         if (latitudeField && longitudeField) {
             latitudeField.addEventListener('input', updateMapFromFields);
             longitudeField.addEventListener('input', updateMapFromFields);
         }
-    
+
         var dropzoneFile = document.getElementById('{{ form.image.id_for_label }}');
-        dropzoneFile.addEventListener('change', function(event) {
+        dropzoneFile.addEventListener('change', function (event) {
             var input = event.target;
             var reader = new FileReader();
-            reader.onload = function(){
+            reader.onload = function () {
                 var dataURL = reader.result;
                 var imagenSeleccionada = document.getElementById('imagenSeleccionada');
                 imagenSeleccionada.src = dataURL;
             };
             reader.readAsDataURL(input.files[0]);
         });
-    
+
         // Añadir buscador de direcciones
         var geocoder = L.Control.geocoder({
             defaultMarkGeocode: false
-        }).on('markgeocode', function(e) {
+        }).on('markgeocode', function (e) {
             var bbox = e.geocode.bbox;
             var poly = L.polygon([
                 bbox.getSouthEast(),
@@ -236,7 +305,7 @@
             map.fitBounds(poly.getBounds());
             updateMarkerAndFields(e.geocode.center.lat, e.geocode.center.lng);
         }).addTo(map);
-    
+
         // Añadir botón para centrar en la ubicación del usuario
         L.control.locate({
             position: 'topright',
@@ -244,11 +313,11 @@
                 title: "Mostrar mi ubicación"
             }
         }).addTo(map);
-    
+
         // Añadir control para dibujar en el mapa
         var drawnItems = new L.FeatureGroup();
         map.addLayer(drawnItems);
-    
+
         var drawControl = new L.Control.Draw({
             edit: {
                 featureGroup: drawnItems
@@ -262,15 +331,37 @@
             }
         });
         map.addControl(drawControl);
-    
+
         map.on(L.Draw.Event.CREATED, function (e) {
             var type = e.layerType,
                 layer = e.layer;
-    
+
             drawnItems.addLayer(layer);
         });
-    
+
         updateMapFromFields();
     });
-    </script>
-    {% endblock content %}
+</script>
+
+<script>
+    // Asegúrate de que el DOM esté completamente cargado antes de ejecutar el script
+    document.addEventListener('DOMContentLoaded', function () {
+        // Selecciona la imagen y el input de archivo
+        const imagenSeleccionada = document.getElementById('imagenSeleccionada');
+        const inputArchivo = document.getElementById('dropzone-file');
+        
+        // Agrega un evento de clic a la imagen
+        imagenSeleccionada.addEventListener('click', function () {
+            // Simula un clic en el input de archivo
+            inputArchivo.click();
+        });
+    });
+</script>
+
+<!-- SCRIPT DE SUGERENCIA -->
+<script>
+    function closeCookiePopup() {
+        document.getElementById('cookies-with-stacked-buttons').style.display = 'none';
+    }
+</script>
+{% endblock content %}

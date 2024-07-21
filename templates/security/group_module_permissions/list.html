@@ -1,31 +1,29 @@
-{% extends 'components/base.html' %}
-{% block content %}
-{% load static %}
+{% extends 'components/base.html' %} {% block content %} {% load static %}
 <title>{% block title %} {{ title1 }} {% endblock title %}</title>
 <section class="dark:bg-principal py-20">
     <div class="container mx-auto p-4" data-aos="fade-up" data-aos-delay="300">
-                               <!-- Cinta de navegación -->
-                               <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
-                                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                                <li class="inline-flex items-center">
-                                    <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                                    <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                        <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
-                                    </svg>
-                                    Home
-                                    </a>
-                                </li>
-                                <li>
-                                    <div class="flex items-center">
-                                    <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                    </svg>
-                                    <a href="http://127.0.0.1:8000/security/group_module_permission/list/" class="ms-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ms-2 dark:text-blue-600 dark:hover:text-white">Consulta de Grupos Módulos Permisos</a>
-                                    </div>
-                                </li>
-                                </ol>
-                            </nav>
-                            <br>
+        <!-- Cinta de navegación -->
+        <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                <li class="inline-flex items-center">
+                    <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                        </svg>
+                        <a href="http://127.0.0.1:8000/security/group_module_permission/list/" class="ms-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ms-2 dark:text-blue-600 dark:hover:text-white">Consulta de Grupos Módulos Permisos</a>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+        <br>
         <div class="sm:pt-28 lg:pt-4">
             <div class="flex flex-col items-center justify-center">
                 <span class="rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
@@ -42,16 +40,13 @@
                 <label for="table-search" class="sr-only">Search</label>
                 <div class="relative mt-1">
                     <div class="absolute inset-y-0 rtl:inset-r-0 start-0 flex items-center ps-3 pointer-events-none">
-                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                        <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                         </svg>
                     </div>
                     <form method="GET">
-                        <input type="text" name="q" id="table-search"
-                            class="text-center pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
-                            placeholder="Búsqueda" value="{{ request.GET.q }}">
+                        <input type="text" name="q" id="table-search" class="text-center pl-10 shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light"
+                        placeholder="Búsqueda" value="{{ request.GET.q }}">
                     </form>
                 </div>
             </div>
@@ -67,13 +62,11 @@
                     </thead>
                     <tbody>
                         {% for item in group_module_permissions %}
-                        <tr
-                            class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                        <tr class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
                             <td class="px-6 py-4">{{ item.group }}</td>
                             <td class="px-6 py-4">{{ item.module }}</td>
                             <td class="px-6 py-4">
-                                <a href="#" class="text-red-600 dark:text-red-500"
-                                    onclick="openDeleteModal('{{ item.id }}', '{{ item.group }}')">
+                                <a href="#" class="text-red-600 dark:text-red-500" onclick="openDeleteModal('{{ item.id }}', '{{ item.group }}')">
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
                             </td>
@@ -89,22 +82,17 @@
                     <ul class="inline-flex -space-x-px">
                         {% if page_obj.has_previous %}
                         <li>
-                            <a href="?page=1"
-                                class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Anterior</a>
+                            <a href="?page=1" class="flex items-center justify-center px-3 h-8 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Anterior</a>
                         </li>
-                        {% endif %}
-                        {% for num in page_obj.paginator.page_range %}
+                        {% endif %} {% for num in page_obj.paginator.page_range %}
                         <li>
-                            <a href="?page={{ num }}"
-                                class="flex items-center justify-center px-3 h-8 leading-tight {% if num == page_obj.number %}text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:bg-secundario dark:border-principal dark:text-blue-300{% else %}text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white{% endif %}">
+                            <a href="?page={{ num }}" class="flex items-center justify-center px-3 h-8 leading-tight {% if num == page_obj.number %}text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:bg-secundario dark:border-principal dark:text-blue-300{% else %}text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white{% endif %}">
                                 {{ num }}
                             </a>
                         </li>
-                        {% endfor %}
-                        {% if page_obj.has_next %}
+                        {% endfor %} {% if page_obj.has_next %}
                         <li>
-                            <a href="?page={{ page_obj.next_page_number }}"
-                                class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Siguiente</a>
+                            <a href="?page={{ page_obj.next_page_number }}" class="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white">Siguiente</a>
                         </li>
                         {% endif %}
                     </ul>
@@ -125,16 +113,13 @@
             </div>
             <hr class="h-px my-8 mx-40 bg-gray-200 border-0 dark:bg-gray-700">
             <div class="flex flex-wrap items-center justify-center my-6 x-4">
-                <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
-                    href="{% url 'security:menu_list' %}">
+                <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center" href="{% url 'security:menu_list' %}">
                     <i class="fa-solid fa-bars mr-2"></i>Lista de Menús
                 </a>
-                <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
-                    href="{% url 'security:module_list' %}">
+                <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center" href="{% url 'security:module_list' %}">
                     <i class="fa-solid fa-puzzle-piece mr-2"></i>Lista de Módulos
                 </a>
-                <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center"
-                    href="{% url 'security:group_module_permission_list' %}">
+                <a class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-4 md:mr-2 mb-2 md:mb-0 flex items-center" href="{% url 'security:group_module_permission_list' %}">
                     <i class="fa-solid fa-person-digging mr-2"></i>Lista de GMP
                 </a>
             </div>

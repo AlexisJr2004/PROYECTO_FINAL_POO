@@ -1,40 +1,37 @@
-{% extends 'components/base.html' %}
-{% load static %}
-{% load i18n %}
-{% block content %}
+{% extends 'components/base.html' %} {% load static %} {% load i18n %} {% block content %}
 <title>{% block title %} {{ title1 }} {% endblock title %}</title>
 <section class="dark:bg-principal py-20">
     <div class="container mx-auto p-4" data-aos="fade-up" data-aos-delay="300">
-                                    <!-- Cinta de navegación -->
-                                    <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
-                                        <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                                        <li class="inline-flex items-center">
-                                            <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
-                                            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z"/>
-                                            </svg>
-                                            Home
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <div class="flex items-center">
-                                            <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                            </svg>
-                                            <a href="http://127.0.0.1:8000/core/profile/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">Perfil</a>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="flex items-center">
-                                            <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-                                            </svg>
-                                            <a href="http://127.0.0.1:8000/core/profile/update/" class="ms-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ms-2 dark:text-blue-600 dark:hover:text-white">Actualizar perfilPerfil</a>
-                                            </div>
-                                        </li>
-                                        </ol>
-                                    </nav>
-                                    <br>
+        <!-- Cinta de navegación -->
+        <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
+            <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
+                <li class="inline-flex items-center">
+                    <a href="/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">
+                        <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+                        </svg>
+                        Home
+                    </a>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                        </svg>
+                        <a href="http://127.0.0.1:8000/core/profile/" class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600 dark:text-gray-400 dark:hover:text-white">Perfil</a>
+                    </div>
+                </li>
+                <li>
+                    <div class="flex items-center">
+                        <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4" />
+                        </svg>
+                        <a href="http://127.0.0.1:8000/core/profile/update/" class="ms-1 text-sm font-medium text-blue-700 hover:text-blue-600 md:ms-2 dark:text-blue-600 dark:hover:text-white">Actualizar perfilPerfil</a>
+                    </div>
+                </li>
+            </ol>
+        </nav>
+        <br>
         <div class="flex flex-col items-center justify-center">
             <span class="bg-navbar rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
                 {{ title1 }}
@@ -43,156 +40,154 @@
         <h1 class="dark:text-white text-4xl text-center mt-8 font-Pacifico">
             {{ title2 }}
             </h1>
-            <p class="dark:text-gray-400 text-center mt-6 text-base sm:text-lg font-light">
-                {% trans "Complete el formulario para actualizar su información." %}
-            </p>
+        <p class="dark:text-gray-400 text-center mt-6 text-base sm:text-lg font-light">
+            {% trans "Complete el formulario para actualizar su información." %}
+        </p>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
+        {% csrf_token %}
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 justify-center items-center" data-aos="fade">
+            <!-- Columna del mapa -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl text-center flex flex-col items-center">
+                <div id="map" class="w-full h-64 lg:h-full" style="min-height: 400px;"></div>
+            </div>
+            <!-- Columna de la imagen -->
+            <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl text-center flex flex-col items-center">
+                <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
+                <div id="imagenPreview">
+                    {% if user.customer.image %}
+                    <img id="imagenSeleccionada" src="{{ user.customer.image.url }}" class="mx-auto d-block rounded-lg w-[40%]" alt="{% trans 'Foto de perfil' %}"> {% if imagen_nombre %}
+                    <p>{% trans 'Archivo actual:' %} {{ imagen_nombre }}</p>
+                    {% endif %} {% else %}
+                    <img id="imagenSeleccionada" src="{% static 'img/usuario_anonimo_2.png' %}" class="mx-auto d-block rounded-lg w-[40%]" alt="{% trans 'Foto de perfil por defecto' %}"> {% endif %}
+                </div>
+                <div class="flex items-center justify-center w-full mt-4">
+                    <label for="dropzone-file" class="mb-4 flex flex-col items-center justify-center w-full h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-secundario hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-[#060b16]">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                            </svg>
+                            <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Seleccione</span> archivo a subir</p>
+                        </div>
+                        {{ form.image }}
+                    </label>
+                </div>
+            </div>
+            <!-- Columna de los campos -->
+            <div class="p-6 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center" data-aos="fade-right" data-aos-delay="200">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+                    <div class="space-y-6">
+                        <div class="mb-6">
+                            <label for="{{ form.first_name.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {{ form.first_name.label }}
+                            </label>
+                            <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+                        <div class="mb-6">
+                            <label for="{{ form.last_name.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {{ form.last_name.label }}
+                            </label>
+                            <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" value="{{ form.last_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+                    </div>
+                    <div class="space-y-6">
+                        <div class="mb-6">
+                            <label for="{{ form.dni.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {{ form.dni.label }}
+                            </label>
+                            <br>
+                            <input type="text" name="{{ form.dni.name }}" id="{{ form.dni.id_for_label }}" value="{{ form.dni.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+                        <div class="mb-6">
+                            <label for="{{ form.phone.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {{ form.phone.label }}
+                            </label>
+                            <input type="text" name="{{ form.phone.name }}" id="{{ form.phone.id_for_label }}" value="{{ form.phone.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+                    </div>
+                    <div>
+                        <label for="{{ form.address.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                            {% trans 'Dirección' %}
+                        </label>
+                        <input type="text" name="{{ form.address.name }}" id="{{ form.address.id_for_label }}" value="{{ form.address.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </div>
+                    <div>
+                        <label for="{{ form.gender.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                            {% trans 'Género' %}
+                        </label>
+                        <select name="{{ form.gender.name }}" id="{{ form.gender.id_for_label }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                            <option value="">{% trans 'Seleccione un género' %}</option>
+                            <option value="M" {% if form.gender.value == 'M' %}selected{% endif %}>{% trans 'Masculino' %}</option>
+                            <option value="F" {% if form.gender.value == 'F' %}selected{% endif %}>{% trans 'Femenino' %}</option>
+                            <option value="O" {% if form.gender.value == 'O' %}selected{% endif %}>{% trans 'Otro' %}</option>
+                        </select>                        
+                    </div>
+                    <div>
+                        <label for="{{ form.date_of_birth.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                            {% trans 'Fecha de Nacimiento' %}
+                        </label>
+                        <input type="date" name="{{ form.date_of_birth.name }}" id="{{ form.date_of_birth.id_for_label }}" value="{{ form.date_of_birth.value|date:'Y-m-d' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label for="{{ form.latitude.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {% trans 'Latitud' %}
+                            </label>
+                            <input type="number" step="any" name="{{ form.latitude.name }}" id="{{ form.latitude.id_for_label }}" value="{{ form.latitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+                        <div>
+                            <label for="{{ form.longitude.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {% trans 'Longitud' %}
+                            </label>
+                            <input type="number" step="any" name="{{ form.longitude.name }}" id="{{ form.longitude.id_for_label }}" value="{{ form.longitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full mb-6">
+                    <div>
+                        <label for="{{ form.email.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                            {{ form.email.label }}
+                        </label>
+                        <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    </div>
+                </div>
+            </div>
         </div>
-        <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
-            {% csrf_token %}
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 justify-center items-center" data-aos="fade">
-                <!-- Columna del mapa -->
-                <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl text-center flex flex-col items-center">
-                    <div id="map" class="w-full h-64 lg:h-full" style="min-height: 400px;"></div>
+        <div class="p-6 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center lg:mx-40" data-aos="fade-right" data-aos-delay="200">
+            <!-- Actualizar Contraseña -->
+            <p class="dark:text-gray-400 text-center mt-6 text-sm sm:text-base font-light uppercase">
+                {% trans 'Sección de Cambio de Contraseña' %}
+            </p>
+            <div class="w-full space-y-4">
+                <div>
+                    <label for="id_current_password" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                        {% trans 'Contraseña Actual' %}
+                    </label>
+                    <input type="password" id="id_current_password" name="current_password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                 </div>
-                <!-- Columna de la imagen -->
-                <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl text-center flex flex-col items-center">
-                    <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
-                    <div id="imagenPreview">
-                        {% if user.customer.image %}
-                            <img id="imagenSeleccionada" src="{{ user.customer.image.url }}" class="mx-auto d-block rounded-lg w-[40%]" alt="{% trans 'Foto de perfil' %}">
-                            {% if imagen_nombre %}
-                                <p>{% trans 'Archivo actual:' %} {{ imagen_nombre }}</p>
-                            {% endif %}
-                        {% else %}
-                            <img id="imagenSeleccionada" src="{% static 'img/usuario_anonimo_2.png' %}" class="mx-auto d-block rounded-lg w-[40%]" alt="{% trans 'Foto de perfil por defecto' %}">
-                        {% endif %}
-                    </div>
-                    <div class="flex items-center justify-center w-full mt-4">
-                        <label for="dropzone-file" class="mb-4 flex flex-col items-center justify-center w-full h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-secundario hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-[#060b16]">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Seleccione</span> archivo a subir</p>
-                            </div>
-                            {{ form.image }}
-                        </label>
-                    </div>
+                <div>
+                    <label for="id_new_password1" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                        {% trans 'Nueva Contraseña' %}
+                    </label>
+                    <input type="password" id="id_new_password1" name="new_password1" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                 </div>
-                <!-- Columna de los campos -->
-                <div class="p-6 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center" data-aos="fade-right" data-aos-delay="200">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-                        <div class="space-y-6">
-                            <div class="mb-6">
-                                <label for="{{ form.first_name.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {{ form.first_name.label }}
-                                </label>
-                                <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                            <div class="mb-6">
-                                <label for="{{ form.last_name.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {{ form.last_name.label }}
-                                </label>
-                                <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" value="{{ form.last_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="mb-6">
-                                <label for="{{ form.dni.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {{ form.dni.label }}
-                                </label><br>
-                                <input type="text" name="{{ form.dni.name }}" id="{{ form.dni.id_for_label }}" value="{{ form.dni.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                            <div class="mb-6">
-                                <label for="{{ form.phone.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {{ form.phone.label }}
-                                </label>
-                                <input type="text" name="{{ form.phone.name }}" id="{{ form.phone.id_for_label }}" value="{{ form.phone.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                        </div>
-                        <div>
-                            <label for="{{ form.address.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {% trans 'Dirección' %}
-                            </label>
-                            <input type="text" name="{{ form.address.name }}" id="{{ form.address.id_for_label }}" value="{{ form.address.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                        </div>
-                        <div>
-                            <label for="{{ form.gender.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {% trans 'Género' %}
-                            </label>
-                            <select name="{{ form.gender.name }}" id="{{ form.gender.id_for_label }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                                <option value="">{% trans 'Seleccione un género' %}</option>
-                                <option value="M" {% if form.gender.value == 'M' %}selected{% endif %}>{% trans 'Masculino' %}</option>
-                                <option value="F" {% if form.gender.value == 'F' %}selected{% endif %}>{% trans 'Femenino' %}</option>
-                                <option value="O" {% if form.gender.value == 'O' %}selected{% endif %}>{% trans 'Otro' %}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="{{ form.date_of_birth.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {% trans 'Fecha de Nacimiento' %}
-                            </label>
-                            <input type="date" name="{{ form.date_of_birth.name }}" id="{{ form.date_of_birth.id_for_label }}" value="{{ form.date_of_birth.value|date:'Y-m-d' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label for="{{ form.latitude.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {% trans 'Latitud' %}
-                                </label>
-                                <input type="number" step="any" name="{{ form.latitude.name }}" id="{{ form.latitude.id_for_label }}" value="{{ form.latitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                            <div>
-                                <label for="{{ form.longitude.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {% trans 'Longitud' %}
-                                </label>
-                                <input type="number" step="any" name="{{ form.longitude.name }}" id="{{ form.longitude.id_for_label }}" value="{{ form.longitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="w-full mb-6">
-                        <div>
-                            <label for="{{ form.email.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {{ form.email.label }}
-                            </label>
-                            <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                        </div>
-                    </div>
+                <div>
+                    <label for="id_new_password2" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                        {% trans 'Confirmar Nueva Contraseña' %}
+                    </label>
+                    <input type="password" id="id_new_password2" name="new_password2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                 </div>
             </div>
-            <div class="p-6 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center lg:mx-40" data-aos="fade-right" data-aos-delay="200">
-                <!-- Actualizar Contraseña -->
-                <p class="dark:text-gray-400 text-center mt-6 text-sm sm:text-base font-light uppercase">
-                    {% trans 'Sección de Cambio de Contraseña' %}
-                </p>
-                <div class="w-full space-y-4">
-                    <div>
-                        <label for="id_current_password" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                            {% trans 'Contraseña Actual' %}
-                        </label>
-                        <input type="password" id="id_current_password" name="current_password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                    </div>
-                    <div>
-                        <label for="id_new_password1" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                            {% trans 'Nueva Contraseña' %}
-                        </label>
-                        <input type="password" id="id_new_password1" name="new_password1" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                    </div>
-                    <div>
-                        <label for="id_new_password2" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                            {% trans 'Confirmar Nueva Contraseña' %}
-                        </label>
-                        <input type="password" id="id_new_password2" name="new_password2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                    </div>
-                </div>
-            </div>
-            <div class="flex flex-col sm:flex-row justify-center w-full mt-6">
-                <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 sm:mr-2 mb-2 sm:mb-0 flex items-center justify-center w-full sm:w-auto">
-                    <i class="fa-solid fa-save mr-2"></i>{% trans 'Guardar' %}
-                </button>
-                <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center justify-center w-full sm:w-auto" href="{% url 'core:profile' %}">
-                    <i class="fa-solid fa-xmark mr-2"></i>{% trans 'Cancelar' %}
-                </a>
-            </div>
-        </form>
+        </div>
+        <div class="flex flex-col sm:flex-row justify-center w-full mt-6">
+            <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full mr-0 sm:mr-2 mb-2 sm:mb-0 flex items-center justify-center w-full sm:w-auto">
+                <i class="fa-solid fa-save mr-2"></i>{% trans 'Guardar' %}
+            </button>
+            <a class="bg-red-700 hover:bg-red-800 text-white py-2 px-4 rounded-full flex items-center justify-center w-full sm:w-auto" href="{% url 'core:profile' %}">
+                <i class="fa-solid fa-xmark mr-2"></i>{% trans 'Cancelar' %}
+            </a>
+        </div>
+    </form>
     </div>
 </section>
 

@@ -105,7 +105,7 @@
                 <!-- Modal body -->
                 <div class="p-4 md:p-5 space-y-4">
                     <p class="text-lg text-gray-700 dark:text-gray-400 mb-4">
-                        {% trans 'Versión actual: 8.5.0' %}
+                        {% trans 'Versión actual: 9.0.0' %}
                     </p>
                     <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                         {% trans 'Novedades de esta versión:' %}
@@ -114,6 +114,7 @@
                         <li>{% trans 'Optimización del rendimiento y corrección de errores' %}</li>
                         <li>{% trans 'Rediseño total de la aplicación' %}</li>
                         <li>{% trans 'Mejoras en la interfaz de usuario' %}</li>
+                        <li>{% trans 'Implementación de CHATBOT' %}</li>
                         <li>{% trans 'Incorporación de módulos de seguridad y permisos' %}</li>
                         <li>{% trans 'Registros de Proveedores y Usuarios' %}</li>
                         <li>{% trans 'Inicio de sesión por Desbloque Facial' %}</li>
@@ -138,33 +139,57 @@
         </div>
     </div>
 
-    <script>
+    {% comment %} <script>
         document.addEventListener('DOMContentLoaded', () => {
             const versionModal = document.getElementById('versionModal');
-            const closeVersionModal = document.getElementById('closeVersionModal');
-        
-            // Verificar si el modal ya se ha mostrado
-            if (!localStorage.getItem('versionModalShown')) {
-                // Mostrar el modal de versión después de unos segundos
-                setTimeout(() => {
-                    if (versionModal) {
-                        versionModal.classList.remove('hidden');
-                        localStorage.setItem('versionModalShown', 'true');
-                    }
-                }, 1000); // Espera 5 segundos antes de mostrar el modal
-            }
-        
-            // Cerrar el modal al hacer clic en el botón de cerrar
-            if (closeVersionModal) {
-                closeVersionModal.addEventListener('click', () => {
+            const closeVersionModalButtons = document.querySelectorAll('[data-modal-hide="versionModal"]');
+    
+            // Mostrar el modal de versión después de un segundo
+            setTimeout(() => {
+                if (versionModal) {
+                    versionModal.classList.remove('hidden');
+                    versionModal.classList.add('scale-100'); // Para la animación
+                }
+            }, 1000); // Espera 1 segundo antes de mostrar el modal
+    
+            // Cerrar el modal al hacer clic en los botones de cerrar
+            closeVersionModalButtons.forEach(button => {
+                button.addEventListener('click', () => {
                     if (versionModal) {
                         versionModal.classList.add('hidden');
                     }
                 });
-            }
+            });
         });
-        </script>
-        
+    </script> {% endcomment %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const versionModal = document.getElementById('versionModal');
+            const closeVersionModalButtons = document.querySelectorAll('[data-modal-hide="versionModal"]');
+            const modalShownKey = 'versionModalShown';
+    
+            // Mostrar el modal de versión después de un segundo si no se ha mostrado antes
+            if (!localStorage.getItem(modalShownKey)) {
+                setTimeout(() => {
+                    if (versionModal) {
+                        versionModal.classList.remove('hidden');
+                        versionModal.classList.add('scale-100'); // Para la animación
+                        localStorage.setItem(modalShownKey, 'true');
+                    }
+                }, 1000); // Espera 1 segundo antes de mostrar el modal
+            }
+    
+            // Cerrar el modal al hacer clic en los botones de cerrar
+            closeVersionModalButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    if (versionModal) {
+                        versionModal.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
     {% endif %}
     <!-- FIN DEL MODAL DE VERSIÓN Y NOVEDADES -->
 
@@ -1326,6 +1351,7 @@
     <!--- CIERRE DE LA SECCION DE CONTACTOS -->
 
     <!-- SECCION DE COOKIES -->
+    {% if user.is_authenticated %}
     <div id="cookies-with-stacked-buttons" class="fixed bottom-0 -right-0 z-[60] sm:max-w-sm w-full sm:w-auto p-6" data-aos="fade-left" data-aos-delay="300">
         <!-- Card -->
         <div class="relative p-4 bg-white/60 dark:bg-principal backdrop-blur-lg dark:backdrop-blur-lg rounded-xl shadow-2xl dark:shadow-black/70">
@@ -1393,6 +1419,7 @@
             document.getElementById('cookies-with-stacked-buttons').style.display = 'none';
         }
     </script>
+    {% endif %}
     <!--- CIERRE DE LA SECCION DE COOKIES -->
     
 

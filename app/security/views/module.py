@@ -37,7 +37,7 @@ class ModuleCreateView(PermissionMixin, CreateViewMixin, CreateView):
     model = Module
     template_name = "security/modules/form.html"
     form_class = ModuleForm
-    success_url = reverse_lazy("security:module_list")
+    success_url = reverse_lazy("security:module_create")
     permission_required = "add_module"
 
     def get_context_data(self, **kwargs):

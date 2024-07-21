@@ -22,13 +22,16 @@ document.addEventListener('DOMContentLoaded', function() {
                                         <i class="ri-checkbox-blank-fill text-2xl"></i>
                                     </button>
                                 </div>
-                                <div class="grid items-center permissions-group">
+                                <div class="grid grid-cols-4 gap items-center permissions-group w-full">
                                     ${module.permissions.map(perm => `
-                                        <label class="inline-flex items-center mr-4 mb-2">
-                                            <input type="checkbox" name="permissions[]" value="${perm.id}" 
-                                                ${perm.selected ? 'checked' : ''} class="checkbox-container shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-[10px] p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                                            <span class="ml-2 dark:text-gray-400">${perm.name}</span>
-                                        </label>
+                                        <div class="relative items-center py-4 ml-2">
+                                            <input id="perm_${perm.id}" type="checkbox" class="hidden peer" name="permissions[]" value="${perm.id}" ${perm.selected ? 'checked' : ''}>
+                                            <label for="perm_${perm.id}"class="inline-flex items-center justify-between p-2 tracking-tight rounded-lg cursor-pointer bg-brand-light text-brand-black  peer-checked:bg-blue-700 peer-checked:text-white peer-checked:font-semibold peer-checked:decoration-brand-dark decoration-2">
+                                                <div class="flex items-center justify-center">
+                                                    <div class="text-lg text-black dark:text-gray-300">${perm.name}</div>
+                                                </div>
+                                            </label>
+                                        </div>
                                     `).join('')}
                                 </div>
                             </div>
@@ -41,7 +44,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         button.addEventListener('click', function () {
                             const checkboxes = this.parentElement.nextElementSibling.querySelectorAll('input[type="checkbox"]');
                             const allChecked = Array.from(checkboxes).every(cb => cb.checked);
-                            checkboxes.forEach(cb => cb.checked = !allChecked);
+                            checkboxes.forEach(cb => {
+                                cb.checked = !allChecked;
+                                cb.nextElementSibling.classList.toggle('peer-checked:bg-blue-700', !allChecked);
+                                cb.nextElementSibling.classList.toggle('peer-checked:text-white', !allChecked);
+                                cb.nextElementSibling.classList.toggle('peer-checked:font-semibold', !allChecked);
+                            });
                             this.innerHTML = allChecked ? '<i class="ri-checkbox-blank-fill text-2xl"></i>' : '<i class="ri-checkbox-fill text-2xl"></i>';
                         });
                     });

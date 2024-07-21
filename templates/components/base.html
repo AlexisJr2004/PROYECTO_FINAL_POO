@@ -776,7 +776,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.0/dist/sweetalert2.min.css">
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="{% static 'js/sweet_alert.js' %}"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js" integrity="sha512-A7AYk1fGKX6S2SsHywmPkrnzTZHrgiVT7GcQkLGDe2ev0aWb8zejytzS8wjo7PGEXKqJOrjQ4oORtnimIRZBtw==" crossorigin="anonymous" referrerpolicy="no-referrer">
     </script>
@@ -1206,6 +1205,34 @@
     <!-- Select2 -->
 	<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 	<script src="{% static 'js/select2.js' %}"></script>
+
+    <!-- Para detalles en tablas -->
+    <script>
+        function toggleDropdown(id) {
+            var dropdown = document.getElementById('dropdown' + id);
+            var allDropdowns = document.querySelectorAll('.dropdown-content');
+
+            // Oculta todos los menús desplegables excepto el actual
+            allDropdowns.forEach(function (dd) {
+                if (dd !== dropdown) {
+                    dd.classList.add('hidden');
+                }
+            });
+
+            // Toggle the current dropdown
+            dropdown.classList.toggle('hidden');
+        }
+
+        // Cierra el menú desplegable si se hace clic fuera de él
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropdown-button') && !event.target.closest('.dropdown-content')) {
+                var dropdowns = document.querySelectorAll('.dropdown-content');
+                dropdowns.forEach(function (dropdown) {
+                    dropdown.classList.add('hidden');
+                });
+            }
+        }
+    </script>
 </body>
 
 </html>

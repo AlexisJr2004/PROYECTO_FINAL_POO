@@ -28,8 +28,8 @@ class GroupModulePermissionListView(PermissionMixin, ListViewMixin, ListView):
     permission_required = "view_group_module_permission"
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        q1 = self.request.GET.get("q")  # ver
+        queryset = super().get_queryset().select_related('group', 'module').prefetch_related('permissions')
+        q1 = self.request.GET.get("q")
         if q1:
             queryset = queryset.filter(Q(group__name__icontains=q1) | Q(module__name__icontains=q1))
         return queryset.order_by("group__name")
@@ -38,7 +38,7 @@ class GroupModulePermissionListView(PermissionMixin, ListViewMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["create_url"] = reverse_lazy("security:group_module_permission_create")
         return context
-    
+
 class GroupModulePermissionCreateView(CreateView):
     model = GroupModulePermission
     template_name = "security/group_module_permissions/form.html"
@@ -65,6 +65,7 @@ class GroupModulePermissionCreateView(CreateView):
                 ).values_list('permissions__id', flat=True)
                 permissions_data.append({
                     'module_id': module.id,
+                    'module_icon': module.icon,
                     'module_name': module.name,
                     'permissions': [
                         {
@@ -98,7 +99,7 @@ class GroupModulePermissionCreateView(CreateView):
                 )
                 gmp.permissions.add(permission)
         
-        messages.success(request, "GMP creado con éxito.")
+        messages.success(request, "GMP actualizado con éxito.")
         
         # Obtener la URL de éxito
         success_url = reverse('security:group_module_permission_list')

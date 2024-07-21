@@ -72,12 +72,12 @@
                         <div class="p-4 rounded-3xl dark:bg-secundario bg-white flex flex-col justify-center items-center"
                             data-aos="fade-right" data-aos-delay="200">
                             {% csrf_token %}
-                            <div class="mb-8">
+                            <div class="mb-8 flex flex-col justify-center text-center">
                                 <label for="{{ form.group.id_for_label }}"
                                     class="dark:text-blue-300 font-black uppercase text-lg">{{ form.group.label}}</label>
                                 {{ form.group }}
                             </div>
-                            <div id="permissions-list" class="grid md:grid-cols-3">
+                            <div id="permissions-list" class="grid md:grid-cols-2 ">
                                 <!-- Los módulos y permisos se cargarán aquí dinámicamente -->
                             </div>
                         </div>

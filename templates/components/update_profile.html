@@ -49,138 +49,134 @@
         </div>
         <form method="post" enctype="multipart/form-data" class="space-y-6 py-4">
             {% csrf_token %}
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 justify-center items-center" data-aos="fade">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 justify-center items-center" data-aos="fade">
                 <!-- Columna del mapa -->
                 <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl text-center flex flex-col items-center">
                     <div id="map" class="w-full h-64 lg:h-full" style="min-height: 400px;"></div>
                 </div>
-                <!-- Columna de la imagen -->
-                <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl text-center flex flex-col items-center">
-                    <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
-                    <div id="imagenPreview">
-                        {% if user.customer.image %}
-                            <img id="imagenSeleccionada" src="{{ user.customer.image.url }}" class="mx-auto d-block rounded-lg w-[40%]" alt="{% trans 'Foto de perfil' %}">
-                            {% if imagen_nombre %}
-                                <p>{% trans 'Archivo actual:' %} {{ imagen_nombre }}</p>
-                            {% endif %}
-                        {% else %}
-                            <img id="imagenSeleccionada" src="{% static 'img/usuario_anonimo_2.png' %}" class="mx-auto d-block rounded-lg w-[40%]" alt="{% trans 'Foto de perfil por defecto' %}">
-                        {% endif %}
-                    </div>
-                    <div class="flex items-center justify-center w-full mt-4">
-                        <label for="dropzone-file" class="mb-4 flex flex-col items-center justify-center w-full h-30 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-secundario hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-[#060b16]">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                </svg>
-                                <p class="mb-2 text-sm text-gray-500 dark:text-gray-400"><span class="font-semibold">Seleccione</span> archivo a subir</p>
-                            </div>
-                            {{ form.image }}
-                        </label>
-                    </div>
-                </div>
                 <!-- Columna de los campos -->
                 <div class="p-6 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center" data-aos="fade-right" data-aos-delay="200">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
-                        <div class="space-y-6">
+                    <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl text-center flex flex-col items-center cursor-pointer">
+                        <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
+                        <div id="imagenPreview">
+                            {% if user.customer.image %}
+                                <img id="imagenSeleccionada" src="{{ user.customer.image.url }}" class="mx-auto d-block rounded-full w-[25%]" alt="{% trans 'Foto de perfil' %}">
+                                {% if imagen_nombre %}
+                                    <p>{% trans 'Archivo actual:' %} {{ imagen_nombre }}</p>
+                                {% endif %}
+                            {% else %}
+                                <img id="imagenSeleccionada" src="{% static 'img/usuario_anonimo_2.png' %}" class="mx-auto d-block rounded-full w-[25%]" alt="{% trans 'Foto de perfil por defecto' %}">
+                            {% endif %}
+                            {{ form.image }}
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 w-full">
+                        <!-- Primera columna -->
+                        <div>
                             <div class="mb-6">
                                 <label for="{{ form.first_name.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
                                     {{ form.first_name.label }}
                                 </label>
-                                <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                <input type="text" name="{{ form.first_name.name }}" id="{{ form.first_name.id_for_label }}" value="{{ form.first_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                             </div>
+                            <div class="mb-6">
+                                <label for="{{ form.gender.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                    {% trans 'Género' %}
+                                </label>
+                                <select name="{{ form.gender.name }}" id="{{ form.gender.id_for_label }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                    <option value="">{% trans 'Seleccione un género' %}</option>
+                                    <option value="M" {% if form.gender.value == 'M' %}selected{% endif %}>{% trans 'Masculino' %}</option>
+                                    <option value="F" {% if form.gender.value == 'F' %}selected{% endif %}>{% trans 'Femenino' %}</option>
+                                    <option value="O" {% if form.gender.value == 'O' %}selected{% endif %}>{% trans 'Otro' %}</option>
+                                </select>
+                            </div>
+                            <div class="mb-6">
+                                <label for="{{ form.latitude.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                    {% trans 'Latitud' %}
+                                </label>
+                                <input type="number" step="any" name="{{ form.latitude.name }}" id="{{ form.latitude.id_for_label }}" value="{{ form.latitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                            </div>
+                        </div>
+                        <!-- Segunda columna -->
+                        <div>
                             <div class="mb-6">
                                 <label for="{{ form.last_name.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
                                     {{ form.last_name.label }}
                                 </label>
-                                <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" value="{{ form.last_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                        </div>
-                        <div class="space-y-6">
-                            <div class="mb-6">
-                                <label for="{{ form.dni.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {{ form.dni.label }}
-                                </label><br>
-                                <input type="text" name="{{ form.dni.name }}" id="{{ form.dni.id_for_label }}" value="{{ form.dni.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                <input type="text" name="{{ form.last_name.name }}" id="{{ form.last_name.id_for_label }}" value="{{ form.last_name.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                             </div>
                             <div class="mb-6">
                                 <label for="{{ form.phone.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
                                     {{ form.phone.label }}
                                 </label>
-                                <input type="text" name="{{ form.phone.name }}" id="{{ form.phone.id_for_label }}" value="{{ form.phone.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                <input type="text" name="{{ form.phone.name }}" id="{{ form.phone.id_for_label }}" value="{{ form.phone.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                             </div>
-                        </div>
-                        <div>
-                            <label for="{{ form.address.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {% trans 'Dirección' %}
-                            </label>
-                            <input type="text" name="{{ form.address.name }}" id="{{ form.address.id_for_label }}" value="{{ form.address.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                        </div>
-                        <div>
-                            <label for="{{ form.gender.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {% trans 'Género' %}
-                            </label>
-                            <select name="{{ form.gender.name }}" id="{{ form.gender.id_for_label }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                                <option value="">{% trans 'Seleccione un género' %}</option>
-                                <option value="M" {% if form.gender.value == 'M' %}selected{% endif %}>{% trans 'Masculino' %}</option>
-                                <option value="F" {% if form.gender.value == 'F' %}selected{% endif %}>{% trans 'Femenino' %}</option>
-                                <option value="O" {% if form.gender.value == 'O' %}selected{% endif %}>{% trans 'Otro' %}</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="{{ form.date_of_birth.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {% trans 'Fecha de Nacimiento' %}
-                            </label>
-                            <input type="date" name="{{ form.date_of_birth.name }}" id="{{ form.date_of_birth.id_for_label }}" value="{{ form.date_of_birth.value|date:'Y-m-d' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                        </div>
-                        <div class="grid grid-cols-2 gap-4">
-                            <div>
-                                <label for="{{ form.latitude.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                    {% trans 'Latitud' %}
-                                </label>
-                                <input type="number" step="any" name="{{ form.latitude.name }}" id="{{ form.latitude.id_for_label }}" value="{{ form.latitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                            </div>
-                            <div>
+                            <div class="mb-6">
                                 <label for="{{ form.longitude.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
                                     {% trans 'Longitud' %}
                                 </label>
-                                <input type="number" step="any" name="{{ form.longitude.name }}" id="{{ form.longitude.id_for_label }}" value="{{ form.longitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                                <input type="number" step="any" name="{{ form.longitude.name }}" id="{{ form.longitude.id_for_label }}" value="{{ form.longitude.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
                             </div>
                         </div>
-                    </div>
-                    <div class="w-full mb-6">
+                        <!-- Tercera columna -->
                         <div>
-                            <label for="{{ form.email.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                                {{ form.email.label }}
-                            </label>
-                            <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                            <div class="mb-6">
+                                <label for="{{ form.dni.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                    {{ form.dni.label }}
+                                </label><br>
+                                <input type="text" name="{{ form.dni.name }}" id="{{ form.dni.id_for_label }}" value="{{ form.dni.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                            </div>
+                            <div class="mb-6">
+                                <label for="{{ form.date_of_birth.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                    {% trans 'Fecha de Nacimiento' %}
+                                </label>
+                                <input type="date" name="{{ form.date_of_birth.name }}" id="{{ form.date_of_birth.id_for_label }}" value="{{ form.date_of_birth.value|date:'Y-m-d' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                            </div>
+                            <div class="mb-6">
+                                <label for="{{ form.address.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                    {% trans 'Dirección' %}
+                                </label>
+                                <input type="text" name="{{ form.address.name }}" id="{{ form.address.id_for_label }}" value="{{ form.address.value|default_if_none:'' }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="p-6 rounded-3xl dark:bg-secundario bg-gray-50 flex flex-col justify-center items-center lg:mx-40" data-aos="fade-right" data-aos-delay="200">
                 <!-- Actualizar Contraseña -->
-                <p class="dark:text-gray-400 text-center mt-6 text-sm sm:text-base font-light uppercase">
+                <p class="dark:text-gray-400 text-center my-4 text-sm sm:text-base font-light uppercase">
                     {% trans 'Sección de Cambio de Contraseña' %}
                 </p>
                 <div class="w-full space-y-4">
-                    <div>
-                        <label for="id_current_password" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                            {% trans 'Contraseña Actual' %}
-                        </label>
-                        <input type="password" id="id_current_password" name="current_password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    <div class="grid lg:grid-cols-2 space-x-2">
+                        <div class="w-full">
+                            <div class="mb-6">
+                                <label for="{{ form.email.id_for_label }}" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                    {{ form.email.label }}
+                                </label>
+                                <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" value="{{ form.email.value }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="id_current_password" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {% trans 'Contraseña Actual' %}
+                            </label>
+                            <input type="password" id="id_current_password" name="current_password" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
                     </div>
-                    <div>
-                        <label for="id_new_password1" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                            {% trans 'Nueva Contraseña' %}
-                        </label>
-                        <input type="password" id="id_new_password1" name="new_password1" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
-                    </div>
-                    <div>
-                        <label for="id_new_password2" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
-                            {% trans 'Confirmar Nueva Contraseña' %}
-                        </label>
-                        <input type="password" id="id_new_password2" name="new_password2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                    <div class="grid lg:grid-cols-2 space-x-2">
+                        <div>
+                            <label for="id_new_password1" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {% trans 'Nueva Contraseña' %}
+                            </label>
+                            <input type="password" id="id_new_password1" name="new_password1" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
+                        <div>
+                            <label for="id_new_password2" class="dark:text-blue-300 font-bold uppercase text-sm sm:text-base">
+                                {% trans 'Confirmar Nueva Contraseña' %}
+                            </label>
+                            <input type="password" id="id_new_password2" name="new_password2" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -193,6 +189,59 @@
                 </a>
             </div>
         </form>
+    </div>
+    <!-- SUGERENCIA -->
+    <div id="cookies-with-stacked-buttons" class="fixed bottom-0 -right-0 z-[60] sm:max-w-sm w-full sm:w-auto p-6"
+        data-aos="fade-left" data-aos-delay="300">
+        <!-- Card -->
+        <div
+            class="text-center relative p-4 bg-white/60 dark:bg-principal backdrop-blur-lg dark:backdrop-blur-lg rounded-xl shadow-2xl dark:shadow-black/70">
+            <h2 class=" dark:text-blue-300 text-lg text-center mt-6 font-Pacifico">Instrucciones
+            <p class="dark:text-gray-300 font-Pacifico text-sm font-light">Seleccione la imagen actual para actualizarla.
+            <div class="mt-5 mb-2 w-full flex gap-x-2 justify-center">
+                <button type="button"
+                    class="py-2 px-3 inline-flex justify-center items-center gap-x-2 text-sm font-light rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                    onclick="closeCookiePopup()">
+                    Entendido
+                </button>
+            </div>
+        </div>
+        <!-- Background SVG -->
+        <svg class="absolute bottom-0 right-0 -z-10 w-full h-full" viewBox="0 0 273 250" fill="none"
+            xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_1727_230)">
+                <path
+                    d="M274.983 42.5186C261.682 42.5186 248.926 47.8596 239.521 57.3668C230.116 66.874 224.833 79.7685 224.833 93.2137C224.833 106.659 230.116 119.553 239.521 129.061C248.926 138.568 261.682 143.909 274.983 143.909L274.983 120.374C267.857 120.374 261.023 117.512 255.984 112.419C250.945 107.325 248.114 100.417 248.114 93.2137C248.114 86.0103 250.945 79.1021 255.984 74.0085C261.023 68.915 267.857 66.0535 274.983 66.0535L274.983 42.5186Z"
+                    fill="#3B82F6" class="dark:fill-blue-800" />
+                <path
+                    d="M274.982 0C250.405 -2.94804e-07 226.835 9.82069 209.456 27.3016C192.077 44.7826 182.314 68.4918 182.314 93.2136C182.314 117.935 192.077 141.645 209.456 159.126C226.835 176.606 250.405 186.427 274.982 186.427L274.982 143.153C261.815 143.153 249.187 137.892 239.876 128.526C230.566 119.161 225.335 106.458 225.335 93.2136C225.335 79.9688 230.566 67.2664 239.876 57.9009C249.187 48.5354 261.815 43.274 274.982 43.274L274.982 0Z"
+                    fill="#1D4ED8" class="dark:fill-blue-900" />
+                <circle cx="214.475" cy="222.95" r="59.962" transform="rotate(180 214.475 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.476" cy="222.95" r="49.0598" transform="rotate(180 214.476 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.475" cy="222.95" r="39.2478" transform="rotate(180 214.475 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.476" cy="222.949" r="28.3457" transform="rotate(180 214.476 222.949)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.475" cy="222.95" r="17.4435" transform="rotate(180 214.475 222.95)" stroke="#1E40AF"
+                    stroke-width="3.27065" class="dark:stroke-blue-700" />
+                <circle cx="214.476" cy="222.949" r="7.63152" transform="rotate(180 214.476 222.949)" stroke="#3B82F6"
+                    stroke-width="3.27065" class="dark:stroke-blue-500" />
+                <rect x="193.216" y="180.976" width="55.6011" height="40.338" transform="rotate(180 193.216 180.976)"
+                    fill="#1E40AF" class="dark:fill-blue-900" />
+                <path d="M137.615 235.487L137.615 179.886L193.216 179.886L137.615 235.487Z" fill="#1D4ED8"
+                    class="dark:fill-blue-800" />
+                <path d="M53.3108 199.749L108.476 110.517L163.642 199.749H53.3108Z" stroke="#1D4ED8"
+                    stroke-width="2.18043" class="dark:stroke-blue-700" />
+                <path d="M65.9582 91L123.08 182.578H8.83672L65.9582 91Z" fill="#1D4ED8" class="dark:fill-blue-800" />
+            </g>
+            <defs>
+                <clipPath id="clip0_1727_230">
+                    <rect width="273" height="250" fill="white" />
+                </clipPath>
+            </defs>
+        </svg>
     </div>
 </section>
 
@@ -336,6 +385,28 @@
             '{% endif %}'
         }
     });
+</script>
+
+<script>
+    // Asegúrate de que el DOM esté completamente cargado antes de ejecutar el script
+    document.addEventListener('DOMContentLoaded', function () {
+        // Selecciona la imagen y el input de archivo
+        const imagenSeleccionada = document.getElementById('imagenSeleccionada');
+        const inputArchivo = document.getElementById('dropzone-file');
+        
+        // Agrega un evento de clic a la imagen
+        imagenSeleccionada.addEventListener('click', function () {
+            // Simula un clic en el input de archivo
+            inputArchivo.click();
+        });
+    });
+</script>
+
+<!-- SCRIPT DE SUGERENCIA -->
+<script>
+    function closeCookiePopup() {
+        document.getElementById('cookies-with-stacked-buttons').style.display = 'none';
+    }
 </script>
 
 {% endblock content %}

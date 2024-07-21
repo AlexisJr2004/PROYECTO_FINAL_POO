@@ -169,33 +169,6 @@
     </div>
 </section>
 
-<script>
-    function toggleDropdown(id) {
-        var dropdown = document.getElementById('dropdown' + id);
-        var allDropdowns = document.querySelectorAll('.dropdown-content');
-
-        // Oculta todos los menús desplegables excepto el actual
-        allDropdowns.forEach(function (dd) {
-            if (dd !== dropdown) {
-                dd.classList.add('hidden');
-            }
-        });
-
-        // Toggle the current dropdown
-        dropdown.classList.toggle('hidden');
-    }
-
-    // Cierra el menú desplegable si se hace clic fuera de él
-    window.onclick = function (event) {
-        if (!event.target.matches('.dropdown-button') && !event.target.closest('.dropdown-content')) {
-            var dropdowns = document.querySelectorAll('.dropdown-content');
-            dropdowns.forEach(function (dropdown) {
-                dropdown.classList.add('hidden');
-            });
-        }
-    }
-</script>
-
 {% include 'core/delete.html' %}
 <script>
     function openDeleteModal(id, description) {

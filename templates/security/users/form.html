@@ -54,14 +54,7 @@
                         <label for="{{ form.image.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.image.label }}</label>
                         <div class="cursor-pointer">
                             <div id="imagenPreview">
-                                {% if user.customer.image %}
-                                    <img id="imagenSeleccionada" src="{{ user.customer.image.url }}" class="mx-auto d-block rounded-3xl w-[40%]" alt="Foto de perfil">
-                                    {% if imagen_nombre %}
-                                        <p></p>
-                                    {% endif %}
-                                {% else %}
-                                    <img id="imagenSeleccionada" src="{% static 'img/usuario_anonimo_2.png' %}" class="mx-auto d-block rounded-3xl w-[40%]" alt="Foto de perfil por defecto">
-                                {% endif %}
+                                <img id="imagenSeleccionada" src="{% static 'img/iguana_corporation.png' %}" class="mx-auto d-block rounded-3xl w-[40%]" alt="Foto de perfil por defecto">
                             </div>
                             {{ form.image }}
                         </div>

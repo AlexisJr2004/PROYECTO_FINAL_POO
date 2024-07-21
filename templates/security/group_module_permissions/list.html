@@ -62,18 +62,33 @@
                         <tr>
                             <th scope="col" class="px-6 py-3">GRUPO</th>
                             <th scope="col" class="px-6 py-3">MÓDULO</th>
+                            <th scope="col" class="px-6 py-3">PERMISOS</th>
                             <th scope="col" class="px-6 py-3">ACCIONES</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for item in group_module_permissions %}
-                        <tr
-                            class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
-                            <td class="px-6 py-4">{{ item.group }}</td>
-                            <td class="px-6 py-4">{{ item.module }}</td>
+                        <tr class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                            <td class="px-6 py-4">{{ item.group.name }}</td>
+                            <td class="px-6 py-4">{{ item.module.name }}</td>
+                            <td class="px-6 py-4">
+                                <button id="dropdownButton{{ item.id }}" onclick="toggleDropdown('{{ item.id }}')" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-principal dark:hover:bg-secundario dark:focus:ring-blue-800" type="button">
+                                    <i class="fa-solid fa-wrench text-white dark:text-blue-300"></i>
+                                </button>
+                                <!-- Dropdown menu -->
+                                <div id="dropdown{{ item.id }}" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-[25%] dark:bg-secundario absolute">
+                                    <ul class="list-disc list-inside text-left p-2 font-Pacifico" aria-labelledby="dropdownButton{{ item.id }}">
+                                        {% for permission in item.permissions.all %}
+                                            <li>{{ permission.name }}</li>
+                                        {% empty %}
+                                            <li>No permissions assigned</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </td>
                             <td class="px-6 py-4">
                                 <a href="#" class="text-red-600 dark:text-red-500"
-                                    onclick="openDeleteModal('{{ item.id }}', '{{ item.group }}')">
+                                    onclick="openDeleteModal('{{ item.id }}', '{{ item.group.name }}')">
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
                             </td>

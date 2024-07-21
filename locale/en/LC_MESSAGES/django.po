@@ -279,8 +279,6 @@ msgstr "All rights reserved."
 msgid "Diseñado por"
 msgstr "Designed by"
 
-msgid "Close modal"
-msgstr "Cerrar modal"
 
 msgid "Faltando menos de un mes para que la Unión Europea promulgue nuevas leyes de privacidad del consumidor para sus ciudadanos, empresas de todo el mundo están actualizando sus acuerdos de términos de servicio para cumplir."
 msgstr "Less than a month before the European Union promulgates new consumer privacy laws for its citizens, companies worldwide are updating their terms of service agreements to comply."
@@ -926,3 +924,69 @@ msgstr "Welcome to the registration section for new users. Please fill out the f
 #: templates/my_template.html:43
 msgid "Asegurese de ingresar un correo válido con el cual creó su cuenta por primera vez."
 msgstr "Make sure to enter a valid email with which you created your account for the first time."
+
+msgid "Versión y Novedades"
+msgstr "Version and News"
+
+msgid "Versión actual: 8.5.0"
+msgstr "Current version: 8.5.0"
+
+msgid "Novedades de esta versión:"
+msgstr "What's new in this version:"
+
+msgid "Optimización del rendimiento y corrección de errores"
+msgstr "Performance optimization and bug fixes"
+
+msgid "Rediseño total de la aplicación"
+msgstr "Complete redesign of the application"
+
+msgid "Mejoras en la interfaz de usuario"
+msgstr "User interface improvements"
+
+msgid "Incorporación de módulos de seguridad y permisos"
+msgstr "Incorporation of security and permissions modules"
+
+msgid "Registros de Proveedores y Usuarios"
+msgstr "Supplier and User Registrations"
+
+msgid "Inicio de sesión por Desbloque Facial"
+msgstr "Login with Facial Recognition"
+
+msgid "Inicio de sesión por QR Empresarial"
+msgstr "Login with Business QR Code"
+
+msgid "Implementación total del Modo Oscuro"
+msgstr "Full implementation of Dark Mode"
+
+msgid "Centro de notificaciones implementado"
+msgstr "Notification Center implemented"
+
+msgid "Implementación del cambio y recuperación de contraseña del usuario"
+msgstr "Implementation of user password change and recovery"
+
+msgid "Botón de accesibilidad para el cambio de idioma (English)"
+msgstr "Accessibility button for language change (English)"
+
+msgid "Modelo totalmente responsivo"
+msgstr "Fully responsive model"
+
+msgid "Botón de WhatsApp implementado"
+msgstr "WhatsApp button implemented"
+
+msgid "Centro de envío de correos directos a los administradores"
+msgstr "Direct email sending center to administrators"
+
+msgid "Centro de temas"
+msgstr "Theme center"
+
+msgid "Cerrar"
+msgstr "Close"
+
+msgid "Close modal"
+msgstr "Close modal"
+
+msgid "I accept"
+msgstr "I accept"
+
+msgid "Decline"
+msgstr "Decline"

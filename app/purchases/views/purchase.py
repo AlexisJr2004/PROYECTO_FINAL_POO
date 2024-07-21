@@ -110,16 +110,9 @@ class PurchaseUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     success_url = reverse_lazy('purchases:purchases_list')
     permission_required = 'change_purchase'
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.object.issue_date.date() != timezone.now().date():
-            messages.error(self.request, "No se puede modificar una compra que no sea del día actual.")
-            return JsonResponse({"msg": "No se puede modificar una compra que no sea del día actual."}, status=403)
-        return super().get(request, *args, **kwargs)
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['products'] = Product.active_products.values('id', 'description', 'cost' ,'price', 'stock', 'iva__value')
+        context['products'] = Product.active_products.values('id', 'description', 'cost', 'price', 'stock', 'iva__value')
         detail_purchase = list(PurchaseDetail.objects.filter(purchase_id=self.object.id).values(
             "product", "product__description", "quantify", "cost", "subtotal", "iva"))
         context['detail_purchases'] = json.dumps(detail_purchase, default=custom_serializer)
@@ -127,45 +120,49 @@ class PurchaseUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
         return context
 
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if self.object.issue_date.date() != timezone.now().date():
-            messages.error(self.request, "No se puede modificar una compra que no sea del día actual.")
-            return JsonResponse({"msg": "No se puede modificar una compra que no sea del día actual."}, status=403)
-
         form = self.get_form()
         if not form.is_valid():
-            messages.error(self.request, f"Error al actualizar la compra: {form.errors}.")
+            error_message = f"Error al actualizar la compra: {form.errors}."
+            messages.error(self.request, error_message)
             return JsonResponse({"msg": form.errors}, status=400)
-        
+
         data = request.POST
         try:
+            purchase = self.get_object()
+            today = timezone.now().date()
+
+            # Verifica si la fecha de la compra es el mismo día
+            if purchase.issue_date.date() != today:
+                error_message = 'Solo puedes modificar compras del mismo día.'
+                messages.error(self.request, error_message)
+                return JsonResponse({"msg": error_message}, status=400)
+
             with transaction.atomic():
-                # Revertir las cantidades de los productos comprados anteriormente
-                old_details = PurchaseDetail.objects.filter(purchase_id=self.object.id)
+                purchase.num_document = data['num_document']
+                purchase.supplier_id = int(data['supplier'])
+                purchase.issue_date = data['issue_date']
+                purchase.subtotal = Decimal(data['subtotal'])
+                purchase.iva = Decimal(data['iva'])
+                purchase.total = Decimal(data['total'])
+                purchase.active = True
+                purchase.save()
+
+                # Eliminar detalles existentes y restaurar stock
+                old_details = PurchaseDetail.objects.filter(purchase_id=purchase.id)
                 for old_detail in old_details:
                     product = old_detail.product
-                    product.stock -= old_detail.quantify
+                    product.stock += old_detail.quantify
                     product.save()
-                self.object.num_document = data['num_document']
-                self.object.supplier_id = int(data['supplier'])
-                self.object.issue_date = data['issue_date']
-                self.object.subtotal = Decimal(data['subtotal'])
-                self.object.iva = Decimal(data['iva'])
-                self.object.total = Decimal(data['total'])
-                self.object.active = True
-                self.object.save()
-                
-                # Eliminar los detalles antiguos
                 old_details.delete()
 
-                # Crear nuevos detalles y actualizar el stock de los productos
+                # Agregar nuevos detalles
                 details = json.loads(request.POST['detail'])
                 for detail in details:
                     product = Product.objects.get(id=int(detail['id']))
-                    quantity = Decimal(detail['stock'])
+                    quantity = Decimal(detail['quantify'])
                     
                     PurchaseDetail.objects.create(
-                        purchase=self.object,
+                        purchase=purchase,
                         product=product,
                         quantify=quantity,
                         cost=Decimal(detail['cost']),
@@ -174,55 +171,56 @@ class PurchaseUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
                     )
                     
                     # Actualizar el stock del producto
-                    product.stock += quantity
+                    product.stock -= quantity
                     product.save()
 
-                save_audit(request, self.object, "M")
-                messages.success(self.request, f"Éxito al modificar la compra {self.object.num_document}")
+                messages.success(self.request, f"Éxito al modificar la compra {purchase.num_document}")
                 return JsonResponse({"msg": "Éxito al modificar la compra"}, status=200)
         except Exception as ex:
             error_message = str(ex)
-            error_traceback = traceback.format_exc()
-            print(f"Error: {error_message}")
-            print(f"Traceback: {error_traceback}")
             return JsonResponse({"msg": error_message}, status=400)
 
-class PurchaseAnnulView(PermissionMixin, DeleteViewMixin, DeleteView):
+
+class PurchaseAnnulView(PermissionMixin, UpdateViewMixin, UpdateView):
     model = Purchase
     template_name = 'core/delete.html'
     success_url = reverse_lazy('purchases:purchases_list')
-    permission_required = 'delete_purchase'
-
+    permission_required = 'change_purchase'
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['grabar'] = 'Anular Compra'
-        context['description'] = f"¿Desea anular la compra {self.object.num_document}?"
-        context['back_url'] = self.success_url
+        context['annul_url'] = reverse_lazy('purchases:purchases_annul', kwargs={"pk": self.object.id})
         return context
 
-    @transaction.atomic
     def post(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        current_date = timezone.now()
+        purchase = self.get_object()
+        today = timezone.now().date()
+        max_annul_date = today - timedelta(days=3)
 
-        if (current_date - self.object.issue_date).days > 3:
-            messages.error(self.request, "No se puede anular la compra ya que han pasado más de 3 días desde su registro.")
-            return HttpResponseRedirect(self.get_success_url())
-            # return HttpResponseForbidden("No se puede anular la compra ya que han pasado más de 3 días desde su registro.")
-        
-        # Anular la compra
-        self.object.annul()
-        
-        # Revertir los cambios en el inventario
-        purchase_details = self.object.purchase_detail.all()
-        for detail in purchase_details:
-            product = detail.product
-            product.stock -= detail.quantify
-            product.save()
+        if purchase.issue_date.date() < max_annul_date:
+            error_message = 'Solo puedes anular compras realizadas hasta 3 días antes.'
+            messages.error(self.request, error_message)
+            return JsonResponse({"msg": error_message}, status=400)
 
-        success_message = f"Éxito al anular la compra {self.object.num_document}."
-        messages.success(self.request, success_message)
-        return HttpResponseRedirect(self.get_success_url())
+        try:
+            with transaction.atomic():
+                purchase.active = False
+                purchase.state = 'A'
+                purchase.save()
+                
+                # Revertir los cambios en el inventario
+                purchase_details = PurchaseDetail.objects.filter(purchase=purchase)
+                for detail in purchase_details:
+                    product = detail.product
+                    product.stock += detail.quantify
+                    product.save()
+                
+                messages.success(self.request, f"Éxito al anular la compra {purchase.num_document}.")
+                return JsonResponse({"msg": "Éxito al anular la compra"}, status=200)
+        except Exception as ex:
+            error_message = str(ex)
+            return JsonResponse({"msg": error_message}, status=400)
+    
     
 class PurchaseDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
     model = Purchase
@@ -233,29 +231,23 @@ class PurchaseDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['grabar'] = 'Eliminar Compra'
-        context['description'] = f"¿Desea eliminar la compra {self.object.num_document}?"
+        context['description'] = f"¿Desea eliminar la compra: {self.object.num_document}?"
         context['back_url'] = self.success_url
         return context
 
     def delete(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        current_date = timezone.now()
+        purchase = self.get_object()
+        today = timezone.now().date()
 
-        # Verificar si la compra fue realizada el mismo día
-        if self.object.issue_date.date() != current_date.date():
-            messages.error(self.request, "Solo se puede eliminar la compra el mismo día en que fue realizada.")
-            return HttpResponseRedirect(self.success_url)
-        
-        # Anular cambios en el inventario
-        # purchase_details = self.object.purchase_detail.all()
-        # for detail in purchase_details:
-        #     product = detail.product
-        #     product.stock -= detail.quantify
-        #     product.save()
-        
-        self.object.annul()
+        if purchase.issue_date.date() != today:
+            error_message = 'Solo puedes eliminar compras del mismo día.'
+            messages.error(self.request, error_message)
+            return JsonResponse({"msg": error_message}, status=400)
 
-        success_message = f"Éxito al eliminar la compra {self.object.num_document}."
-        messages.success(self.request, success_message)
-        return super().delete(request, *args, **kwargs)
-    
+        try:
+            purchase.delete()
+            messages.success(self.request, f"Éxito al eliminar lógicamente la compra {purchase.num_document}.")
+            return JsonResponse({"msg": "Éxito al eliminar la compra"}, status=200)
+        except Exception as ex:
+            error_message = str(ex)
+            return JsonResponse({"msg": error_message}, status=400)

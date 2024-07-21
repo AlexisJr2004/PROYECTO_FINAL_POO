@@ -1,15 +1,15 @@
 import json
+from datetime import date, timedelta
 from django.http import JsonResponse
 from django.db import transaction
+from django.db.models import Q
 from django.urls import reverse_lazy
 from app.core.models import Product, Notification
 from app.sales.forms.invoice import InvoiceForm
 from app.sales.models import Invoice, InvoiceDetail
-from app.security.instance.menu_module import MenuModule
-from app.security.mixins.mixins import CreateViewMixin, DeleteViewMixin, ListViewMixin, PermissionMixin, UpdateViewMixin
+from app.security.mixins.mixins import PermissionMixin, CreateViewMixin, UpdateViewMixin, DeleteViewMixin, ListViewMixin
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
-from django.db.models import Q, F
 from decimal import Decimal
 from proy_sales.utils import custom_serializer, save_audit
 
@@ -37,7 +37,7 @@ class SaleCreateView(PermissionMixin, CreateViewMixin, CreateView):
     template_name = 'sales/invoices/form.html'
     form_class = InvoiceForm
     success_url = reverse_lazy('sales:sales_list')
-    permission_required = 'add_invoice'  # En PermissionMixin se verifica si un grupo tiene el permiso
+    permission_required = 'add_invoice'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -95,7 +95,7 @@ class SaleUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     template_name = 'sales/invoices/form.html'
     form_class = InvoiceForm
     success_url = reverse_lazy('sales:sales_list')
-    permission_required = 'change_invoice'  # En PermissionMixin se verifica si un grupo tiene el permiso
+    permission_required = 'change_invoice'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -118,6 +118,15 @@ class SaleUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
         data = request.POST
         try:
             sale = Invoice.objects.get(id=self.kwargs.get('pk'))
+            today = date.today()
+
+            # Verifica si la fecha de la factura es el mismo día
+            if sale.issue_date.date() != today:
+                error_message = 'Solo puedes modificar ventas del mismo día.'
+                messages.error(self.request, error_message)
+                Notification.objects.create(message=error_message)
+                return JsonResponse({"msg": error_message}, status=400)
+
             with transaction.atomic():
                 sale.customer_id = int(data['customer'])
                 sale.payment_method_id = int(data['payment_method'])
@@ -160,6 +169,51 @@ class SaleUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
             Notification.objects.create(message=error_message)
             return JsonResponse({"msg": error_message}, status=400)
 
+class SaleAnnulView(PermissionMixin, UpdateViewMixin, UpdateView):
+    model = Invoice
+    template_name = 'core/delete.html'
+    success_url = reverse_lazy('sales:sales_list')
+    permission_required = 'change_invoice'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['annul_url'] = reverse_lazy('sales:sales_annul', kwargs={"pk": self.object.id})
+        return context
+
+    def post(self, request, *args, **kwargs):
+        invoice = self.get_object()
+        today = date.today()
+        max_annul_date = today - timedelta(days=3)
+
+        if invoice.issue_date.date() < max_annul_date:
+            error_message = 'Solo puedes anular ventas realizadas hasta 3 días antes.'
+            messages.error(self.request, error_message)
+            Notification.objects.create(message=error_message)
+            return JsonResponse({"msg": error_message}, status=400)
+
+        try:
+            with transaction.atomic():
+                invoice.active = False
+                invoice.state = 'A'
+                invoice.save()
+                
+                details = InvoiceDetail.objects.filter(invoice=invoice)
+                for detail in details:
+                    product = detail.product
+                    product.stock += detail.quantity
+                    product.save()
+                
+                save_audit(request, invoice, "A")
+                success_message = f"Éxito al anular la venta F#{invoice.id}"
+                messages.success(self.request, success_message)
+                Notification.objects.create(message=success_message)
+                return JsonResponse({"msg": "Éxito al anular la venta Factura"}, status=200)
+        except Exception as ex:
+            error_message = str(ex)
+            Notification.objects.create(message=error_message)
+            return JsonResponse({"msg": error_message}, status=400)
+
+
 class SaleDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
     model = Invoice
     template_name = 'core/delete.html'
@@ -174,6 +228,14 @@ class SaleDeleteView(PermissionMixin, DeleteViewMixin, DeleteView):
         return context
     
     def delete(self, request, *args, **kwargs):
+        today = date.today()
+
+        if self.object.issue_date.date() != today:
+            error_message = 'Solo puedes eliminar ventas del mismo día.'
+            messages.error(self.request, error_message)
+            Notification.objects.create(message=error_message)
+            return JsonResponse({"msg": error_message}, status=400)
+
         self.object = self.get_object()
         success_message = f"Éxito al eliminar lógicamente la venta {self.object.id}."
         messages.success(self.request, success_message)

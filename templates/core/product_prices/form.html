@@ -47,82 +47,77 @@ FORM{% extends 'components/base.html' %}
             <form id="frmSale" method="POST" class="space-y-6">
                 {% csrf_token %}
                 {{ form.media }}
-                
                 <!-- Campos del formulario -->
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-gray-50 dark:bg-secundario rounded-3xl p-6">
-                    <div>
-                        <label for="{{ form.line.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.line.label }}</label>
-                        {{ form.line }}
+                <div class="bg-gray-50 dark:bg-secundario rounded-3xl p-6">
+                    <div class="grid grid-cols-3 gap-6 items-center justify-center text-center space-y-2">
+                        <div class="">
+                            <label for="{{ form.product.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.product.label }}</label>
+                            <select name="{{ form.product.name }}" id="{{ form.product.id_for_label }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required>
+                                <option value="" disabled selected>Seleccione un producto</option>
+                                {% for product in form.product.field.queryset %}
+                                <option value="{{ product.id }}" data-line="{{ product.line.id }}" data-price="{{ product.price }}" data-category="{{ product.get_categories }}">{{ product.description }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="{{ form.line.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.line.label }}</label>
+                            <select name="{{ form.line.description }}" id="{{ form.line.id_for_label }}" class="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 pr-12 dark:bg-principal dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500 dark:shadow-sm-light" required>
+                                <option value="" disabled selected>Seleccione una línea</option>
+                                {% for line in form.line.field.queryset %}
+                                <option value="{{ line.id }}">{{ line.description }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="">
+                            <label for="{{ form.issue_date.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.issue_date.label }}</label>
+                            {{ form.issue_date }}
+                        </div>
                     </div>
-                    <div>
-                        <label for="{{ form.category.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.category.label }}</label>
-                        {{ form.category }}
+                    <div class="grid grid-cols-3 gap-6 items-center justify-center text-center space-y-2">
+                        <div class="">
+                            <label for="{{ form.type_increment.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.type_increment.label }}</label>
+                            {{ form.type_increment }}
+                        </div>
+                        <div class="">
+                            <label for="{{ form.value.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.value.label }}</label>
+                            {{ form.value }}
+                        </div>
+                        <div class="">
+                            <label for="{{ form.observation.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.observation.label }}</label>
+                            {{ form.observation }}
+                        </div>
                     </div>
-                    <div>
-                        <label for="{{ form.product.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.product.label }}</label>
-                        {{ form.product }}
-                    </div>
-                    <div>
-                        <label for="{{ form.type_increment.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.type_increment.label }}</label>
-                        {{ form.type_increment }}
-                    </div>
-                    <div>
-                        <label for="{{ form.value.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.value.label }}</label>
-                        {{ form.value }}
-                    </div>
-                    <div>
-                        <label for="{{ form.issue_date.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.issue_date.label }}</label>
-                        {{ form.issue_date }}
+                    <!-- Botón Generar -->
+                    <div class="flex justify-center mt-6">
+                        <button id="generateBtn" type="button" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full">
+                            <i class="fa-solid fa-gear mr-2"></i>Generar
+                        </button>
                     </div>
                 </div>
-                
-                <div class="grid grid-cols-1 gap-4 bg-gray-50 dark:bg-secundario rounded-3xl p-6">
-                    <div>
-                        <label for="{{ form.observaciones.id_for_label }}" class="dark:text-blue-300 font-black uppercase text-lg">{{ form.observaciones.label }}</label>
-                        {{ form.observaciones }}
-                    </div>
-                </div>
-                
-                <!-- Botón Generar -->
-                <div class="flex justify-center mt-6">
-                    <button id="generateBtn" type="button" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full">
-                        <i class="fa-solid fa-gear mr-2"></i>Generar
-                    </button>
-                </div>
-                
-                <!-- Tabla de Detalles de Precio -->
-                <div class="overflow-x-auto mt-8">
-                    <div class="border-b border-blue-400 dark:text-white text-2xl text-center mb-4 font-Pacifico">
-                        Detalles de Precio
-                    </div>
-                    <table id="detailsTable" class="w-full text-center text-lg">
-                        <thead class="uppercase font-Tiny5 bg-gray-50 dark:bg-secundario dark:text-blue-300">
-                            <tr>
-                                <th scope="col" class="px-6 py-3">Id</th>
-                                <th scope="col" class="px-6 py-3">Producto</th>
-                                <th scope="col" class="px-6 py-3">Incremento</th>
-                                <th scope="col" class="px-6 py-3">Precio Viejo</th>
-                                <th scope="col" class="px-6 py-3">Nuevo Precio</th>
-                                <th scope="col" class="px-6 py-3">Fecha de Emisión</th>
-                                <th scope="col" class="px-6 py-3">Observaciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for detail in details %}
+                    <!-- Tabla de Detalles de Precio -->
+                    <div class="overflow-x-auto mt-8">
+                        <div class="border-b border-blue-400 dark:text-white text-2xl text-center mb-4 font-Pacifico">
+                            Detalles de Precio
+                        </div>
+                        <table id="detailsTable" class="w-full text-center text-lg">
+                            <thead class="uppercase font-Tiny5 bg-gray-50 dark:bg-secundario dark:text-blue-300">
                                 <tr>
-                                    <td class="px-6 py-3">{{ detail.product_id }}</td>
-                                    <td class="px-6 py-3">{{ detail.product_name }}</td>
-                                    <td class="px-6 py-3">{{ detail.increment }}</td>
-                                    <td class="px-6 py-3">{{ detail.old_price }}</td>
-                                    <td class="px-6 py-3">{{ detail.new_price }}</td>
-                                    <td class="px-6 py-3">{{ detail.issue_date }}</td>
-                                    <td class="px-6 py-3">{{ detail.observaciones }}</td>
+                                    <th scope="col" class="px-6 py-3">Id</th>
+                                    <th scope="col" class="px-6 py-3">Producto</th>
+                                    <th scope="col" class="px-6 py-3">Linea</th>
+                                    <th scope="col" class="px-6 py-3">Categoria</th>
+                                    <th scope="col" class="px-6 py-3">Incremento</th>
+                                    <th scope="col" class="px-6 py-3">Precio Viejo</th>
+                                    <th scope="col" class="px-6 py-3">Nuevo Precio</th>
+                                    <th scope="col" class="px-6 py-3">Fecha de Emisión</th>
+                                    <th scope="col" class="px-6 py-3">Observaciones</th>
+                                    <th scope="col" class="px-6 py-3">Acciones</th>
                                 </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
                 </div>
-
                 <!-- Botones de acción -->
                 <div class="flex justify-center mt-6 space-x-2">
                     <button type="submit" class="bg-blue-700 hover:bg-blue-800 text-white py-2 px-4 rounded-full">
@@ -136,44 +131,139 @@ FORM{% extends 'components/base.html' %}
         </div>
     </div>
 </section>
-
-
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        const generateBtn = document.getElementById('generateBtn');
-        const detailsTable = document.getElementById('detailsTable');
-        const detailsBody = detailsTable.querySelector('tbody');
-        const form = document.getElementById('frmSale');
-    
-        generateBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            const formData = new FormData(form);
-    
-            fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                detailsBody.innerHTML = '';
-                data.forEach(item => {
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td class="px-6 py-3">${item.id}</td>
-                        <td class="px-6 py-3">${item.name}</td>
-                        <td class="px-6 py-3">${item.increment}</td>
-                        <td class="px-6 py-3">${item.old_price}</td>
-                    `;
-                    detailsBody.appendChild(row);
-                });
-            })
-            .catch(error => console.error('Error:', error));
+    const productSelect = document.getElementById('{{ form.product.id_for_label }}');
+    const lineSelect = document.getElementById('{{ form.line.id_for_label }}');
+    const typeIncrementSelect = document.getElementById('{{ form.type_increment.id_for_label }}');
+    const valueInput = document.getElementById('{{ form.value.id_for_label }}');
+    const issueDateInput = document.getElementById('{{ form.issue_date.id_for_label }}');
+    const observationInput = document.getElementById('{{ form.observation.id_for_label }}');
+    const generateBtn = document.getElementById('generateBtn');
+    const detailsTable = document.getElementById('detailsTable').getElementsByTagName('tbody')[0];
+    const form = document.querySelector('form');
+
+    let productData = null;
+
+    productSelect.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        productData = {
+            id: this.value,
+            description: selectedOption.text,
+            line: selectedOption.dataset.line,
+            price: selectedOption.dataset.price,
+            category: selectedOption.dataset.category
+        };
+
+        lineSelect.value = productData.line;
+        productData.lineName = lineSelect.options[lineSelect.selectedIndex].text;  // Actualizar el nombre de la línea
+    });
+
+    generateBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (!productData) {
+            alert('Por favor, seleccione un producto válido.');
+            return;
+        }
+
+        if (productData.line != lineSelect.value) {
+            alert('El producto seleccionado no pertenece a la línea seleccionada.');
+            return;
+        }
+
+        const increment = parseFloat(valueInput.value);
+        const oldPrice = parseFloat(productData.price);
+        let newPrice;
+
+        if (typeIncrementSelect.value === 'P') {
+            newPrice = oldPrice * (1 + increment / 100);
+        } else {
+            newPrice = oldPrice + increment;
+        }
+
+        const newRow = detailsTable.insertRow();
+        newRow.innerHTML = `
+            <td>${productData.id}</td>
+            <td>${productData.description}</td>
+            <td>${productData.lineName}</td>
+            <td>${productData.category}</td>
+            <td>${increment.toFixed(2)}</td>
+            <td>${oldPrice.toFixed(2)}</td>
+            <td>${newPrice.toFixed(2)}</td>
+            <td>${issueDateInput.value}</td>
+            <td>${observationInput.value}</td>
+            <td>
+                <button type="button" class="delete-btn" onclick="deleteRow(this)">
+                    <i class="fa-solid fa-trash text-red-500"></i>
+                </button>
+            </td>
+        `;
+    });
+
+    window.deleteRow = function(button) {
+        const row = button.parentElement.parentElement;
+        row.parentElement.removeChild(row);
+    }
+
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const rows = detailsTable.getElementsByTagName('tr');
+        const productPrices = [];
+
+        for (let row of rows) {
+            const cells = row.getElementsByTagName('td');
+            productPrices.push({
+                product_id: cells[0].textContent,
+                type_increment: cells[4].textContent.includes('%') ? 'P' : 'A',
+                value: parseFloat(cells[4].textContent),
+                issue_date: cells[7].textContent,
+                observation: cells[8].textContent
+            });
+        }
+
+        const formData = new FormData();
+        formData.append('product_prices', JSON.stringify(productPrices));
+
+        fetch('{% url "core:product_price_create" %}', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'X-CSRFToken': getCookie('csrftoken')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Datos guardados correctamente');
+                // Aquí puedes redirigir o hacer lo que necesites después de guardar
+            } else {
+                console.error('Error:', data.error);
+                alert('Hubo un error al guardar los datos. Por favor, intente de nuevo.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Hubo un error en la comunicación con el servidor. Por favor, intente de nuevo.');
         });
     });
-</script>
 
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+
+</script>
 {% endblock %}

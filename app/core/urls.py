@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.urls import path
 from app.core import views
-from app.core.views import supplier, company, brand, line, category, iva, product, product_price, product_price_detail, payment_method
+from app.core.views import supplier, company, brand, line, category, iva, product, product_price, payment_method
 from app.core.views.invoice_format import invoice_format
 from app.core.views.purchase_format import purchase_format
 
@@ -63,11 +63,6 @@ urlpatterns = [
     path('product/price_create/', product_price.ProductPriceCreateView.as_view(),name='product_price_create'),
     path('product/price_update/<int:pk>/', product_price.ProductPriceUpdateView.as_view(),name='product_price_update'),
     path('product/price_delete/<int:pk>/', product_price.ProductPriceDeleteView.as_view(),name='product_price_delete'),
-    # URLs de detalles de precios de productos 
-    path('product/price_detail_list/', product_price_detail.ProductPriceDetailListView.as_view(),name='product_price_detail_list'),
-    path('product/price_detail_create/', product_price_detail.ProductPriceDetailCreateView.as_view(),name='product_price_detail_create'),
-    path('product/price_detail_update/<int:pk>/', product_price_detail.ProductPriceDetailUpdateView.as_view(),name='product_price_detail_update'),
-    path('product/price_detail_delete/<int:pk>/', product_price_detail.ProductPriceDetailDeleteView.as_view(),name='product_price_detail_delete'),
     # URLs de métodos de pago
     path('payment_method/list/', payment_method.PaymentMethodListView.as_view(),name='payment_method_list'),
     path('payment_method/create/', payment_method.PaymentMethodCreateView.as_view(),name='payment_method_create'),

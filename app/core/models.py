@@ -9,7 +9,6 @@ from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from proy_sales.utils import phone_regex, valida_cedula, valida_numero_flotante_positivo, valida_numero_entero_positivo
 import os
-
         
 class Company(models.Model):
     dni = models.CharField(verbose_name='RUC', max_length=13, blank=True, null=True)
@@ -162,10 +161,6 @@ class Product(models.Model):
     def __str__(self):
         return self.description
 
-    
-    # def get_absolute_url(self):
-    #     return reverse('blog:post_detail',args=[self.id])
-    
     @property
     def get_categories(self):
         return " - ".join([c.description for c in self.categories.all().order_by('description')])
@@ -184,9 +179,6 @@ class Product(models.Model):
     def update_stock(self,id,quantity):
          Product.objects.filter(pk=id).update(stock=F('stock') - quantity)
 
-from django.db import models
-from app.core.models import Product, Line, Category
-
 class ProductPrice(models.Model):
     TYPE_INCREMENT_CHOICES = [
         ('P', 'Porcentaje'),
@@ -198,14 +190,12 @@ class ProductPrice(models.Model):
         ('I', 'Inactivo'),
     ]
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='prices', verbose_name='Producto')
-    line = models.ForeignKey(Line, on_delete=models.PROTECT, related_name='product_prices', verbose_name='Línea')
-    category = models.ManyToManyField(Category, related_name='product_prices', verbose_name='Categoría')
+    product = models.OneToOneField('Product', on_delete=models.CASCADE, related_name='current_price', verbose_name='Producto')
+    line = models.ForeignKey('Line', on_delete=models.PROTECT, related_name='product_prices', verbose_name='Línea')
     type_increment = models.CharField(max_length=1, choices=TYPE_INCREMENT_CHOICES, verbose_name='Tipo de incremento')
     value = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor')
-    issue_date = models.DateField(verbose_name='Fecha de emisión')
-    observaciones = models.TextField(blank=True, null=True, verbose_name='Observaciones')
-    active = models.BooleanField(default=True, verbose_name='Activo')
+    issue_date = models.DateField(verbose_name='Fecha de emisión', default=timezone.now)
+    observation = models.TextField(blank=True, null=True, verbose_name='Observación...')
     state = models.CharField(max_length=1, choices=STATE_CHOICES, default='A', verbose_name='Estado')
 
     class Meta:
@@ -217,43 +207,54 @@ class ProductPrice(models.Model):
         return f"{self.product} - {self.value} ({self.get_type_increment_display()})"
 
     def save(self, *args, **kwargs):
+    # Verificar si ya existe un precio para el producto
+        existing_price = ProductPrice.objects.filter(product=self.product).exclude(pk=self.pk).first()
+
+        if existing_price:
+            # Actualizar el registro existente en lugar de crear uno nuevo
+            existing_price.delete()  # Opcional: Si deseas eliminar el precio antiguo
+            # Eliminar el registro existente puede evitar la violación del constraint
+
         super().save(*args, **kwargs)
-        if self.active and self.state == 'A':
-            current_price = self.product.price
-            if self.type_increment == 'V':
-                new_price = current_price + self.value
-            else:  # Porcentaje
-                increment = current_price * (self.value / Decimal('100'))
-                new_price = current_price + increment
+        
+        if self.state == 'A':
+            new_price = self.calculate_new_price()
             self.product.price = new_price
             self.product.save()
-            
+
+            ProductPriceDetail.objects.create(
+                productprice=self,
+                old_price=self.product.price,
+                increment=new_price - self.product.price,
+                issue_date=self.issue_date
+            )
+        
+    def calculate_new_price(self):
+        current_price = self.product.price
+        if self.type_increment == 'V':
+            return current_price + self.value
+        else:  # Porcentaje
+            increment = current_price * (self.value / Decimal('100'))
+            return current_price + increment
 
 class ProductPriceDetail(models.Model):
-    productpreci = models.ForeignKey(ProductPrice, on_delete=models.PROTECT,related_name='productPrice_detail',verbose_name='Producto Precio detalle')
-    product = models.ForeignKey(Product, on_delete=models.PROTECT,related_name='price_detail',verbose_name='Producto Precio detalle')
-    increment = models.DecimalField(verbose_name='Incremento',default=0, max_digits=11, decimal_places=2)
-    old_price = models.DecimalField(verbose_name='Precio anterior', default=0, max_digits=11, decimal_places=2)
-    issue_date = models.DateTimeField(verbose_name='Fecha Emision',default=timezone.now)
-    observation = models.TextField(blank=True, null=True)
-    active = models.BooleanField(verbose_name='Activo',default=True)
-    
+    productprice = models.ForeignKey(ProductPrice, on_delete=models.CASCADE, related_name='price_history', verbose_name='Precio de Producto')
+    old_price = models.DecimalField(verbose_name='Precio anterior', max_digits=11, decimal_places=2)
+    increment = models.DecimalField(verbose_name='Incremento', max_digits=11, decimal_places=2)
+    issue_date = models.DateField(verbose_name='Fecha Emisión', default=timezone.now)
+
+    class Meta:
+        verbose_name = 'Detalle de Precio de Producto'
+        verbose_name_plural = 'Detalles de Precios de Productos'
+        ordering = ('-issue_date', 'productprice')
+
+    def __str__(self):
+        return f"{self.productprice.product} - Anterior: {self.old_price}, Incremento: {self.increment}"
+
     @property
     def new_price(self):
-        return self.old_price+self.increment
+        return self.old_price + self.increment
     
-    class Meta:
-        verbose_name = 'Producto Precios Detalle'
-        verbose_name_plural = 'Productos Precios Detalles'
-        ordering = ('id',)
- 
-    def delete(self, *args, **kwargs):
-        self.active = False
-        self.save()
-        
-    def __str__(self):
-        return "{} - {}".format(self.product,self.new_price)
-
 class Customer(models.Model): 
     GENDER_CHOICES = (
         ('M', 'Masculino'),

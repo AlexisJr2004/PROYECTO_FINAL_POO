@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from app.core.forms.product_price import ProductPriceForm
-from app.core.models import ProductPrice
+from app.core.models import ProductPrice, Product
 from app.security.instance.menu_module import MenuModule
 from app.security.mixins.mixins import (
     CreateViewMixin,
@@ -12,9 +12,25 @@ from app.security.mixins.mixins import (
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from django.db.models import Q
-
 from app.core.models import Notification
+from decimal import Decimal 
+from django.http import JsonResponse
+import json
 
+class ProductPriceListView(PermissionMixin, ListViewMixin, ListView):
+    template_name = "core/product_prices/list.html"
+    model = ProductPrice
+    context_object_name = "product_prices"
+    permission_required = "view_product_price"
+    def get_queryset(self):
+        q1 = self.request.GET.get("q")
+        if q1 is not None:
+            self.query.add(Q(product__icontains=q1), Q.OR)
+        return self.model.objects.filter(self.query).order_by("id")
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["create_url"] = reverse_lazy("core:product_price_create")
+        return context
 class ProductPriceListView(PermissionMixin, ListViewMixin, ListView):
     template_name = "core/product_prices/list.html"
     model = ProductPrice
@@ -24,7 +40,7 @@ class ProductPriceListView(PermissionMixin, ListViewMixin, ListView):
     def get_queryset(self):
         q1 = self.request.GET.get("q")
         if q1 is not None:
-            self.query.add(Q(product__icontains=q1), Q.OR)
+            self.query.add(Q(product__description__icontains=q1), Q.OR)
         return self.model.objects.filter(self.query).order_by("id")
 
     def get_context_data(self, **kwargs):
@@ -32,6 +48,7 @@ class ProductPriceListView(PermissionMixin, ListViewMixin, ListView):
         context["create_url"] = reverse_lazy("core:product_price_create")
         return context
 
+from decimal import Decimal, InvalidOperation
 
 class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
     model = ProductPrice
@@ -41,18 +58,51 @@ class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
     permission_required = "add_product_price"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data()
+        context = super().get_context_data(**kwargs)
         context["grabar"] = "Grabar Precio de Producto"
         context["back_url"] = self.success_url
         return context
 
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        product_price = self.object
-        success_message = f"Éxito al crear el precio de producto {product_price.product}."
-        messages.success(self.request, success_message)
-        Notification.objects.create(message=success_message)
-        return response
+    def post(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            try:
+                product_prices = request.POST.get('product_prices')
+                if product_prices:
+                    product_prices = json.loads(product_prices)
+
+                    for price_data in product_prices:
+                        product_id = price_data.get('product_id')
+                        type_increment = price_data.get('type_increment')
+                        value = price_data.get('value')
+                        issue_date = price_data.get('issue_date')
+                        observation = price_data.get('observation')
+
+                        product = Product.objects.get(id=product_id)
+                        old_price = product.price
+
+                        if type_increment == 'P':
+                            new_price = old_price * (1 + value / 100)
+                        else:
+                            new_price = old_price + value
+
+                        ProductPrice.objects.create(
+                            product=product,
+                            line=product.line,
+                            type_increment=type_increment,
+                            value=value,
+                            issue_date=issue_date,
+                            observation=observation,
+                            state='A'
+                        )
+
+                    return JsonResponse({'success': True})
+
+            except Product.DoesNotExist:
+                return JsonResponse({'success': False, 'error': 'Producto no encontrado'})
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)})
+
+        return super().post(request, *args, **kwargs)
 
 
 class ProductPriceUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):

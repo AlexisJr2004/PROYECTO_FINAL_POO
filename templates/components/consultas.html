@@ -6,7 +6,6 @@
 <!-- SECCION DE MENU Y MODULOS -->
 <section class="dark:bg-principal py-20">
     <div class="container mx-auto p-4" data-aos="fade-up" data-aos-delay="300">
-
         <!-- Cinta de navegación -->
         <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-800 dark:border-gray-700" aria-label="Breadcrumb">
             <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
@@ -42,7 +41,7 @@
             {% trans 'Bienvenido,' %} <span class="dark:text-indigo-500 text-center font-black">{{ user.username }}</span>.
             Conoce una breve descripción de los módulos y la cantidad de elementos que se encuentran activos en cada uno de ellos.
         </p>
-        <div class="grid sm:grid-grd-cols-1 md:grid-cols-3 lg:grid-cols-5 items-center justify-center space-x-2 space-y-2">
+        <div id="totales" class="grid sm:grid-grd-cols-1 md:grid-cols-3 lg:grid-cols-5 items-center justify-center space-x-2 space-y-2">
             <!-- Empresas Activos -->
             <div class="bg-gray-50 dark:bg-secundario p-4 rounded-3xl flex flex-col justify-center items-center space-y-2">
                 <h2 class="dark:text-blue-300 font-bold text-2xl font-Tiny5">Empresas</h2>
@@ -226,7 +225,7 @@
         <h1 class="dark:text-white text-3xl text-center mt-8 font-Pacifico py-4" data-aos="fade-up">
             {{ title3 }}
         </h1>
-        <p class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up"="">Descubre estadísticas sobre nuestro <span class="dark:text-indigo-500 text-center font-black">Inventario</span>.</p>
+        <p id="inventario" class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up"="">Descubre estadísticas sobre nuestro <span class="dark:text-indigo-500 text-center font-black">Inventario</span>.</p>
         <div class="space-y-2" data-aos="fade-up">
             <div class="grid lg:grid-cols-2 gap-4 justify-center items-center">
                 <div id="productChart" class=""></div>
@@ -243,7 +242,7 @@
             </div>
         </div>
 
-        <p class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up">Descubre estadísticas sobre <span class="dark:text-indigo-500 text-center font-black">Ventas</span>.</p>
+        <p id="ventas" class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up">Descubre estadísticas sobre <span class="dark:text-indigo-500 text-center font-black">Ventas</span>.</p>
         <div class="space-y-2" data-aos="fade-up">
             <div id="sales_" class=""></div>
             <div class="grid lg:grid-cols-2 justify-center items-center">
@@ -255,7 +254,8 @@
                 <div id="topCustomers_" class="">
             </div>
         </div>
-        <p class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up">Descubre estadísticas sobre <span class="dark:text-indigo-500 text-center font-black">Compras</span>.</p>
+
+        <p id="compras" class="text-gray-600 dark:text-gray-300 text-xl text-center py-2 mx-40" data-aos="fade-up">Descubre estadísticas sobre <span class="dark:text-indigo-500 text-center font-black">Compras</span>.</p>
         <div class="space-y-2" data-aos="fade-up">
             <div id="topPurchasesSales_" class="grid items-center justify-center"></div>
             <div id="purchases_" class=""></div>
@@ -265,7 +265,7 @@
         <div class="space-y-2" data-aos="fade-up">
             <div id="supplierMap_" class="grid items-center justify-center"></div>
             <div id="customerMap_" class="grid items-center justify-center"></div>
-        </div>
+        </div>                                                                                                                        
     </div>
 </section>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>

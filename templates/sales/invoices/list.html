@@ -26,8 +26,8 @@
         <br>
         <div class="flex flex-col items-center justify-center">
             <span class="bg-navbar rounded-full bg-indigo-500 px-2 py-1 text-white uppercase text-sm">
-                    {{ title1 }}
-                </span>
+                {{ title1 }}
+            </span>
         </div>
         <h1 class="dark:text-white text-4xl text-center mt-8 font-Pacifico">
                 {{ title2 }}
@@ -59,7 +59,6 @@
                         <th scope="col" class="px-6 py-3">Fecha Emision</th>
                         <th scope="col" class="px-6 py-3">Subtotal</th>
                         <th scope="col" class="px-6 py-3">Iva</th>
-                        <th scope="col" class="px-6 py-3">Descuento</th>
                         <th scope="col" class="px-6 py-3">Total</th>
                         <th scope="col" class="px-6 py-3">Metodo Pago</th>
                         <th scope="col" class="px-6 py-3">Tipo</th>
@@ -73,11 +72,10 @@
                     {% for item in invoices %}
                     <tr class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
                         <td class="px-6 py-4">{{ item.id }}</td>
-                        <td class="px-6 py-4">{{ item.customer.get_full_name }}</td>
+                        <td class="px-6 py-4">{{ item.customer.get_full_name }} <span class="text-gray-300">{{ item.customer.user }}</span></td>
                         <td class="px-6 py-4">{{ item.issue_date|date:"D, j F Y" }}</td>
                         <td class="px-6 py-4">{{ item.subtotal }}</td>
                         <td class="px-6 py-4">{{ item.iva }}</td>
-                        <td class="px-6 py-4">{{ item.discount }}</td>
                         <td class="px-6 py-4">{{ item.total }}</td>
                         <td class="px-6 py-4">{{ item.payment_method }}</td>
                         <td class="px-6 py-4">{{ item.get_state_display }}</td>
@@ -137,8 +135,8 @@
                     {% endif %} {% for num in page_obj.paginator.page_range %}
                     <li>
                         <a href="?page={{ num }}" class="flex items-center justify-center px-3 h-8 leading-tight {% if num == page_obj.number %}text-blue-600 bg-blue-50 border border-gray-300 hover:bg-blue-100 hover:text-blue-700 dark:bg-secundario dark:border-principal dark:text-blue-300{% else %}text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-[#0b1121] dark:border-secundario dark:text-gray-400 dark:hover:bg-[#121c33] dark:hover:text-white{% endif %}">
-                                    {{ num }}
-                                </a>
+                            {{ num }}
+                        </a>
                     </li>
                     {% endfor %} {% if page_obj.has_next %}
                     <li>

@@ -12,6 +12,8 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from decimal import Decimal
 from proy_sales.utils import custom_serializer, save_audit
+from django.contrib.auth.models import Group
+from app.core.models import Customer
 
 class SaleListView(PermissionMixin, ListViewMixin, ListView):
     template_name = 'sales/invoices/list.html'
@@ -21,11 +23,23 @@ class SaleListView(PermissionMixin, ListViewMixin, ListView):
     
     def get_queryset(self):
         q1 = self.request.GET.get('q')  # Ver búsqueda
+        query = Q() # Inicializar query para el filtrado de facturas
+        
         if q1 is not None:
-            self.query.add(Q(id=q1), Q.OR) 
-            self.query.add(Q(customer__first_name__icontains=q1), Q.OR) 
-            self.query.add(Q(customer__last_name__icontains=q1), Q.OR) 
-        return self.model.objects.filter(self.query).order_by('id')
+            query.add(Q(id=q1), Q.OR)
+            query.add(Q(customer__first_name__icontains=q1), Q.OR)
+            query.add(Q(customer__last_name__icontains=q1), Q.OR)
+        # Obtener la instancia de Customer asociada al usuario autenticado
+        if self.request.user.groups.filter(name='Administradores').exists():
+            queryset = self.model.objects.filter(query).order_by('id')
+        else:
+            try:
+                customer = Customer.objects.get(user=self.request.user)
+                queryset = self.model.objects.filter(query & Q(customer=customer)).order_by('id')
+            except Customer.DoesNotExist:
+                queryset = self.model.objects.none()  # No hay facturas si el usuario no es un cliente
+        
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,7 +1,7 @@
 import json
 from django.http import JsonResponse
 from django.db import transaction
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from app.core.models import Product
 from app.purchases.models import Purchase, PurchaseDetail
 from app.purchases.forms.purchase import PurchaseForm
@@ -18,8 +18,9 @@ from datetime import timedelta
 from django.http import HttpResponseForbidden, HttpResponseRedirect
 from django.db import transaction
 from django.shortcuts import get_object_or_404
-
+import pytz
 from proy_sales.utils import custom_serializer, save_audit
+from django.conf import settings
 
 class PurchaseListView(PermissionMixin, ListViewMixin, ListView):
     template_name = 'purchases/list.html'
@@ -62,6 +63,7 @@ class PurchaseCreateView(PermissionMixin, CreateViewMixin, CreateView):
         last_purchase = Purchase.objects.order_by('-id').first()
         next_id = last_purchase.id + 1 if last_purchase else 1
         context['next_purchase_id'] = next_id
+        context['success_url'] = reverse('purchases:purchases_list')
         return context
 
     def post(self, request, *args, **kwargs):
@@ -107,7 +109,7 @@ class PurchaseUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     model = Purchase
     template_name = 'purchases/form.html'
     form_class = PurchaseForm
-    success_url = reverse_lazy('purchases:purchases_list')
+    success_url = reverse_lazy('purchases:purchases/list')
     permission_required = 'change_purchase'
 
     def get_context_data(self, **kwargs):
@@ -122,65 +124,68 @@ class PurchaseUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     def post(self, request, *args, **kwargs):
         form = self.get_form()
         if not form.is_valid():
-            error_message = f"Error al actualizar la compra: {form.errors}."
-            messages.error(self.request, error_message)
-            return JsonResponse({"msg": form.errors}, status=400)
+            print("Form errors:", form.errors)
+            return JsonResponse({"msg": form.errors.as_json()}, status=400)
 
         data = request.POST
         try:
             purchase = self.get_object()
-            today = timezone.now().date()
-
-            # Verifica si la fecha de la compra es el mismo día
-            if purchase.issue_date.date() != today:
-                error_message = 'Solo puedes modificar compras del mismo día.'
-                messages.error(self.request, error_message)
+            tz = pytz.timezone(settings.TIME_ZONE)
+            today = timezone.now().astimezone(tz).date()
+            purchase_date = purchase.issue_date.astimezone(tz).date()
+            print(f"Today's date: {today}")
+            print(f"Purchase date: {purchase_date}")
+            if purchase_date != today:
+                error_message = f'Solo puedes modificar compras del mismo día. Fecha de compra: {purchase_date}, Fecha actual: {today}'
                 return JsonResponse({"msg": error_message}, status=400)
 
             with transaction.atomic():
+                # Guarda los detalles originales
+                original_details = {detail.product_id: detail.quantify for detail in purchase.purchase_detail.all()}
+
+                # Actualiza los campos de la compra
                 purchase.num_document = data['num_document']
                 purchase.supplier_id = int(data['supplier'])
                 purchase.issue_date = data['issue_date']
-                purchase.subtotal = Decimal(data['subtotal'])
-                purchase.iva = Decimal(data['iva'])
-                purchase.total = Decimal(data['total'])
-                purchase.active = True
+                purchase.subtotal = Decimal(data['subtotal'].replace(',', '.'))
+                purchase.iva = Decimal(data['iva'].replace(',', '.'))
+                purchase.total = Decimal(data['total'].replace(',', '.'))
                 purchase.save()
 
-                # Eliminar detalles existentes y restaurar stock
-                old_details = PurchaseDetail.objects.filter(purchase_id=purchase.id)
-                for old_detail in old_details:
-                    product = old_detail.product
-                    product.stock += old_detail.quantify
-                    product.save()
-                old_details.delete()
+                # Procesa los detalles
+                new_details = json.loads(data['detail'])
+                
+                # Elimina los detalles existentes
+                purchase.purchase_detail.all().delete()
 
-                # Agregar nuevos detalles
-                details = json.loads(request.POST['detail'])
-                for detail in details:
-                    product = Product.objects.get(id=int(detail['id']))
-                    quantity = Decimal(detail['quantify'])
+                # Crea los nuevos detalles y actualiza el stock
+                for detail in new_details:
+                    product_id = int(detail['id'])
+                    new_quantity = Decimal(str(detail['stock']))
                     
                     PurchaseDetail.objects.create(
                         purchase=purchase,
-                        product=product,
-                        quantify=quantity,
-                        cost=Decimal(detail['cost']),
-                        iva=Decimal(detail['iva']),
-                        subtotal=Decimal(detail['subtotal']),
+                        product_id=product_id,
+                        quantify=new_quantity,
+                        cost=Decimal(str(detail['cost'])),
+                        subtotal=Decimal(str(detail['subtotal'])),
+                        iva=Decimal(str(detail['iva']))
                     )
                     
-                    # Actualizar el stock del producto
-                    product.stock -= quantity
-                    product.save()
+                    product = Product.objects.get(id=product_id)
+                    old_quantity = original_details.get(product_id, 0)
+                    quantity_difference = new_quantity - old_quantity
+                    product.increase_stock(quantity_difference)
 
-                messages.success(self.request, f"Éxito al modificar la compra {purchase.num_document}")
+                save_audit(request, purchase, "A")
+                messages.success(request, f"Éxito al modificar la compra {purchase.num_document}")
                 return JsonResponse({"msg": "Éxito al modificar la compra"}, status=200)
+
         except Exception as ex:
-            error_message = str(ex)
-            return JsonResponse({"msg": error_message}, status=400)
-
-
+            print("Exception:", str(ex))
+            print("Traceback:", traceback.format_exc())
+            return JsonResponse({"msg": str(ex)}, status=400)
+        
 class PurchaseAnnulView(PermissionMixin, UpdateViewMixin, UpdateView):
     model = Purchase
     template_name = 'core/delete.html'

@@ -2,6 +2,7 @@ from django.urls import reverse_lazy
 from app.security.forms.user import UserForm
 from app.security.models import User
 from app.security.instance.menu_module import MenuModule
+from app.core.models import Customer
 from app.security.mixins.mixins import (
     CreateViewMixin,
     DeleteViewMixin,
@@ -55,6 +56,8 @@ class UserCreateView(PermissionMixin, CreateViewMixin, CreateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         user = self.object
+        customer = user.customer
+        
         messages.success(self.request, f"Éxito al crear al usuario {user.username}.")
         return response
 

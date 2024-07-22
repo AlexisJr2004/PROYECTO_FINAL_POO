@@ -142,7 +142,7 @@ d.addEventListener('DOMContentLoaded', function (e) {
     $form.addEventListener('submit', async (e) => {
         e.preventDefault()
         if (parseFloat(d.getElementById('id_total').value) > 0.00) {
-            await saveSale(save_url, '/sale/sales_list/')
+            await saveSale(save_url, '/sale/sales/list/')
         } else {
             alert("!!!Faltan datos de productos para grabar la venta!!!")
         }

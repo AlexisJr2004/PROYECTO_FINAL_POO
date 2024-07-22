@@ -13,6 +13,7 @@ d.addEventListener('DOMContentLoaded', function (e) {
     let $form = d.getElementById("frmPurchase");
     let detailPurchase = [];
     let sub = 0;
+    const csrf = "{{ csrf_token }}";
 
     // Carga inicial de detalles de compra si existen
     console.log("detalle= ", detail_purchases)
@@ -114,15 +115,7 @@ d.addEventListener('DOMContentLoaded', function (e) {
     async function savePurchase(urlPost, urlSuccess) {
         const formData = new FormData($form);
         formData.append("detail", JSON.stringify(detailPurchase));
-
-        let csrf = d.querySelector('[name=csrfmiddlewaretoken]').value;
-
-        console.log('FormData antes de enviar:');
-        c(`csrf=${csrf}`)
-        for (let [name, value] of formData.entries()) {
-            console.log(`${name}: ${value}`);
-        }
-
+    
         try {
             const res = await fetch(urlPost, {
                 method: 'POST',
@@ -132,15 +125,15 @@ d.addEventListener('DOMContentLoaded', function (e) {
                 },
                 body: formData
             });
+            const data = await res.json();
             if (!res.ok) {
-                throw new Error(`HTTP error! Status: ${res.status}`);
+                throw new Error(data.msg || 'Error en la solicitud');
             }
-            const post = await res.json();
-            alert(post.msg);
+            alert(data.msg);
             window.location.href = urlSuccess;
         } catch (error) {
-            console.error("Fetch error:", error);
-            alert("Fetch error: " + error);
+            console.error("Error:", error);
+            alert("Error: " + error.message);
         }
     }
 
@@ -148,7 +141,7 @@ d.addEventListener('DOMContentLoaded', function (e) {
     $form.addEventListener('submit', async (e) => {
         e.preventDefault();
         if (parseFloat($total.value) > 0.00) {
-            await savePurchase(save_url, '/purchase/purchases_list/');
+            await savePurchase(save_url, '/purchase/purchases/list/')
         } else {
             alert("Faltan datos de productos para grabar la compra.");
         }

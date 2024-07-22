@@ -69,10 +69,10 @@ urlpatterns = [
     path('product/price_detail_update/<int:pk>/', product_price_detail.ProductPriceDetailUpdateView.as_view(),name='product_price_detail_update'),
     path('product/price_detail_delete/<int:pk>/', product_price_detail.ProductPriceDetailDeleteView.as_view(),name='product_price_detail_delete'),
     # URLs de métodos de pago
-    path('payment/method_list/', payment_method.PaymentMethodListView.as_view(),name='payment_method_list'),
-    path('payment/method_create/', payment_method.PaymentMethodCreateView.as_view(),name='payment_method_create'),
-    path('payment/method_update/<int:pk>/', payment_method.PaymentMethodUpdateView.as_view(),name='payment_method_update'),
-    path('payment/method_delete/<int:pk>/', payment_method.PaymentMethodDeleteView.as_view(),name='payment_method_delete'),
+    path('payment_method/list/', payment_method.PaymentMethodListView.as_view(),name='payment_method_list'),
+    path('payment_method/create/', payment_method.PaymentMethodCreateView.as_view(),name='payment_method_create'),
+    path('payment_method/update/<int:pk>/', payment_method.PaymentMethodUpdateView.as_view(),name='payment_method_update'),
+    path('payment_method/delete/<int:pk>/', payment_method.PaymentMethodDeleteView.as_view(),name='payment_method_delete'),
     # URLs de Perfil
     path('profile/', ProfileView.as_view(), name='profile'),
     path('profile/update/', UpdateProfileView.as_view(), name='update_profile'),

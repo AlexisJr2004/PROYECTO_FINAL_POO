@@ -133,136 +133,164 @@ FORM{% extends 'components/base.html' %}
 </section>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-    const productSelect = document.getElementById('{{ form.product.id_for_label }}');
-    const lineSelect = document.getElementById('{{ form.line.id_for_label }}');
-    const typeIncrementSelect = document.getElementById('{{ form.type_increment.id_for_label }}');
-    const valueInput = document.getElementById('{{ form.value.id_for_label }}');
-    const issueDateInput = document.getElementById('{{ form.issue_date.id_for_label }}');
-    const observationInput = document.getElementById('{{ form.observation.id_for_label }}');
-    const generateBtn = document.getElementById('generateBtn');
-    const detailsTable = document.getElementById('detailsTable').getElementsByTagName('tbody')[0];
-    const form = document.querySelector('form');
-
-    let productData = null;
-
-    productSelect.addEventListener('change', function() {
-        const selectedOption = this.options[this.selectedIndex];
-        productData = {
-            id: this.value,
-            description: selectedOption.text,
-            line: selectedOption.dataset.line,
-            price: selectedOption.dataset.price,
-            category: selectedOption.dataset.category
-        };
-
-        lineSelect.value = productData.line;
-        productData.lineName = lineSelect.options[lineSelect.selectedIndex].text;  // Actualizar el nombre de la línea
-    });
-
-    generateBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (!productData) {
-            alert('Por favor, seleccione un producto válido.');
-            return;
+        const productSelect = document.getElementById('{{ form.product.id_for_label }}');
+        const lineSelect = document.getElementById('{{ form.line.id_for_label }}');
+        const typeIncrementSelect = document.getElementById('{{ form.type_increment.id_for_label }}');
+        const valueInput = document.getElementById('{{ form.value.id_for_label }}');
+        const issueDateInput = document.getElementById('{{ form.issue_date.id_for_label }}');
+        const observationInput = document.getElementById('{{ form.observation.id_for_label }}');
+        const generateBtn = document.getElementById('generateBtn');
+        const detailsTable = document.getElementById('detailsTable').getElementsByTagName('tbody')[0];
+        const form = document.querySelector('form');
+    
+        let productData = null;
+    
+        productSelect.addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            if (selectedOption.value) {
+                productData = {
+                    id: this.value,
+                    description: selectedOption.text,
+                    line: selectedOption.dataset.line,
+                    price: selectedOption.dataset.price,
+                    category: selectedOption.dataset.category
+                };
+                lineSelect.value = productData.line;
+                productData.lineName = lineSelect.options[lineSelect.selectedIndex].text;
+            } else {
+                productData = null;
+            }
+        });
+    
+        generateBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            const increment = parseFloat(valueInput.value);
+            if (isNaN(increment)) {
+                alert('Por favor, ingrese un valor de incremento válido.');
+                return;
+            }
+    
+            // Limpiar la tabla antes de generar nuevas filas
+            detailsTable.innerHTML = '';
+    
+            if (productData) {
+                // Si se seleccionó un producto específico, generar solo para ese producto
+                generateRow(productData, increment);
+            } else {
+                // Si no se seleccionó un producto, generar para todos los productos
+                generateForAllProducts(increment);
+            }
+        });
+    
+        function generateForAllProducts(increment) {
+            Array.from(productSelect.options).forEach(option => {
+                if (option.value) {  // Excluir la opción "Seleccione un producto"
+                    const product = {
+                        id: option.value,
+                        description: option.text,
+                        line: option.dataset.line,
+                        price: option.dataset.price,
+                        category: option.dataset.category,
+                        lineName: Array.from(lineSelect.options).find(lineOption => lineOption.value === option.dataset.line)?.text || ''
+                    };
+                    generateRow(product, increment);
+                }
+            });
         }
-
-        if (productData.line != lineSelect.value) {
-            alert('El producto seleccionado no pertenece a la línea seleccionada.');
-            return;
+    
+        function generateRow(product, increment) {
+            const oldPrice = parseFloat(product.price);
+            let newPrice;
+    
+            if (typeIncrementSelect.value === 'P') {
+                newPrice = oldPrice * (1 + increment / 100);
+            } else {
+                newPrice = oldPrice + increment;
+            }
+    
+            const newRow = detailsTable.insertRow();
+            newRow.innerHTML = `
+                <td>${product.id}</td>
+                <td>${product.description}</td>
+                <td>${product.lineName}</td>
+                <td>${product.category}</td>
+                <td>${increment.toFixed(2)}</td>
+                <td>${oldPrice.toFixed(2)}</td>
+                <td>${newPrice.toFixed(2)}</td>
+                <td>${issueDateInput.value}</td>
+                <td>${observationInput.value}</td>
+                <td>
+                    <button type="button" class="delete-btn" onclick="deleteRow(this)">
+                        <i class="fa-solid fa-trash text-red-500"></i>
+                    </button>
+                </td>
+            `;
         }
-
-        const increment = parseFloat(valueInput.value);
-        const oldPrice = parseFloat(productData.price);
-        let newPrice;
-
-        if (typeIncrementSelect.value === 'P') {
-            newPrice = oldPrice * (1 + increment / 100);
-        } else {
-            newPrice = oldPrice + increment;
+    
+        window.deleteRow = function(button) {
+            const row = button.parentElement.parentElement;
+            row.parentElement.removeChild(row);
         }
-
-        const newRow = detailsTable.insertRow();
-        newRow.innerHTML = `
-            <td>${productData.id}</td>
-            <td>${productData.description}</td>
-            <td>${productData.lineName}</td>
-            <td>${productData.category}</td>
-            <td>${increment.toFixed(2)}</td>
-            <td>${oldPrice.toFixed(2)}</td>
-            <td>${newPrice.toFixed(2)}</td>
-            <td>${issueDateInput.value}</td>
-            <td>${observationInput.value}</td>
-            <td>
-                <button type="button" class="delete-btn" onclick="deleteRow(this)">
-                    <i class="fa-solid fa-trash text-red-500"></i>
-                </button>
-            </td>
-        `;
-    });
-
-    window.deleteRow = function(button) {
-        const row = button.parentElement.parentElement;
-        row.parentElement.removeChild(row);
-    }
-
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const formData = new FormData();
-        const rows = document.querySelectorAll('#detailsTable tbody tr');
-        const productPrices = [];
-
-        rows.forEach(row => {
-            const cells = row.getElementsByTagName('td');
-            productPrices.push({
-                product_id: cells[0].textContent,
-                type_increment: cells[4].textContent.includes('%') ? 'P' : 'V',
-                value: parseFloat(cells[4].textContent),
-                issue_date: cells[7].textContent,
-                observation: cells[8].textContent
+    
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+    
+            const formData = new FormData();
+            const rows = document.querySelectorAll('#detailsTable tbody tr');
+            const productPrices = [];
+    
+            rows.forEach(row => {
+                const cells = row.getElementsByTagName('td');
+                productPrices.push({
+                    product_id: cells[0].textContent,
+                    type_increment: typeIncrementSelect.value,
+                    value: parseFloat(cells[4].textContent),
+                    issue_date: cells[7].textContent,
+                    observation: cells[8].textContent
+                });
+            });
+    
+            formData.append('product_prices', JSON.stringify(productPrices));
+    
+            fetch('{% url "core:product_price_create" %}', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = data.redirect_url;
+                } else {
+                    console.error('Error:', data.error);
+                    alert('Hubo un error al guardar los datos. Por favor, intente de nuevo.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Hubo un error en la comunicación con el servidor. Por favor, intente de nuevo.');
             });
         });
-
-        formData.append('product_prices', JSON.stringify(productPrices));
-
-        fetch('{% url "core:product_price_create" %}', {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'X-CSRFToken': getCookie('csrftoken')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                window.location.href = data.redirect_url;
-            } else {
-                console.error('Error:', data.error);
-                alert('Hubo un error al guardar los datos. Por favor, intente de nuevo.');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('Hubo un error en la comunicación con el servidor. Por favor, intente de nuevo.');
-        });
-    });
-
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
+    
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
                 }
             }
+            return cookieValue;
         }
-        return cookieValue;
-    }
-});
+    });
 
 </script>
 {% endblock %}

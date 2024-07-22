@@ -184,27 +184,50 @@ class Product(models.Model):
     def update_stock(self,id,quantity):
          Product.objects.filter(pk=id).update(stock=F('stock') - quantity)
 
+from django.db import models
+from app.core.models import Product, Line, Category
+
 class ProductPrice(models.Model):
-    line = models.ForeignKey(Line, on_delete=models.PROTECT,related_name='productPrice_lines',null=True,blank=True, verbose_name='Linea')
-    category = models.ManyToManyField('Category',related_name="productPrice_categories", blank=True, verbose_name='Categoria')
-    product = models.ForeignKey(Product, on_delete=models.PROTECT,related_name='productPrice',null=True,blank=True,verbose_name='Producto Precio')
-    type_increment = models.CharField(verbose_name='Tipo de Aumento',max_length=1,choices=(('P','Porcentaje'),('V','Valor Fijo')),default='P')
-    value = models.DecimalField(verbose_name='Incremento', default=0, max_digits=11, decimal_places=2)
-    issue_date = models.DateTimeField(verbose_name='Fecha Emision',default=timezone.now,db_index=True)
-    observaciones = models.TextField(verbose_name='Obervacion' ,blank=True, null=True)
-    active = models.BooleanField(verbose_name='Activo',default=True)
+    TYPE_INCREMENT_CHOICES = [
+        ('P', 'Porcentaje'),
+        ('V', 'Valor'),
+    ]
     
+    STATE_CHOICES = [
+        ('A', 'Activo'),
+        ('I', 'Inactivo'),
+    ]
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='prices', verbose_name='Producto')
+    line = models.ForeignKey(Line, on_delete=models.PROTECT, related_name='product_prices', verbose_name='Línea')
+    category = models.ManyToManyField(Category, related_name='product_prices', verbose_name='Categoría')
+    type_increment = models.CharField(max_length=1, choices=TYPE_INCREMENT_CHOICES, verbose_name='Tipo de incremento')
+    value = models.DecimalField(max_digits=10, decimal_places=2, verbose_name='Valor')
+    issue_date = models.DateField(verbose_name='Fecha de emisión')
+    observaciones = models.TextField(blank=True, null=True, verbose_name='Observaciones')
+    active = models.BooleanField(default=True, verbose_name='Activo')
+    state = models.CharField(max_length=1, choices=STATE_CHOICES, default='A', verbose_name='Estado')
+
     class Meta:
-        verbose_name = 'Precios Producto'
-        verbose_name_plural = 'Precios Productos'
-        ordering = ('issue_date',)
-        
-    def delete(self, *args, **kwargs):
-        self.active = False
-        self.save()
-    
+        verbose_name = 'Precio de Producto'
+        verbose_name_plural = 'Precios de Productos'
+        ordering = ['-issue_date', 'product']
+
     def __str__(self):
-        return "{} - {:%d-%m-%Y}".format(self.value,self.issue_date)
+        return f"{self.product} - {self.value} ({self.get_type_increment_display()})"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if self.active and self.state == 'A':
+            current_price = self.product.price
+            if self.type_increment == 'V':
+                new_price = current_price + self.value
+            else:  # Porcentaje
+                increment = current_price * (self.value / Decimal('100'))
+                new_price = current_price + increment
+            self.product.price = new_price
+            self.product.save()
+            
 
 class ProductPriceDetail(models.Model):
     productpreci = models.ForeignKey(ProductPrice, on_delete=models.PROTECT,related_name='productPrice_detail',verbose_name='Producto Precio detalle')

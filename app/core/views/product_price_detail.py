@@ -1,6 +1,6 @@
 from django.urls import reverse_lazy
 from app.core.forms.product_price_detail import ProductPriceDetailForm
-from app.core.models import ProductPriceDetail
+from app.core.models import Product, ProductPriceDetail
 from app.security.instance.menu_module import MenuModule
 from app.security.mixins.mixins import (
     CreateViewMixin,
@@ -15,6 +15,11 @@ from django.db.models import Q
 
 from app.core.models import Notification
 
+
+from django.http import JsonResponse
+from decimal import Decimal
+
+
 class ProductPriceDetailListView(PermissionMixin, ListViewMixin, ListView):
     template_name = "core/product_price_details/list.html"
     model = ProductPriceDetail
@@ -22,14 +27,21 @@ class ProductPriceDetailListView(PermissionMixin, ListViewMixin, ListView):
     permission_required = "view_product_price_detail"
 
     def get_queryset(self):
+        queryset = self.model.objects.select_related('product', 'productpreci').order_by("id")
         q1 = self.request.GET.get("q")
-        if q1 is not None:
-            self.query.add(Q(product__icontains=q1), Q.OR)
-        return self.model.objects.filter(self.query).order_by("id")
+        if q1:
+            queryset = queryset.filter(
+                Q(product__name__icontains=q1) |
+                Q(productpreci__value__icontains=q1) |
+                Q(observation__icontains=q1)
+            )
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["create_url"] = reverse_lazy("core:product_price_detail_create")
+        context["title1"] = "Detalles de Precios de Productos"
+        context["title2"] = "Listado de Detalles de Precios"
         return context
 
 
@@ -45,6 +57,39 @@ class ProductPriceDetailCreateView(PermissionMixin, CreateViewMixin, CreateView)
         context["grabar"] = "Grabar Detalle de Precio de Producto"
         context["back_url"] = self.success_url
         return context
+
+    def post(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            line_id = request.POST.get('line')
+            category_id = request.POST.get('category')
+            product_id = request.POST.get('product')
+            type_increment = request.POST.get('type_increment')
+            value = Decimal(request.POST.get('value', 0))
+
+            products = Product.objects.filter(line_id=line_id)
+            if category_id:
+                products = products.filter(category__id=category_id)
+            if product_id:
+                products = products.filter(id=product_id)
+
+            results = []
+            for product in products:
+                old_price = product.price
+                if type_increment == 'P':  # Porcentaje
+                    increment = old_price * (value / Decimal('100'))
+                else:  # Valor fijo
+                    increment = value
+
+                results.append({
+                    'id': product.id,
+                    'name': product.name,
+                    'increment': str(round(increment, 2)),
+                    'old_price': str(old_price),
+                })
+
+            return JsonResponse(results, safe=False)
+
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         response = super().form_valid(form)

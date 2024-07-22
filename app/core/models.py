@@ -231,11 +231,10 @@ class ProductPrice(models.Model):
         
     def calculate_new_price(self):
         current_price = self.product.price
-        if self.type_increment == 'V':
+        if self.type_increment == 'P':
+            return current_price * (1 + self.value / Decimal('100'))
+        else:
             return current_price + self.value
-        else:  # Porcentaje
-            increment = current_price * (self.value / Decimal('100'))
-            return current_price + increment
 
 class ProductPriceDetail(models.Model):
     productprice = models.ForeignKey(ProductPrice, on_delete=models.CASCADE, related_name='price_history', verbose_name='Precio de Producto')

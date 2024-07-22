@@ -22,33 +22,70 @@ class ProductPriceListView(PermissionMixin, ListViewMixin, ListView):
     model = ProductPrice
     context_object_name = "product_prices"
     permission_required = "view_product_price"
+
     def get_queryset(self):
         q1 = self.request.GET.get("q")
-        if q1 is not None:
-            self.query.add(Q(product__icontains=q1), Q.OR)
-        return self.model.objects.filter(self.query).order_by("id")
+        queryset = self.model.objects.all()
+        if q1:
+            queryset = queryset.filter(
+                Q(product__description__icontains=q1) |
+                Q(line__description__icontains=q1) |
+                Q(value__icontains=q1)
+            )
+        return queryset.order_by("-issue_date")
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["create_url"] = reverse_lazy("core:product_price_create")
         return context
-class ProductPriceListView(PermissionMixin, ListViewMixin, ListView):
-    template_name = "core/product_prices/list.html"
+
+class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
     model = ProductPrice
-    context_object_name = "product_prices"
-    permission_required = "view_product_price"
+    template_name = "core/product_prices/form.html"
+    form_class = ProductPriceForm
+    success_url = reverse_lazy("core:product_price_list")
+    permission_required = "add_product_price"
 
-    def get_queryset(self):
-        q1 = self.request.GET.get("q")
-        if q1 is not None:
-            self.query.add(Q(product__description__icontains=q1), Q.OR)
-        return self.model.objects.filter(self.query).order_by("id")
+    def post(self, request, *args, **kwargs):
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            try:
+                product_prices = json.loads(request.POST.get('product_prices'))
+                for price_data in product_prices:
+                    product = Product.objects.get(id=price_data['product_id'])
+                    current_price = product.price
+                    
+                    # Calcula el nuevo precio
+                    if price_data['type_increment'] == 'P':
+                        new_price = current_price * (1 + Decimal(price_data['value']) / 100)
+                    else:
+                        new_price = current_price + Decimal(price_data['value'])
+                    
+                    # Crea el nuevo ProductPrice
+                    ProductPrice.objects.create(
+                        product=product,
+                        line=product.line,
+                        type_increment=price_data['type_increment'],
+                        value=Decimal(price_data['value']),
+                        issue_date=price_data['issue_date'],
+                        observation=price_data['observation'],
+                        state='A'
+                    )
+                    
+                    # Actualiza el precio del producto
+                    product.price = new_price
+                    product.save()
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["create_url"] = reverse_lazy("core:product_price_create")
-        return context
+                messages.success(request, "Precios de productos actualizados correctamente.")
+                return JsonResponse({'success': True, 'redirect_url': self.success_url})
+            except Exception as e:
+                return JsonResponse({'success': False, 'error': str(e)})
+        
+        return super().post(request, *args, **kwargs)
 
-from decimal import Decimal, InvalidOperation
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Precio de producto creado correctamente.")
+        return response
 
 class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
     model = ProductPrice
@@ -73,7 +110,7 @@ class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
                     for price_data in product_prices:
                         product_id = price_data.get('product_id')
                         type_increment = price_data.get('type_increment')
-                        value = price_data.get('value')
+                        value = Decimal(price_data.get('value'))
                         issue_date = price_data.get('issue_date')
                         observation = price_data.get('observation')
 
@@ -95,7 +132,12 @@ class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
                             state='A'
                         )
 
-                    return JsonResponse({'success': True})
+                        # Update product price
+                        product.price = new_price
+                        product.save()
+
+                    messages.success(request, "Precios de productos actualizados correctamente.")
+                    return JsonResponse({'success': True, 'redirect_url': self.success_url})
 
             except Product.DoesNotExist:
                 return JsonResponse({'success': False, 'error': 'Producto no encontrado'})
@@ -104,6 +146,10 @@ class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
 
         return super().post(request, *args, **kwargs)
 
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        messages.success(self.request, "Precio de producto creado correctamente.")
+        return response
 
 class ProductPriceUpdateView(PermissionMixin, UpdateViewMixin, UpdateView):
     model = ProductPrice

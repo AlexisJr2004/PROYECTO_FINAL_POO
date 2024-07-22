@@ -41,8 +41,10 @@
                             <th scope="col" class="px-6 py-3">ID</th>
                             <th scope="col" class="px-6 py-3">Producto</th>
                             <th scope="col" class="px-6 py-3">Linea</th>
-                            <th scope="col" class="px-6 py-3">Incremento</th>
+                            <th scope="col" class="px-6 py-3">Tipo de Incremento</th>
                             <th scope="col" class="px-6 py-3">Valor</th>
+                            <th scope="col" class="px-6 py-3">Precio Anterior</th>
+                            <th scope="col" class="px-6 py-3">Nuevo Precio</th>
                             <th scope="col" class="px-6 py-3">Fecha de Asunto</th>
                             <th scope="col" class="px-6 py-3">Observaciones</th>
                             <th scope="col" class="px-6 py-3">Estado</th>
@@ -51,33 +53,30 @@
                     </thead>
                     <tbody>
                         {% for item in product_prices %}
-                        <tr
-                            class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
+                        <tr class="dark:text-gray-400 bg-white border-b dark:bg-[#0b1121] dark:border-secundario hover:bg-gray-50 dark:hover:bg-[#121c33]">
                             <td class="px-6 py-4">{{ item.id }}</td>
                             <td class="px-6 py-4">{{ item.product }}</td>
                             <td class="px-6 py-4">{{ item.line }}</td>
-                            <td class="px-6 py-4">{{ item.type_increment }}</td>
+                            <td class="px-6 py-4">{{ item.get_type_increment_display }}</td>
                             <td class="px-6 py-4">{{ item.value }}</td>
+                            <td class="px-6 py-4">{{ item.product.price }}</td>
+                            <td class="px-6 py-4">{{ item.calculate_new_price }}</td>
                             <td class="px-6 py-4">{{ item.issue_date | date:"d/m/Y" }}</td>
-                            <td class="px-6 py-4">{{ item.observaciones }}</td>
+                            <td class="px-6 py-4">{{ item.observation }}</td>
                             <td class="px-6 py-4">
-                                {% if item.active %}
+                                {% if item.state == 'A' %}
                                 <i class="fa-solid fa-check text-green-500"></i>
                                 {% else %}
                                 <i class="fa-solid fas fa-eye-slash text-red-500"></i>
                                 {% endif %}
                             </td>
                             <td class="px-6 py-4">
-                                {% comment %} {% if permissions.change_product_price %} {% endcomment %}
                                 <a href="{% url 'core:product_price_update' item.id %}" class="text-blue-600 dark:text-blue-500">
                                     <i class="fa-solid fa-gear"></i>
                                 </a>
-                                {% comment %} {% endif %} {% endcomment %}
-                                {% comment %} {% if permissions.delete_product_price %} {% endcomment %}
                                 <a href="#" class="text-red-600 dark:text-red-500" onclick="openDeleteModal('{{ item.id }}')">
                                     <i class="fa-solid fa-trash"></i>
                                 </a>
-                                {% comment %} {% endif %} {% endcomment %}
                             </td>
                         </tr>
                         {% endfor %}

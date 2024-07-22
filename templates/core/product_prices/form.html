@@ -208,21 +208,21 @@ FORM{% extends 'components/base.html' %}
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
-        const rows = detailsTable.getElementsByTagName('tr');
+        const formData = new FormData();
+        const rows = document.querySelectorAll('#detailsTable tbody tr');
         const productPrices = [];
 
-        for (let row of rows) {
+        rows.forEach(row => {
             const cells = row.getElementsByTagName('td');
             productPrices.push({
                 product_id: cells[0].textContent,
-                type_increment: cells[4].textContent.includes('%') ? 'P' : 'A',
+                type_increment: cells[4].textContent.includes('%') ? 'P' : 'V',
                 value: parseFloat(cells[4].textContent),
                 issue_date: cells[7].textContent,
                 observation: cells[8].textContent
             });
-        }
+        });
 
-        const formData = new FormData();
         formData.append('product_prices', JSON.stringify(productPrices));
 
         fetch('{% url "core:product_price_create" %}', {
@@ -236,8 +236,7 @@ FORM{% extends 'components/base.html' %}
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Datos guardados correctamente');
-                // Aquí puedes redirigir o hacer lo que necesites después de guardar
+                window.location.href = data.redirect_url;
             } else {
                 console.error('Error:', data.error);
                 alert('Hubo un error al guardar los datos. Por favor, intente de nuevo.');

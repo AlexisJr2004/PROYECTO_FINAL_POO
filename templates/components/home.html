@@ -135,7 +135,7 @@
         </div>
     </div>
 
-    <script>
+    {% comment %} <script>
         document.addEventListener('DOMContentLoaded', () => {
             const versionModal = document.getElementById('versionModal');
             const closeVersionModalButtons = document.querySelectorAll('[data-modal-hide="versionModal"]');
@@ -157,9 +157,9 @@
                 });
             });
         });
-    </script>
+    </script> {% endcomment %}
 
-    {% comment %} <script>
+    <script>
         document.addEventListener('DOMContentLoaded', () => {
             const versionModal = document.getElementById('versionModal');
             const closeVersionModalButtons = document.querySelectorAll('[data-modal-hide="versionModal"]');
@@ -185,7 +185,7 @@
                 });
             });
         });
-    </script> {% endcomment %}
+    </script>
     {% endif %}
     <!-- FIN DEL MODAL DE VERSIÓN Y NOVEDADES -->
 

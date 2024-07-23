@@ -1,16 +1,12 @@
-# app/core/views/notifications.py
-
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from app.core.models import Notification
-
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-
 from app.sales.models import Invoice
 
 def notification_list(request):
-    notifications = Notification.objects.all().order_by('-timestamp')
+    notifications = Notification.objects.all().order_by('-timestamp')[:10]  # Limit to 10 most recent
     total_notifications = Notification.objects.count()
     total_sales = Invoice.objects.count()
     html = render_to_string('components/notification_list.html', {

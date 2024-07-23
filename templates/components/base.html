@@ -133,19 +133,8 @@
                         <div class="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800 dark:text-white">
                             {% trans "Notificationes" %}
                         </div>
-                        <div id="notificationsList" class="divide-y divide-gray-100 dark:divide-gray-700">
-                            {% if notifications %}
-                                {% for notification in notifications %}
-                                    <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-400">
-                                        {{ notification.message }}
-                                        <div class="text-xs text-gray-500">{{ notification.timestamp|date:"H:i:s" }}</div>
-                                    </div>
-                                {% endfor %}
-                            {% else %}
-                                <div class="px-4 py-2 text-sm text-gray-700 dark:text-gray-400">
-                                   {% trans "No hay notificationes" %}
-                                </div>
-                            {% endif %}
+                        <div id="notificationsList" class="divide-y divide-gray-100 dark:divide-gray-700 overflow-y-auto max-h-60">
+                            <!-- Las notificaciones se cargarán aquí dinámicamente -->
                         </div>
                         <a href="{% url 'core:clear_notifications' %}" class="block py-2 text-sm font-medium text-center text-gray-900 rounded-b-lg bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-white">
                             <div class="inline-flex items-center">
@@ -156,6 +145,7 @@
                             </div>
                         </a>
                     </div>
+
                     <script>
                         $(document).ready(function() {
                             function loadNotifications() {
@@ -169,13 +159,6 @@
                             loadNotifications(); // Cargar inmediatamente al cargar la página
                             setInterval(loadNotifications, 60000); // Recargar cada minuto
                         });
-
-                        function loadNotifications() {
-                            $.get("{% url 'core:notification_list' %}", function(data) {
-                                $('#notificationsList').html(data);
-                                $('.notification-count').text(data.total_notifications);  // Asumiendo que has añadido una clase 'notification-count' al elemento
-                            });
-                        }
                     </script>
 
                     <!-- Barra de búsqueda (visible en todos los dispositivos) -->

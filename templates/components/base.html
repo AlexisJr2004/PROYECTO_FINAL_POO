@@ -1121,85 +1121,95 @@
         });
     </script>
 
-    <!-- Script para la alerta de cierre de sessionn despues de 30 minutos -->
-    <script>
-        // Configuración
-        const SESSION_TIMEOUT = {{ request.session.get_expiry_age }} * 1000; // Convierte segundos a milisegundos
-        const WARNING_TIMEOUT = 5 * 60 * 1000; // 5 minutos antes de expirar
-        const LOGIN_URL = "{% url 'security:auth_logout' %}"; // URL de logout
+    <!-- Script para la alerta de cierre de sesión después de 30 minutos -->
+<script>
+    // Configuración
+    const SESSION_TIMEOUT = {{ request.session.get_expiry_age }} * 1000; // Convierte segundos a milisegundos
+    const WARNING_TIMEOUT = 5 * 60 * 1000; // 5 minutos antes de expirar
+    const LOGIN_URL = "{% url 'security:auth_logout' %}"; // URL de logout
 
-        let warningTimeout;
-        let logoutTimeout;
+    let warningTimeout;
+    let logoutTimeout;
 
-        function resetTimer() {
-            clearTimeout(warningTimeout);
-            clearTimeout(logoutTimeout);
-            
-            // Configura la advertencia
-            warningTimeout = setTimeout(warnUser, SESSION_TIMEOUT - WARNING_TIMEOUT);
-            
-            // Configura el cierre de sesión
-            logoutTimeout = setTimeout(logoutUser, SESSION_TIMEOUT);
-        }
+    function resetTimer() {
+        clearTimeout(warningTimeout);
+        clearTimeout(logoutTimeout);
+        
+        // Configura la advertencia
+        warningTimeout = setTimeout(warnUser, SESSION_TIMEOUT - WARNING_TIMEOUT);
+        
+        // Configura el cierre de sesión
+        logoutTimeout = setTimeout(logoutUser, SESSION_TIMEOUT);
+    }
 
-        function warnUser() {
-            Swal.fire({
-                title: '¡Atención!',
-                text: 'Tu sesión está a punto de expirar en 10 segundos. ¿Deseas continuar?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Sí, continuar',
-                cancelButtonText: 'No, cerrar sesión'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    extendSession();
-                } else {
-                    logoutUser();
+    function warnUser() {
+        Swal.fire({
+            title: '¡Atención!',
+            text: 'Tu sesión está a punto de expirar en 10 segundos. ¿Deseas continuar?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, continuar',
+            cancelButtonText: 'No, cerrar sesión'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                extendSession();
+            } else {
+                logoutUser();
+            }
+        });
+    }
+
+    function logoutUser() {
+        Swal.fire({
+            title: 'Sesión expirada',
+            text: 'Tu sesión ha expirado. Serás redirigido a la página de inicio de sesión.',
+            icon: 'info',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Entendido'
+        }).then((result) => {
+            window.location.href = LOGIN_URL;
+        });
+    }
+
+    // Reinicia el temporizador en cada actividad del usuario
+    document.addEventListener('mousemove', resetTimer);
+    document.addEventListener('keypress', resetTimer);
+    document.addEventListener('click', resetTimer);
+    document.addEventListener('scroll', resetTimer);
+
+    // Inicia el temporizador cuando se carga la página
+    document.addEventListener('DOMContentLoaded', resetTimer);
+
+    // Función para extender la sesión
+    function extendSession() {
+        fetch('/extend-session/', {method: 'POST'})
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    Swal.fire({
+                        title: 'Sesión extendida',
+                        text: 'Tu sesión ha sido extendida exitosamente.',
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Entendido'
+                    });
+                    resetTimer();
                 }
             });
+    }
+
+    // Función para cerrar sesión con combinación de teclas Ctrl + Espacio
+    function handleLogoutShortcut(event) {
+        if (event.ctrlKey && event.code === 'Space') {
+            logoutUser();
         }
+    }
 
-        function logoutUser() {
-            Swal.fire({
-                title: 'Sesión expirada',
-                text: 'Tu sesión ha expirado. Serás redirigido a la página de inicio de sesión.',
-                icon: 'info',
-                confirmButtonColor: '#3085d6',
-                confirmButtonText: 'Entendido'
-            }).then((result) => {
-                window.location.href = LOGIN_URL;
-            });
-        }
-
-        // Reinicia el temporizador en cada actividad del usuario
-        document.addEventListener('mousemove', resetTimer);
-        document.addEventListener('keypress', resetTimer);
-        document.addEventListener('click', resetTimer);
-        document.addEventListener('scroll', resetTimer);
-
-        // Inicia el temporizador cuando se carga la página
-        document.addEventListener('DOMContentLoaded', resetTimer);
-
-        // Función para extender la sesión
-        function extendSession() {
-            fetch('/extend-session/', {method: 'POST'})
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Sesión extendida',
-                            text: 'Tu sesión ha sido extendida exitosamente.',
-                            icon: 'success',
-                            confirmButtonColor: '#3085d6',
-                            confirmButtonText: 'Entendido'
-                        });
-                        resetTimer();
-                    }
-                });
-        }
-    </script>
+    // Agrega el evento de teclado para detectar Ctrl + Espacio
+    document.addEventListener('keydown', handleLogoutShortcut);
+</script>
 
     <!-- Script para la barra de progreso -->
     <script>

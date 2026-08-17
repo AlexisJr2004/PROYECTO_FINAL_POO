@@ -1,38 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q
-from app.security.forms.auth import CustomUserCreationForm 
+from app.security.forms.auth import CustomUserCreationForm
 
-
-# # PAGUINACION
-# from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-
-
-# # ----------------- Perfil -----------------
-# def profile(request):
-#     data = {"title1": "IC - Perfil",
-#             "title2": "Perfil de Usuario"}
-#     return render(request, 'core/profile.html', data)
-
-# #  Actualizar perfil 
-# def update_profile(request):
-#     data = {"title1": "IC - Actualizar Perfil",
-#             "title2": "Actualizar Perfil"}
-#     if request.method == 'POST':
-#         form = CustomUserUpdateForm(request.POST, request.FILES, instance=request.user)
-#         if form.is_valid():
-#             form.save()
-#             messages.success(request, '¡Tu perfil ha sido actualizado exitosamente!')
-#             return redirect('profile')
-#     else:
-#         form = CustomUserUpdateForm(instance=request.user)
-    
-#     return render(request, 'core/update_profile.html', {'form': form, **data})
 
 @login_required
 def signout(request):

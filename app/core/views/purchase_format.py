@@ -17,11 +17,3 @@ def purchase_format(request, purchase_id):
         'title2': 'Detalle de la Factura',
     }
     return render(request, 'components/purchase_format.html', context)
-from django import template
-from datetime import timedelta
-
-register = template.Library()
-
-@register.filter
-def add_days(value, days):
-    return value + timedelta(days=days)

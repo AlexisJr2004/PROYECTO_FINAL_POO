@@ -1,7 +1,6 @@
 from django.urls import reverse_lazy
 from app.core.forms.product_price import ProductPriceForm
 from app.core.models import ProductPrice, Product
-from app.security.instance.menu_module import MenuModule
 from app.security.mixins.mixins import (
     CreateViewMixin,
     DeleteViewMixin,
@@ -38,54 +37,6 @@ class ProductPriceListView(PermissionMixin, ListViewMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["create_url"] = reverse_lazy("core:product_price_create")
         return context
-
-class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
-    model = ProductPrice
-    template_name = "core/product_prices/form.html"
-    form_class = ProductPriceForm
-    success_url = reverse_lazy("core:product_price_list")
-    permission_required = "add_product_price"
-
-    def post(self, request, *args, **kwargs):
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            try:
-                product_prices = json.loads(request.POST.get('product_prices'))
-                for price_data in product_prices:
-                    product = Product.objects.get(id=price_data['product_id'])
-                    current_price = product.price
-                    
-                    # Calcula el nuevo precio
-                    if price_data['type_increment'] == 'P':
-                        new_price = current_price * (1 + Decimal(price_data['value']) / 100)
-                    else:
-                        new_price = current_price + Decimal(price_data['value'])
-                    
-                    # Crea el nuevo ProductPrice
-                    ProductPrice.objects.create(
-                        product=product,
-                        line=product.line,
-                        type_increment=price_data['type_increment'],
-                        value=Decimal(price_data['value']),
-                        issue_date=price_data['issue_date'],
-                        observation=price_data['observation'],
-                        state='A'
-                    )
-                    
-                    # Actualiza el precio del producto
-                    product.price = new_price
-                    product.save()
-
-                messages.success(request, "Precios de productos actualizados correctamente.")
-                return JsonResponse({'success': True, 'redirect_url': self.success_url})
-            except Exception as e:
-                return JsonResponse({'success': False, 'error': str(e)})
-        
-        return super().post(request, *args, **kwargs)
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        messages.success(self.request, "Precio de producto creado correctamente.")
-        return response
 
 class ProductPriceCreateView(PermissionMixin, CreateViewMixin, CreateView):
     model = ProductPrice

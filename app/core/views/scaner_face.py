@@ -6,18 +6,13 @@ import base64
 from io import BytesIO
 from PIL import Image
 import socket
-from django.shortcuts import get_object_or_404
-from django.urls import reverse, reverse_lazy
-from django.views.generic import View, TemplateView
-from django.views.generic.edit import UpdateView
+from django.urls import reverse
+from django.views.generic import View
 from django.contrib.auth import get_user_model, login
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.sites.shortcuts import get_current_site
 from django.conf import settings
-from django.views.decorators.http import require_GET
-from django.contrib.auth.decorators import login_required
 import logging
 
 User = get_user_model()
@@ -95,59 +90,6 @@ class FacialRecognitionView(View):
     def compare_faces(self, known_face, unknown_face):
         difference = cv2.absdiff(known_face, unknown_face)
         similarity = 1 - (np.sum(difference) / (100 * 100 * 255))
-        
+
         threshold = 0.7
         return similarity > threshold
-
-
-
-
-class LoginUserView(View):
-    @csrf_exempt
-    def post(self, request, *args, **kwargs):
-        try:
-            data = json.loads(request.body)
-            user_id = data.get('user_id')
-            user = User.objects.get(id=user_id)
-            login(request, user)
-            return JsonResponse({"success": True, "redirect": reverse('home')})
-        except Exception as e:
-            return JsonResponse({"success": False, "message": str(e)})
-
-
-class CheckAuthView(View):
-    @require_GET
-    def get(self, request, *args, **kwargs):
-        return JsonResponse({
-            'authenticated': request.user.is_authenticated,
-            'username': request.user.username if request.user.is_authenticated else None
-        })
-
-
-class RegisterFaceView(LoginRequiredMixin, View):
-    @csrf_exempt
-    def post(self, request, *args, **kwargs):
-        try:
-            data = json.loads(request.body)
-            image_data = data['image'].split(',')[1]
-            image = Image.open(BytesIO(base64.b64decode(image_data)))
-            image_array = cv2.cvtColor(np.array(image), cv2.COLOR_RGB2BGR)
-            
-            face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
-            gray = cv2.cvtColor(image_array, cv2.COLOR_BGR2GRAY)
-            faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-            
-            if len(faces) != 1:
-                return JsonResponse({"success": False, "message": "Se debe detectar exactamente una cara"})
-            
-            (x, y, w, h) = faces[0]
-            face = gray[y:y+h, x:x+w]
-            face = cv2.resize(face, (100, 100))
-            
-            _, buffer = cv2.imencode('.jpg', face)
-            request.user.face_image = buffer.tobytes()
-            request.user.save()
-            
-            return JsonResponse({"success": True, "message": "Imagen facial registrada con éxito"})
-        except Exception as e:
-            return JsonResponse({"success": False, "message": str(e)})

@@ -3,7 +3,6 @@ from django.contrib.auth.models import Permission
 from app.security.forms.group_module_permission import GroupModulePermissionForm
 from app.security.models import GroupModulePermission, Module, Group
 
-from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.db.models import Q
 
 from app.security.mixins.mixins import (
@@ -16,10 +15,8 @@ from app.security.mixins.mixins import (
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 
 from django.contrib import messages
-import json
 
 from django.http import JsonResponse
-from django.views.decorators.http import require_http_methods
 
 class GroupModulePermissionListView(PermissionMixin, ListViewMixin, ListView):
     template_name = "security/group_module_permissions/list.html"

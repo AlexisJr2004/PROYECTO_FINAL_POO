@@ -19,12 +19,3 @@ def invoice_format(request, invoice_id):
         'iva_percentage': round(iva_percentage, 2)
     }
     return render(request, 'components/invoice_format.html', context)
-
-from django import template
-from datetime import timedelta
-
-register = template.Library()
-
-@register.filter
-def add_days(value, days):
-    return value + timedelta(days=days)

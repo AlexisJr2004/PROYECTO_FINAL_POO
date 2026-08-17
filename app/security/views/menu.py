@@ -1,7 +1,6 @@
 from django.urls import reverse_lazy
 from app.security.forms.menu import MenuForm
 from app.security.models import Menu
-from app.security.instance.menu_module import MenuModule
 from app.security.mixins.mixins import (
     CreateViewMixin,
     DeleteViewMixin,

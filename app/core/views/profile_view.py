@@ -1,15 +1,11 @@
-import os
 from django.shortcuts import get_object_or_404
 from django.views.generic import TemplateView
-from app.security.instance.menu_module import MenuModule
-from app.security.mixins.mixins import PermissionMixin
 from app.core.models import Customer, Notification
 from app.core.forms.forms import UpdateProfileForm
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import UpdateView
 from django.contrib.auth import get_user_model
-from django import forms
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
 from django.core.files.storage import default_storage

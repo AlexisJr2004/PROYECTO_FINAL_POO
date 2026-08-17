@@ -12,7 +12,6 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages
 from decimal import Decimal
 from proy_sales.utils import custom_serializer, save_audit
-from django.contrib.auth.models import Group
 from app.core.models import Customer
 
 class SaleListView(PermissionMixin, ListViewMixin, ListView):

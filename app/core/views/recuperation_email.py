@@ -1,4 +1,3 @@
-import os
 from django.core.mail import send_mail
 from django.utils.html import format_html
 from django.urls import reverse
@@ -8,7 +7,6 @@ from django.contrib.auth import get_user_model
 from django.utils.http import urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.contrib.auth.tokens import default_token_generator
-from django.templatetags.static import static
 from django.views import View
 from app.core.models import Notification
 

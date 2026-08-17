@@ -1,7 +1,6 @@
 from django.forms import ModelForm
 from django import forms
 from app.core.models import ProductPrice
-from django.db import transaction
 
 class ProductPriceForm(ModelForm):
     class Meta:

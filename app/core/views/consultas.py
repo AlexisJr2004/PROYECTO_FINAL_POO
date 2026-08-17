@@ -1,4 +1,4 @@
-from django.db.models import Count, Sum, Max
+from django.db.models import Count, Sum
 import plotly.graph_objs as go
 from django.views.generic import TemplateView
 from app.core.models import Company, Brand, Supplier, Line, Category, Product, Customer, PaymentMethod, Iva
@@ -8,16 +8,11 @@ from app.security.models import User
 from django.db.models import Q
 from proy_sales.utils import generar_color_aleatorio_2
 import json 
-from django.db.models.functions import TruncMonth, TruncDate
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 from plotly.subplots import make_subplots
 
 from plotly.utils import PlotlyJSONEncoder
-import plotly.graph_objs as go
-import plotly.express as px
-import plotly.io as pio
-import plotly.figure_factory as ff
-import plotly.colors as plc
 
 class ConsultasTemplateView(TemplateView):
     template_name = 'components/consultas.html'

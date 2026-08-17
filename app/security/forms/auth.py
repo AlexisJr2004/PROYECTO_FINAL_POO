@@ -1,7 +1,5 @@
-from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from app.security.models import User
-from django.forms import ImageField, FileInput
 
 class CustomUserCreationForm(UserCreationForm):
     

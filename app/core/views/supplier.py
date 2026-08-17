@@ -2,7 +2,6 @@ import json
 from django.urls import reverse_lazy
 from app.core.forms.supplier import SupplierForm
 from app.core.models import Supplier, Notification
-from app.security.instance.menu_module import MenuModule
 from app.security.mixins.mixins import CreateViewMixin, DeleteViewMixin, ListViewMixin, PermissionMixin, UpdateViewMixin
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib import messages

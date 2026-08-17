@@ -1,7 +1,6 @@
 from django.urls import reverse_lazy
 from app.security.forms.user import UserForm
 from app.security.models import User
-from app.security.instance.menu_module import MenuModule
 from app.core.models import Customer
 from app.security.mixins.mixins import (
     CreateViewMixin,

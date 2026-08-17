@@ -1,8 +1,5 @@
-from app.security.instance.menu_module import MenuModule
-from app.security.mixins.mixins import PermissionMixin
 from django.views.generic import TemplateView
-from app.core.models import Company, Brand, Supplier, Line, Category, Product, Customer, PaymentMethod, Iva, Notification
-from app.security.models import User
+from app.core.models import Company, Supplier, Customer, Notification
 from app.sales.models import Invoice
 
 class HomeTemplateView(TemplateView):

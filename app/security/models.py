@@ -128,11 +128,6 @@ class User(AbstractUser):
           
         )
     
-    # def save(self, *args, **kwargs):
-    #     if self.pk is None or not User.objects.filter(pk=self.pk).exists():
-    #         self.set_password(self.password)
-    #     super().save(*args, **kwargs)
-        
     def __str__(self):
         return '{}'.format(self.username)
 

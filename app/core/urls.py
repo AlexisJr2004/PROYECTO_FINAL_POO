@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.urls import path
-from app.core import views
 from app.core.views import supplier, company, brand, line, category, iva, product, product_price, payment_method
 from app.core.views.invoice_format import invoice_format
 from app.core.views.purchase_format import purchase_format
@@ -14,9 +13,6 @@ from app.core.views.generate_qr import QRCodeGeneratorView, GenerateLoginQRView,
 from app.core.views.scaner_face import FacialRecognitionView
 from app.core.views.recuperation_email import CustomPasswordResetConfirmView, PasswordResetView
 
-from django.conf.urls.i18n import i18n_patterns
-from django.utils.translation import gettext_lazy as _
-from django.views.i18n import set_language
 from django.conf.urls.static import static
 from django.urls import include
 

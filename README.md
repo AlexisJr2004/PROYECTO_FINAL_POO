@@ -1,4 +1,7 @@
 # PROYECTO FINAL DE VENTAS 
+
+![Vista previa del sistema](static/img/image.png)
+
 ## Instalación de Dependencias
 ```bash
 pip install -r requirements.txt
